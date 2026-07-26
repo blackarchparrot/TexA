@@ -38,6 +38,13 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 /* ==========================================================================
    Background Animations
    ========================================================================== */
@@ -66,6 +73,33 @@ body {
     width: 50vw;
     height: 50vw;
     background: radial-gradient(circle, var(--accent-purple), var(--accent-blue));
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+}
+
+.logo-icon {
+    font-size: 1.3rem;
+}
+
+.logo-text strong {
+    color: var(--accent-cyan);
+}
+.nav-badge {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-decoration: none;
 }
 
 .orb-2 {
