@@ -1,24 +1,25 @@
 /**
  * TexelSense AI - Smart Comfort Simulator Engine
- * Refined Multi-State Expression Engine for TrebEdit/Android.
+ * Refined Biophysical Physics & Multi-State Expression Engine.
  */
 
-// Fabric Thermal Properties Matrix
+// Accurate Textile Biophysical Constants
+// Clo: Insulation Value | Ret: Evaporative Resistance (m²Pa/W) | Hydrophobic Index (%)
 const FABRIC_PROPERTIES = {
-    Cotton:    { breathability: 85, heatRetention: 30, waterResistance: 10 },
-    Polyester: { breathability: 30, heatRetention: 55, waterResistance: 75 },
-    Wool:      { breathability: 50, heatRetention: 95, waterResistance: 40 },
-    Silk:      { breathability: 70, heatRetention: 35, waterResistance: 15 },
-    Linen:     { breathability: 98, heatRetention: 10, waterResistance: 5  },
-    Denim:     { breathability: 40, heatRetention: 65, waterResistance: 30 },
-    Nylon:     { breathability: 20, heatRetention: 50, waterResistance: 90 }
+    Cotton:    { clo: 0.35, ret: 12.0, hydrophobic: 15, baseBreathability: 85 },
+    Polyester: { clo: 0.40, ret: 25.0, hydrophobic: 80, baseBreathability: 35 },
+    Wool:      { clo: 1.20, ret: 45.0, hydrophobic: 50, baseBreathability: 45 },
+    Silk:      { clo: 0.25, ret: 10.0, hydrophobic: 20, baseBreathability: 75 },
+    Linen:     { clo: 0.20, ret: 8.0,  hydrophobic: 10, baseBreathability: 95 },
+    Denim:     { clo: 0.80, ret: 35.0, hydrophobic: 30, baseBreathability: 40 },
+    Nylon:     { clo: 0.30, ret: 50.0, hydrophobic: 92, baseBreathability: 20 }
 };
 
 const GARMENT_MULTIPLIERS = {
-    'T-Shirt': { coverage: 0.4, insulation: 1.0 },
-    'Shirt':   { coverage: 0.5, insulation: 1.1 },
-    'Hoodie':  { coverage: 0.85, insulation: 2.2 },
-    'Jacket':  { coverage: 0.95, insulation: 2.8 }
+    'T-Shirt': { coverage: 0.40, cloMult: 1.0 },
+    'Shirt':   { coverage: 0.55, cloMult: 1.2 },
+    'Hoodie':  { coverage: 0.85, cloMult: 2.3 },
+    'Jacket':  { coverage: 0.95, cloMult: 3.1 }
 };
 
 // Application State
@@ -96,7 +97,6 @@ function cacheElements() {
 }
 
 function setupEventListeners() {
-    // Fabric Selection Chips
     elements.fabricChips.addEventListener('click', (e) => {
         if (e.target.classList.contains('chip')) {
             elements.fabricChips.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -106,7 +106,6 @@ function setupEventListeners() {
         }
     });
 
-    // Weather Selection Chips
     elements.weatherChips.addEventListener('click', (e) => {
         if (e.target.classList.contains('chip')) {
             elements.weatherChips.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -117,7 +116,6 @@ function setupEventListeners() {
         }
     });
 
-    // Select & Inputs
     elements.selectGarment.addEventListener('change', (e) => {
         state.garment = e.target.value;
         updateGarmentSvg();
@@ -129,7 +127,6 @@ function setupEventListeners() {
         updateGarmentSvg();
     });
 
-    // Sliders
     elements.sliderTemp.addEventListener('input', (e) => {
         state.temperature = parseInt(e.target.value);
         elements.valTemp.textContent = `${state.temperature}°C`;
@@ -148,7 +145,6 @@ function setupEventListeners() {
         runSimulation();
     });
 
-    // Buttons
     elements.btnSimulate.addEventListener('click', runSimulation);
     elements.btnReset.addEventListener('click', resetSimulation);
     elements.btnRandomWeather.addEventListener('click', randomizeWeather);
@@ -156,76 +152,96 @@ function setupEventListeners() {
 }
 
 /* ==========================================================================
-   Simulation Engine & Precise Biometric State Mapper
+   Refined Biophysical Thermodynamic Simulation Engine
    ========================================================================== */
 function runSimulation() {
     const fab = FABRIC_PROPERTIES[state.fabric];
     const garm = GARMENT_MULTIPLIERS[state.garment];
 
-    // Effective insulation calculation
-    const totalHeatRetention = Math.min(100, Math.round(fab.heatRetention * garm.insulation));
-    const effectiveBreathability = Math.round(fab.breathability / (garm.coverage * 1.2));
+    // 1. Effective Insulation (Clo) & Ret Math
+    const totalClo = fab.clo * garm.cloMult;
+    const effectiveRet = fab.ret * garm.coverage;
 
-    // Ideal warmth calculation (~22°C baseline)
-    const idealTemp = 22 - (totalHeatRetention - 35) * 0.22;
-    const thermalDelta = state.temperature - idealTemp;
+    // Display Percentages
+    const displayHeatRetention = Math.min(100, Math.round((totalClo / 3.5) * 100));
+    const displayBreathability = Math.max(5, Math.min(100, Math.round(fab.baseBreathability / (garm.coverage * 1.15))));
 
-    // Comfort score calculation
+    // 2. Environmental Apparent Temperature (Wind Chill & Humidity Impact)
+    const windCooling = Math.sqrt(state.wind) * 0.75;
+    const humidityHeatPenalty = (state.humidity > 50) ? ((state.humidity - 50) * 0.08) : 0;
+    const apparentTemp = state.temperature - windCooling + humidityHeatPenalty;
+
+    // 3. Equilibrium Skin Temperature Calculation
+    // Neutral comfort skin temperature is ~33.5°C
+    const thermalResistance = 0.155 * totalClo; // 1 Clo = 0.155 m²K/W
+    const metabolicHeat = 65; // Resting metabolic rate W/m²
+    
+    // Skin Temp Estimation: T_skin = T_apparent + (M * R_total)
+    const estimatedSkinTemp = apparentTemp + (metabolicHeat * (thermalResistance + 0.05));
+    
+    // Thermal Delta relative to physiological comfort neutrality (~33.5°C skin temp)
+    const thermalDelta = estimatedSkinTemp - 33.5;
+
+    // 4. Non-Linear Exponential Comfort Score Engine
     let comfort = 100;
 
     if (thermalDelta > 0) {
-        // Heat discomfort penalization
-        comfort -= (thermalDelta * 3.4) * (1 - (effectiveBreathability / 150));
+        // Hot side: Affected by high Ret (poor sweat evaporation) and high humidity
+        const sweatPenalty = (effectiveRet / 10) * (state.humidity / 50);
+        comfort -= Math.pow(thermalDelta, 1.85) * (1.2 + sweatPenalty * 0.1);
     } else {
-        // Cold discomfort penalization
-        comfort -= (Math.abs(thermalDelta) * 3.8) * (1 - (totalHeatRetention / 110));
+        // Cold side: Wind chill and lack of clo insulation
+        const coldSeverity = Math.abs(thermalDelta);
+        comfort -= Math.pow(coldSeverity, 1.75) * (1.1 / (totalClo + 0.1));
     }
 
-    if (state.weather === 'Rainy' && fab.waterResistance < 40) {
-        comfort -= (40 - fab.waterResistance) * 0.8;
+    // Rain Penalty Index
+    if (state.weather === 'Rainy' && fab.hydrophobic < 50) {
+        comfort -= (50 - fab.hydrophobic) * 1.1;
     }
 
-    comfort = Math.max(5, Math.min(100, Math.round(comfort)));
+    comfort = Math.max(0, Math.min(100, Math.round(comfort)));
 
-    // Risk score calculation
-    let risk = 5;
-    if (thermalDelta < -12) risk += 65; // Freezing risk
-    if (thermalDelta > 15) risk += 60;  // Heat exhaustion risk
-    if (state.weather === 'Rainy' && fab.waterResistance < 20) risk += 35;
-    risk = Math.max(2, Math.min(98, Math.round(risk)));
+    // 5. Precise Risk Score Calculation
+    let risk = 2;
+    if (thermalDelta < -10) risk += Math.abs(thermalDelta + 10) * 6; // Hypothermia Risk
+    if (thermalDelta > 10) risk += (thermalDelta - 10) * 6.5;         // Heat Stroke / Exhaustion
+    if (state.weather === 'Rainy' && fab.hydrophobic < 30) risk += 25; // Water saturation penalty
+    risk = Math.max(2, Math.min(99, Math.round(risk)));
 
-    // Fashion score calculation
-    let fashion = 88;
-    if (state.weather === 'Summer' && ['Wool', 'Hoodie', 'Jacket'].includes(state.garment)) fashion -= 45;
-    if (state.weather === 'Winter' && ['Linen', 'Silk', 'T-Shirt'].includes(state.garment)) fashion -= 40;
+    // 6. Contextual Fashion Compatibility Score
+    let fashion = 90;
+    if (state.temperature >= 30 && ['Wool', 'Hoodie', 'Jacket'].includes(state.garment)) fashion -= 50;
+    if (state.temperature <= 10 && ['Linen', 'Silk', 'T-Shirt'].includes(state.garment)) fashion -= 45;
+    if (state.weather === 'Rainy' && state.fabric === 'Linen') fashion -= 30;
     fashion = Math.max(10, Math.min(99, Math.round(fashion)));
 
-    // Update UI Metrics
+    // Update UI Elements
     updateMetricsUI({
         comfort,
         risk,
         fashion,
-        breathability: effectiveBreathability,
-        heatRetention: totalHeatRetention,
+        breathability: displayBreathability,
+        heatRetention: displayHeatRetention,
         thermalDelta,
-        waterResistance: fab.waterResistance
+        waterResistance: fab.hydrophobic
     });
 }
 
 function updateMetricsUI(results) {
-    // Comfort Gauge Circle Fill Update
+    // Comfort Gauge Circle
     const offset = 314 - (314 * results.comfort) / 100;
     elements.gaugeComfort.style.strokeDashoffset = offset;
     elements.valComfortScore.textContent = results.comfort;
 
-    // Mini Bars
+    // Mini Indicators
     elements.valBreathability.textContent = `${results.breathability}%`;
-    elements.barBreathability.style.width = `${Math.min(100, results.breathability)}%`;
+    elements.barBreathability.style.width = `${results.breathability}%`;
 
     elements.valHeatRetention.textContent = `${results.heatRetention}%`;
     elements.barHeatRetention.style.width = `${results.heatRetention}%`;
 
-    // Analytics Cards
+    // Analytics Dashboard
     elements.valRiskScore.textContent = `${results.risk}%`;
     if (results.risk < 25) {
         elements.badgeRisk.className = 'score-badge badge-green';
@@ -240,51 +256,51 @@ function updateMetricsUI(results) {
 
     elements.valFashionScore.textContent = `${results.fashion}%`;
 
-    // Multi-State Biometric Face & Visual Layering Matrix
+    // Biometric Avatar Engine Trigger
     applyBiometricState(results);
 
-    // Dynamic Recommendation System
+    // AI Recommendation Generator
     generateRecommendation(results);
 }
 
 /**
- * Maps simulation results to exact visual and emotional avatar states
+ * Biometric Expression Mapper Engine
  */
 function applyBiometricState(res) {
-    // Reset visual effects layers
+    // Reset overlay elements
     elements.sweatGroup.classList.add('hidden');
     elements.coldGroup.classList.add('hidden');
     elements.wetGroup.classList.add('hidden');
     elements.characterWrapper.classList.remove('shivering');
-    elements.headBase.setAttribute('fill', '#f3d2b3'); // Reset face tone
+    elements.headBase.setAttribute('fill', '#f3d2b3'); // Reset face base tone
 
-    // 1. Cold State (Freezing / Low Insulation)
-    if (res.thermalDelta < -6) {
-        setAvatar('🥶', 'Freezing', 'Severe Thermal Heat Loss');
+    // 1. Extreme Heat & Overheating (Hot weather, high insulation, high delta)
+    if (res.thermalDelta > 5.5 || (state.temperature >= 32 && res.comfort < 60)) {
+        setAvatar('🥵', 'Overheating', 'Severe Heat Accumulation');
+        elements.sweatGroup.classList.remove('hidden');
+        elements.headBase.setAttribute('fill', '#fca5a5'); // Flushing skin
+    } 
+    // 2. Extreme Cold & Freezing (Low ambient temp, inadequate insulation)
+    else if (res.thermalDelta < -5.5 || (state.temperature <= 10 && res.comfort < 60)) {
+        setAvatar('🥶', 'Freezing', 'Thermal Heat Loss');
         elements.coldGroup.classList.remove('hidden');
         elements.characterWrapper.classList.add('shivering');
-        elements.headBase.setAttribute('fill', '#dbeafe'); // Pale blue undertone
+        elements.headBase.setAttribute('fill', '#dbeafe'); // Pale shivering skin
     } 
-    // 2. Overheating State (Sweating / High Insulation / Hot Weather)
-    else if (res.thermalDelta > 6 || (state.temperature > 32 && res.breathability < 50)) {
-        setAvatar('🥵', 'Overheating', 'Excessive Thermal Trapping');
-        elements.sweatGroup.classList.remove('hidden');
-        elements.headBase.setAttribute('fill', '#fca5a5'); // Flush red undertone
-    }
-    // 3. Wet State (Rain Impact / Inappropriate Fabric)
-    else if (state.weather === 'Rainy' && res.waterResistance < 40) {
-        setAvatar('🌧️', 'Soaked', 'High Moisture Penetration');
+    // 3. Wet / Rain Impact
+    else if (state.weather === 'Rainy' && res.waterResistance < 45) {
+        setAvatar('🌧️', 'Soaked', 'High Water Ingress');
         elements.wetGroup.classList.remove('hidden');
-    }
+    } 
     // 4. Relaxed State
-    else if (res.comfort >= 85) {
-        setAvatar('😎', 'Relaxed', 'Thermoregulation Optimal');
-    }
+    else if (res.comfort >= 80) {
+        setAvatar('😎', 'Relaxed', 'Thermoregulation Neutral');
+    } 
     // 5. Comfortable State
-    else if (res.comfort >= 70) {
-        setAvatar('😀', 'Comfortable', 'Ideal Heat Dissipation');
-    }
-    // 6. Slightly Uncomfortable
+    else if (res.comfort >= 55) {
+        setAvatar('😀', 'Comfortable', 'Microclimate Stable');
+    } 
+    // 6. Sub-optimal / Mild Discomfort State
     else {
         setAvatar('😐', 'Uneasy', 'Sub-optimal Microclimate');
     }
@@ -301,18 +317,18 @@ function generateRecommendation(results) {
     let title = 'Optimal Textile Pairing';
     let reason = `${state.fabric} ${state.garment} provides a balanced microclimate for ${state.temperature}°C ${state.weather.toLowerCase()} conditions.`;
 
-    if (results.thermalDelta < -6) {
+    if (results.thermalDelta < -5.5) {
         icon = '❄️';
         title = 'Insulation Deficit';
-        reason = `${state.fabric} ${state.garment} is under-insulated for ${state.temperature}°C weather. Switch to Wool, Hoodies, or Jackets to prevent hypothermia risk.`;
-    } else if (results.thermalDelta > 6) {
+        reason = `${state.fabric} ${state.garment} traps insufficient body heat in ${state.temperature}°C conditions. Switch to high-Clo fabrics like Wool or heavy outer layers (Hoodies/Jackets).`;
+    } else if (results.thermalDelta > 5.5) {
         icon = '🔥';
-        title = 'Overheating Risk';
-        reason = `Excess heat trapped under ${state.fabric} ${state.garment}. Light fabrics like Linen or Cotton T-Shirts are strongly recommended.`;
-    } else if (state.weather === 'Rainy' && results.waterResistance < 40) {
+        title = 'Overheating Warning';
+        reason = `Excess thermal energy trapped under ${state.fabric} ${state.garment}. Choose highly breathable fabrics with low evaporative resistance like Linen or Cotton T-Shirts.`;
+    } else if (state.weather === 'Rainy' && results.waterResistance < 45) {
         icon = '🌧️';
-        title = 'Inadequate Water Protection';
-        reason = `${state.fabric} easily absorbs water in rainy conditions. Switch to Nylon or Polyester outer shells.`;
+        title = 'Water Penetration Warning';
+        reason = `${state.fabric} is moisture-absorbing and unsuited for rain. Upgrade to hydrophobic fabrics like Nylon or Polyester outer shells.`;
     }
 
     elements.recIcon.textContent = icon;
@@ -364,7 +380,7 @@ function applyWeatherPreset(preset) {
     elements.particleContainer.innerHTML = '';
 
     if (preset === 'Sunny') {
-        state.temperature = 30;
+        state.temperature = 28;
         state.humidity = 40;
         state.wind = 10;
     } else if (preset === 'Rainy') {
