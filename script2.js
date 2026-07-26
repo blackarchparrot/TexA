@@ -1,24 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // SVG Garment Paths Database
+  // SVG Garment Precision Paths for Realistic Male Frame
   const garmentPaths = {
-    'T-Shirt': '<path d="M60 100 L140 100 L150 135 L135 140 L130 120 L130 185 L70 185 L70 120 L65 140 L50 135 Z" class="garment-path" />',
-    'Shirt': '<path d="M60 95 L140 95 L155 135 L140 140 L130 120 L130 190 L70 190 L70 120 L60 140 L45 135 Z" class="garment-path" /><path d="M100 95 L100 190" stroke="rgba(0,0,0,0.2)" stroke-width="2"/>',
-    'Hoodie': '<path d="M55 90 L145 90 L160 145 L140 150 L132 125 L132 195 L68 195 L68 125 L60 150 L40 145 Z" class="garment-path" /><path d="M85 90 C85 70, 115 70, 115 90" fill="none" class="garment-path" stroke-width="4"/>',
-    'Jacket': '<path d="M50 88 L150 88 L165 150 L142 155 L135 125 L135 200 L65 200 L65 125 L58 155 L35 150 Z" class="garment-path" /><path d="M100 88 L100 200" stroke="#000" stroke-width="3"/>'
+    'T-Shirt': `
+      <path d="M132 112 Q150 120 168 112 L192 122 L182 165 L168 158 L168 250 L132 250 L132 158 L118 165 L108 122 Z" class="garment-main" />
+      <path d="M132 112 Q150 122 168 112" stroke="rgba(0,0,0,0.2)" stroke-width="3" fill="none" />
+    `,
+    'Shirt': `
+      <path d="M130 110 Q150 118 170 110 L195 120 L185 248 L115 248 L105 120 Z" class="garment-main" />
+      <!-- Collar & Buttons -->
+      <path d="M130 110 L150 135 L170 110" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="2" />
+      <path d="M150 135 L150 248" stroke="rgba(0,0,0,0.25)" stroke-width="2" />
+      <circle cx="150" cy="155" r="2" fill="#fff" />
+      <circle cx="150" cy="180" r="2" fill="#fff" />
+      <circle cx="150" cy="205" r="2" fill="#fff" />
+    `,
+    'Hoodie': `
+      <path d="M126 108 L174 108 L202 122 L188 220 L172 215 L170 252 L130 252 L128 215 L112 220 L98 122 Z" class="garment-main" />
+      <!-- Hood Collar & Front Pocket -->
+      <path d="M128 108 C128 85 172 85 172 108" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="5" />
+      <path d="M135 210 L165 210 L168 240 L132 240 Z" fill="rgba(0,0,0,0.1)" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" />
+    `,
+    'Jacket': `
+      <path d="M124 105 L176 105 L204 122 L190 228 L174 222 L172 254 L128 254 L126 222 L110 228 L96 122 Z" class="garment-main" />
+      <!-- Inner Zipper & Lapels -->
+      <path d="M124 105 L145 150 L150 254" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="2" />
+      <path d="M176 105 L155 150 L150 254" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="2" />
+    `
   };
 
-  // Preset Properties for Fabrics
   const fabricProperties = {
     'Cotton': { breathability: 80, heatRetention: 45 },
     'Polyester': { breathability: 50, heatRetention: 60 },
     'Wool': { breathability: 30, heatRetention: 90 },
     'Silk': { breathability: 75, heatRetention: 35 },
     'Linen': { breathability: 95, heatRetention: 20 },
-    'Denim': { breathability: 35, heatRetention: 70 },
-    'Nylon': { breathability: 25, heatRetention: 65 }
+    'Denim': { breathability: 35, heatRetention: 70 }
   };
 
-  // Weather Preset Profiles
   const weatherPresets = {
     'Sunny': { temp: 28, humidity: 40, wind: 10, bgClass: 'weather-sunny' },
     'Rainy': { temp: 18, humidity: 90, wind: 25, bgClass: 'weather-rainy' },
@@ -27,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'Summer': { temp: 38, humidity: 75, wind: 5, bgClass: 'weather-summer' }
   };
 
-  // DOM Elements
+  // DOM Handles
   const selectGarment = document.getElementById('selectGarment');
   const pickerColor = document.getElementById('pickerColor');
   const garmentLayer = document.getElementById('garmentLayer');
@@ -42,10 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const valWind = document.getElementById('valWind');
   
   const stageBg = document.getElementById('stageBg');
+  const overlayHeat = document.getElementById('overlayHeat');
+  const overlayCold = document.getElementById('overlayCold');
   const sweatGroup = document.getElementById('sweatGroup');
   const coldGroup = document.getElementById('coldGroup');
   const wetGroup = document.getElementById('wetGroup');
-  
+  const mouthLine = document.getElementById('mouthLine');
+
   const avatarFace = document.getElementById('avatarFace');
   const currentMood = document.getElementById('currentMood');
   const currentThermalState = document.getElementById('currentThermalState');
@@ -65,25 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeFabric = 'Cotton';
   let activeWeather = 'Sunny';
 
-  // Render Garment Vector
   function updateGarment() {
     const type = selectGarment.value;
     const color = pickerColor.value;
-    garmentLayer.innerHTML = garmentPaths[type] || garmentPaths['T-Shirt'];
     
-    const paths = garmentLayer.querySelectorAll('.garment-path');
-    paths.forEach(p => {
-      if (!p.getAttribute('stroke-width')) {
-        p.setAttribute('fill', color);
-      } else {
-        p.setAttribute('stroke', color);
-      }
-    });
-
+    garmentLayer.innerHTML = garmentPaths[type] || garmentPaths['T-Shirt'];
+    const mainGarment = garmentLayer.querySelector('.garment-main');
+    if (mainGarment) {
+      mainGarment.setAttribute('fill', color);
+    }
     stageGarmentLabel.textContent = `${activeFabric} ${type}`;
   }
 
-  // Update Dynamic Indicators and Metrics
   function runSimulation() {
     const temp = parseInt(sliderTemp.value);
     const humidity = parseInt(sliderHumidity.value);
@@ -95,12 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fabric = fabricProperties[activeFabric];
 
-    // Calculate Metrics
+    // Thermodynamic calculation
     let heatBalance = (temp - 22) * 3 - (wind * 0.5) + (fabric.heatRetention * 0.3) - (fabric.breathability * 0.2);
     let comfortScore = Math.max(0, Math.min(100, Math.round(100 - Math.abs(heatBalance) * 2.5)));
     let riskScore = Math.max(0, Math.min(100, Math.round(Math.abs(heatBalance) * 1.8)));
 
-    // UI Updates
+    // Update Comfort Gauge Meter
     valComfortScore.textContent = comfortScore;
     const offset = 314 - (314 * comfortScore) / 100;
     gaugeComfort.style.strokeDashoffset = offset;
@@ -113,7 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     valRiskScore.textContent = `${riskScore}%`;
 
-    // Overlays & Mood Adjustments
+    // Reset facial overlays
+    overlayHeat.classList.add('hidden');
+    overlayCold.classList.add('hidden');
     sweatGroup.classList.add('hidden');
     coldGroup.classList.add('hidden');
     wetGroup.classList.add('hidden');
@@ -122,17 +138,23 @@ document.addEventListener('DOMContentLoaded', () => {
       wetGroup.classList.remove('hidden');
     }
 
+    // Thermal Discomfort logic -> Apply Facial Overlays
     if (heatBalance > 15) {
+      overlayHeat.classList.remove('hidden');
       sweatGroup.classList.remove('hidden');
+      mouthLine.setAttribute('d', 'M142 83 Q150 75 158 83'); // Frown/Sweating mouth
       avatarFace.textContent = '🥵';
       currentMood.textContent = 'Overheating';
       currentThermalState.textContent = 'Excess Heat Accumulation';
     } else if (heatBalance < -15) {
+      overlayCold.classList.remove('hidden');
       coldGroup.classList.remove('hidden');
+      mouthLine.setAttribute('d', 'M142 82 Q150 80 158 82'); // Cold mouth
       avatarFace.textContent = '🥶';
       currentMood.textContent = 'Freezing';
       currentThermalState.textContent = 'Thermoregulation Struggling';
     } else {
+      mouthLine.setAttribute('d', 'M142 78 Q150 83 158 78'); // Smile mouth
       avatarFace.textContent = '😀';
       currentMood.textContent = 'Comfortable';
       currentThermalState.textContent = 'Thermoregulation Optimal';
@@ -150,20 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
       badgeRisk.className = 'score-badge badge-red';
     }
 
-    // Recommendations Logic
+    // Recommendations
     if (comfortScore > 75) {
       recTitle.textContent = 'Optimal Gear Setup';
       recReason.textContent = `The selected ${activeFabric} ${selectGarment.value} provides an excellent balance of breathability and insulation for ${temp}°C conditions.`;
     } else if (heatBalance > 15) {
       recTitle.textContent = 'Cooling Suggested';
-      recReason.textContent = `High risk of overheating. Consider switching to lighter fabrics like Linen or Cotton and lowering garment coverage.`;
+      recReason.textContent = `High risk of overheating. Switch to lighter fabrics like Linen or Cotton.`;
     } else {
       recTitle.textContent = 'Insulation Recommended';
-      recReason.textContent = `Cold environment detected. Switch to higher heat-retention fabrics like Wool or add outer layers like a Jacket.`;
+      recReason.textContent = `Cold environment detected. Switch to higher heat-retention fabrics like Wool or add outer layers.`;
     }
   }
 
-  // Event Listeners for Controls
+  // Event Listeners
   document.querySelectorAll('#fabricChips .chip').forEach(chip => {
     chip.addEventListener('click', (e) => {
       document.querySelectorAll('#fabricChips .chip').forEach(c => c.classList.remove('active'));
@@ -187,7 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
       sliderWind.value = preset.wind;
 
       stageBg.className = `stage-background ${preset.bgClass}`;
-      
       runSimulation();
     });
   });
@@ -224,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (targetChip) targetChip.click();
   });
 
-  // Export Report Button Action
   document.getElementById('btnExport').addEventListener('click', () => {
     const reportData = `TexelSense AI - Comfort Report
 ---------------------------------
@@ -246,7 +266,7 @@ Status: ${currentMood.textContent}
     URL.revokeObjectURL(url);
   });
 
-  // Initial Initialization
+  // Initial Execution
   updateGarment();
   runSimulation();
 });
