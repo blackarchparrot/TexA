@@ -1,6 +1,7 @@
 /**
  * TexelSense AI - Ultra-Fast Matrix Interpolation Comfort Engine
  * Optimized for High-Performance Real-Time UI Responsiveness
+ * Anime Vector Avatar & Dynamic Clothing Module Included
  */
 
 // 1. Empirical Fabric Clo & Resistance Matrix
@@ -178,7 +179,7 @@ function runSimulation() {
 
     if (cloDelta > 0) {
         // OVERHEATING: Heavy clothing in mild/hot weather (e.g., Hoodie/Jacket at 25°C+)
-        const heatPenalty = cloDelta * 42; // Heavy penalty multiplier
+        const heatPenalty = cloDelta * 42; 
         const humidityStifling = 1 + ((state.humidity / 100) * (fab.ret / 20));
         comfort -= heatPenalty * humidityStifling;
     } else {
@@ -253,32 +254,35 @@ function updateMetricsUI(res) {
 }
 
 /**
- * Biometric Expression Mapper
+ * Maps simulation biometrics to Anime Expression Vectors & Skin Tones
  */
 function applyBiometricState(res) {
-    elements.sweatGroup.classList.add('hidden');
-    elements.coldGroup.classList.add('hidden');
-    elements.wetGroup.classList.add('hidden');
-    elements.characterWrapper.classList.remove('shivering');
-    elements.headBase.setAttribute('fill', '#f3d2b3');
+    // Reset Overlays
+    if (elements.sweatGroup) elements.sweatGroup.classList.add('hidden');
+    if (elements.coldGroup) elements.coldGroup.classList.add('hidden');
+    if (elements.wetGroup) elements.wetGroup.classList.add('hidden');
+    if (elements.characterWrapper) elements.characterWrapper.classList.remove('shivering');
+    
+    // Default Anime Skin Tone
+    if (elements.headBase) elements.headBase.setAttribute('fill', '#ffe4d6');
 
-    // 1. Overheating (High Clo Delta or High Temp with Low Comfort)
+    // 1. Overheating Expression State (Flushed cheek blush + sweat)
     if (res.cloDelta > 0.6 || (state.temperature >= 24 && ['Hoodie', 'Jacket'].includes(state.garment))) {
         setAvatar('🥵', 'Overheating', 'Excess Thermal Trapping');
-        elements.sweatGroup.classList.remove('hidden');
-        elements.headBase.setAttribute('fill', '#fca5a5'); // Flushed skin
+        if (elements.sweatGroup) elements.sweatGroup.classList.remove('hidden');
+        if (elements.headBase) elements.headBase.setAttribute('fill', '#ffb8b8'); // Thermal skin flush
     } 
-    // 2. Freezing (Low Clo Delta or Cold Temp with Low Comfort)
+    // 2. Freezing Expression State (Hypothermic pale face + cold lines)
     else if (res.cloDelta < -0.6 || (state.temperature <= 12 && res.comfort < 50)) {
         setAvatar('🥶', 'Freezing', 'Severe Thermal Deficit');
-        elements.coldGroup.classList.remove('hidden');
-        elements.characterWrapper.classList.add('shivering');
-        elements.headBase.setAttribute('fill', '#dbeafe'); // Cold skin
+        if (elements.coldGroup) elements.coldGroup.classList.remove('hidden');
+        if (elements.characterWrapper) elements.characterWrapper.classList.add('shivering');
+        if (elements.headBase) elements.headBase.setAttribute('fill', '#cbe2fe'); // Cold blue skin
     } 
-    // 3. Wet State
+    // 3. Wet/Soaked State
     else if (state.weather === 'Rainy' && res.waterResistance < 45) {
         setAvatar('🌧️', 'Soaked', 'High Water Penetration');
-        elements.wetGroup.classList.remove('hidden');
+        if (elements.wetGroup) elements.wetGroup.classList.remove('hidden');
     } 
     // 4. Relaxed State
     else if (res.comfort >= 80) {
@@ -325,43 +329,68 @@ function generateRecommendation(res) {
 }
 
 /* ==========================================================================
-   Stage Renderers
+   Anime Garment Render Engine
    ========================================================================== */
 function updateGarmentSvg() {
     elements.stageGarmentLabel.textContent = `${state.fabric} ${state.garment}`;
-    let svgPath = '';
     const col = state.color;
+    let garmentPath = '';
 
+    // Precise SVG paths tailored to fit the anime base character proportions
     if (state.garment === 'T-Shirt') {
-        svgPath = `
-            <path d="M65 100 L135 100 L155 125 L140 140 L130 130 L130 190 L70 190 L70 130 L60 140 L45 125 Z" fill="${col}" />
-            <path d="M85 100 Q100 115 115 100" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="3" />
+        garmentPath = `
+            <!-- Anime T-Shirt Base -->
+            <path d="M68 118 Q100 128 132 118 L155 142 L140 162 L128 152 L128 215 L72 215 L72 152 L60 162 L45 142 Z" fill="${col}" stroke="#1e293b" stroke-width="2.5" />
+            <!-- Anime Neckline Collar -->
+            <path d="M82 118 Q100 132 118 118" fill="none" stroke="rgba(0,0,0,0.25)" stroke-width="3" />
+            <path d="M82 118 Q100 132 118 118" fill="none" stroke="#1e293b" stroke-width="1.5" />
         `;
     } else if (state.garment === 'Shirt') {
-        svgPath = `
-            <path d="M65 100 L135 100 L155 125 L140 140 L130 130 L130 195 L70 195 L70 130 L60 140 L45 125 Z" fill="${col}" />
-            <line x1="100" y1="100" x2="100" y2="195" stroke="rgba(0,0,0,0.25)" stroke-width="2" />
-            <circle cx="100" cy="120" r="2" fill="#fff" />
-            <circle cx="100" cy="145" r="2" fill="#fff" />
-            <circle cx="100" cy="170" r="2" fill="#fff" />
+        garmentPath = `
+            <!-- Anime Button-up Shirt -->
+            <path d="M68 116 Q100 126 132 116 L158 140 L142 162 L128 150 L128 218 L72 218 L72 150 L58 162 L42 140 Z" fill="${col}" stroke="#1e293b" stroke-width="2.5" />
+            <!-- Anime Collar Fold Highlights -->
+            <polygon points="80,116 100,136 72,132" fill="#ffffff" opacity="0.3" />
+            <polygon points="120,116 100,136 128,132" fill="#ffffff" opacity="0.3" />
+            <polygon points="80,116 100,136 72,132" fill="none" stroke="#1e293b" stroke-width="1.5" />
+            <polygon points="120,116 100,136 128,132" fill="none" stroke="#1e293b" stroke-width="1.5" />
+            <!-- Button Placket -->
+            <line x1="100" y1="134" x2="100" y2="218" stroke="rgba(0,0,0,0.3)" stroke-width="2" />
+            <circle cx="100" cy="150" r="2.5" fill="#ffffff" stroke="#1e293b" stroke-width="1" />
+            <circle cx="100" cy="175" r="2.5" fill="#ffffff" stroke="#1e293b" stroke-width="1" />
+            <circle cx="100" cy="200" r="2.5" fill="#ffffff" stroke="#1e293b" stroke-width="1" />
         `;
     } else if (state.garment === 'Hoodie') {
-        svgPath = `
-            <path d="M60 95 L140 95 L160 155 L140 160 L135 140 L135 200 L65 200 L65 140 L60 160 L40 155 Z" fill="${col}" />
-            <path d="M75 95 Q100 70 125 95" fill="none" stroke="${col}" stroke-width="12" />
-            <path d="M80 160 Q100 160 120 160 L120 190 L80 190 Z" fill="rgba(0,0,0,0.15)" />
+        garmentPath = `
+            <!-- Anime Oversized Hoodie -->
+            <path d="M62 112 Q100 122 138 112 L165 160 L145 172 L134 150 L134 222 L66 222 L66 150 L55 172 L35 160 Z" fill="${col}" stroke="#1e293b" stroke-width="2.5" />
+            <!-- Hood Structure Behind Neck -->
+            <path d="M72 112 Q100 85 128 112 Q100 135 72 112 Z" fill="${col}" stroke="#1e293b" stroke-width="2" />
+            <!-- Drawstrings -->
+            <path d="M90 126 Q88 150 85 165" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M110 126 Q112 150 115 165" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+            <!-- Kangaroo Pocket -->
+            <path d="M78 175 L122 175 L126 212 L74 212 Z" fill="rgba(0,0,0,0.12)" stroke="#1e293b" stroke-width="1.5" />
         `;
     } else if (state.garment === 'Jacket') {
-        svgPath = `
-            <path d="M55 95 L145 95 L165 160 L145 165 L135 140 L135 205 L65 205 L65 140 L55 165 L35 160 Z" fill="${col}" />
-            <line x1="100" y1="95" x2="100" y2="205" stroke="rgba(0,0,0,0.4)" stroke-width="3" />
-            <path d="M70 95 L100 125 L130 95" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="3" />
+        garmentPath = `
+            <!-- Anime Outer Jacket -->
+            <path d="M58 110 Q100 120 142 110 L168 165 L148 175 L136 148 L136 225 L64 225 L64 148 L52 175 L32 165 Z" fill="${col}" stroke="#1e293b" stroke-width="2.5" />
+            <!-- Lapels / Zipper Lining -->
+            <path d="M70 110 L100 150 L130 110" fill="none" stroke="rgba(0,0,0,0.25)" stroke-width="4" />
+            <line x1="100" y1="150" x2="100" y2="225" stroke="#334155" stroke-width="3" />
+            <!-- Pocket Flaps -->
+            <rect x="70" y="180" width="22" height="12" rx="2" fill="rgba(0,0,0,0.2)" stroke="#1e293b" stroke-width="1" />
+            <rect x="108" y="180" width="22" height="12" rx="2" fill="rgba(0,0,0,0.2)" stroke="#1e293b" stroke-width="1" />
         `;
     }
 
-    elements.garmentLayer.innerHTML = svgPath;
+    elements.garmentLayer.innerHTML = garmentPath;
 }
 
+/* ==========================================================================
+   Weather & Particle Controllers
+   ========================================================================== */
 function applyWeatherPreset(preset) {
     elements.stageBg.className = `stage-background weather-${preset.toLowerCase()}`;
     elements.particleContainer.innerHTML = '';
