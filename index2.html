@@ -3,148 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TexelSense AI - Smart Comfort Simulator</title>
-    <link rel="stylesheet" href="style2.css">
+    <title>TexelSense AI - Smart Fabric & Comfort Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Ambient Dynamic Lighting Background -->
-    <div class="ambient-background">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-    </div>
-
-    <!-- Navigation Bar -->
-    <nav class="top-nav">
-        <div class="logo">
-            <span class="logo-icon">⚡</span>
-            <span class="logo-text">TexelSense <strong>AI</strong></span>
-        </div>
-        <div class="nav-badge">Module 02 • Comfort Simulator</div>
-    </nav>
-
-    <!-- Main App Container -->
-    <main class="app-container">
-        <!-- Hero Section -->
-        <header class="hero">
-            <h1 class="hero-title">Smart Comfort Simulator</h1>
-            <p class="hero-description">
-                Experience real-time thermodynamic performance and biometric feedback across dynamic weather matrix variations.
-            </p>
+    <div class="app-container">
+        <!-- Header / Navigation -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>TexelSense <span class="highlight">AI</span></h1>
+            </div>
+            <p class="tagline">Smart Fabric Comfort & Weather Simulation Engine</p>
         </header>
 
-        <!-- Simulator Layout -->
-        <div class="simulator-grid">
+        <!-- Main Workspace -->
+        <main class="workspace">
             
-            <!-- LEFT PANEL: Status & Metrics -->
-            <aside class="panel glass-card panel-left">
-                <div class="panel-header">
-                    <h3>Biometric Status</h3>
-                    <span class="pulse-status"><span class="pulse-dot"></span> Live Sync</span>
-                </div>
+            <!-- Left Control Panel: Inputs -->
+            <section class="panel glass-card panel-left">
+                <h2>Configuration Engine</h2>
 
-                <!-- Avatar Status Badge -->
-                <div class="status-box">
-                    <div class="avatar-face" id="avatarFace">😀</div>
-                    <div class="status-details">
-                        <div class="status-mood" id="currentMood">Comfortable</div>
-                        <div class="status-subtitle" id="currentThermalState">Thermoregulation Optimal</div>
+                <!-- Weather Controls -->
+                <div class="control-group">
+                    <label class="group-label">Weather Presets</label>
+                    <div class="chip-group" id="weatherChips">
+                        <button class="chip active" data-value="Sunny">☀️ Sunny</button>
+                        <button class="chip" data-value="Rainy">🌧️ Rainy</button>
+                        <button class="chip" data-value="Cloudy">☁️ Cloudy</button>
+                        <button class="chip" data-value="Winter">❄️ Winter</button>
+                        <button class="chip" data-value="Summer">🔥 Summer</button>
                     </div>
                 </div>
 
-                <!-- Primary Gauge: Comfort Score -->
-                <div class="gauge-container">
-                    <div class="radial-gauge">
-                        <svg viewBox="0 0 120 120">
-                            <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
-                            <circle class="gauge-fill" id="gaugeComfort" cx="60" cy="60" r="50"></circle>
-                        </svg>
-                        <div class="gauge-value-wrapper">
-                            <span class="gauge-number" id="valComfortScore">85</span>
-                            <span class="gauge-unit">%</span>
-                        </div>
+                <!-- Environmental Sliders -->
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="sliderTemp">Temperature</label>
+                        <span class="slider-value" id="valTemp">25°C</span>
                     </div>
-                    <span class="gauge-label">Comfort Meter</span>
+                    <input type="range" id="sliderTemp" min="-10" max="45" value="25" class="custom-slider">
                 </div>
 
-                <!-- Secondary Bars -->
-                <div class="mini-metrics">
-                    <div class="mini-metric-item">
-                        <div class="mini-metric-header">
-                            <span>Breathability Index</span>
-                            <span id="valBreathability">80%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-bar bar-cyan" id="barBreathability" style="width: 80%;"></div>
-                        </div>
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="sliderHumidity">Humidity</label>
+                        <span class="slider-value" id="valHumidity">50%</span>
                     </div>
+                    <input type="range" id="sliderHumidity" min="0" max="100" value="50" class="custom-slider">
+                </div>
 
-                    <div class="mini-metric-item">
-                        <div class="mini-metric-header">
-                            <span>Heat Retention</span>
-                            <span id="valHeatRetention">45%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-bar bar-purple" id="barHeatRetention" style="width: 45%;"></div>
-                        </div>
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="sliderWind">Wind Speed</label>
+                        <span class="slider-value" id="valWind">15 km/h</span>
+                    </div>
+                    <input type="range" id="sliderWind" min="0" max="60" value="15" class="custom-slider">
+                </div>
+
+                <hr class="divider">
+
+                <!-- Garment Controls -->
+                <div class="control-group">
+                    <label for="selectGarment" class="group-label">Garment Type</label>
+                    <select id="selectGarment" class="custom-select">
+                        <option value="T-Shirt" selected>T-Shirt</option>
+                        <option value="Shirt">Button Shirt</option>
+                        <option value="Hoodie">Hoodie</option>
+                        <option value="Jacket">Jacket</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="group-label">Fabric Material</label>
+                    <div class="chip-group" id="fabricChips">
+                        <button class="chip active" data-value="Cotton">Cotton</button>
+                        <button class="chip" data-value="Polyester">Polyester</button>
+                        <button class="chip" data-value="Wool">Wool</button>
+                        <button class="chip" data-value="Linen">Linen</button>
+                        <button class="chip" data-value="Silk">Silk</button>
+                        <button class="chip" data-value="Denim">Denim</button>
                     </div>
                 </div>
-            </aside>
 
-            <!-- CENTER PANEL: Animated Character & Visualizer -->
+                <div class="control-group">
+                    <label for="pickerColor" class="group-label">Garment Color</label>
+                    <div class="color-picker-wrapper">
+                        <input type="color" id="pickerColor" value="#3b82f6" class="custom-color-picker">
+                        <span class="color-hint">Click to change apparel shade</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="btnSimulate" class="btn btn-primary">Run Simulation</button>
+                    <button id="btnReset" class="btn btn-secondary">Reset</button>
+                    <button id="btnRandomWeather" class="btn btn-outline">🎲 Randomize Weather</button>
+                </div>
+            </section>
+
+            <!-- Center Panel: Avatar Stage -->
             <section class="panel glass-card panel-center" id="visualizerPanel">
-                
                 <!-- Dynamic Weather Particle Stage -->
                 <div class="stage-background weather-sunny" id="stageBg">
                     <div class="sun-rays" id="sunRays"></div>
                     <div class="particles-container" id="particleContainer"></div>
                 </div>
 
-                <!-- Layered Animated Character Vector SVG -->
+                <!-- Realistic Male Character Container -->
                 <div class="character-container" id="characterWrapper">
-                    <svg class="character-svg" viewBox="0 0 200 300" id="characterSvg">
-                        <!-- Shadow -->
-                        <ellipse cx="100" cy="275" rx="55" ry="10" fill="rgba(0,0,0,0.35)" />
-                        
-                        <!-- Body Base / Legs -->
-                        <path d="M75 190 L70 260 L85 260 L88 190 Z" fill="#1f2937" />
-                        <path d="M125 190 L130 260 L115 260 L112 190 Z" fill="#1f2937" />
-                        
-                        <!-- Garment Layer (Dynamic Fill) -->
+                    <svg class="character-svg" viewBox="0 0 300 450" id="characterSvg">
+                        <defs>
+                            <!-- Skin Gradients & Shading -->
+                            <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f5d0b0" />
+                                <stop offset="100%" stop-color="#e2b08a" />
+                            </linearGradient>
+                            <linearGradient id="heatFlushGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ef4444" stop-opacity="0.55" />
+                                <stop offset="100%" stop-color="#f5d0b0" stop-opacity="0.1" />
+                            </linearGradient>
+                            <linearGradient id="coldPaleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.45" />
+                                <stop offset="100%" stop-color="#e2b08a" stop-opacity="0.1" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Ground Shadow -->
+                        <ellipse cx="150" cy="425" rx="70" ry="12" fill="rgba(0,0,0,0.3)" />
+
+                        <!-- BASE BODY MESH -->
+                        <g id="baseBody">
+                            <!-- Legs / Pants -->
+                            <path d="M125 250 L118 410 L138 410 L146 270 L154 270 L162 410 L182 410 L175 250 Z" fill="#1e293b" />
+                            <!-- Shoes -->
+                            <path d="M110 408 C110 400 120 398 138 398 L140 415 L110 415 Z" fill="#0f172a" />
+                            <path d="M190 408 C190 400 180 398 162 398 L160 415 L190 415 Z" fill="#0f172a" />
+                            
+                            <!-- Torso / Skin Base -->
+                            <path d="M115 110 Q150 120 185 110 L190 255 L110 255 Z" fill="url(#skinGrad)" />
+                            <!-- Neck -->
+                            <path d="M136 85 L164 85 L168 115 L132 115 Z" fill="url(#skinGrad)" />
+                            <path d="M136 100 Q150 110 164 100" fill="none" stroke="#d49b72" stroke-width="2" />
+
+                            <!-- Anatomical Arms & Hands -->
+                            <g id="leftArm">
+                                <path d="M115 110 Q95 160 92 220 Q92 245 96 250 L108 248 Q108 190 122 130 Z" fill="url(#skinGrad)" />
+                                <path d="M92 250 C88 260 92 270 98 270 C104 270 108 260 108 248 Z" fill="url(#skinGrad)" />
+                            </g>
+                            <g id="rightArm">
+                                <path d="M185 110 Q205 160 208 220 Q208 245 204 250 L192 248 Q192 190 178 130 Z" fill="url(#skinGrad)" />
+                                <path d="M208 250 C212 260 208 270 202 270 C196 270 192 260 192 248 Z" fill="url(#skinGrad)" />
+                            </g>
+
+                            <!-- Head Base -->
+                            <path d="M126 50 C126 25 174 25 174 50 C174 80 164 92 150 92 C136 92 126 80 126 50 Z" fill="url(#skinGrad)" id="headMesh" />
+                            
+                            <!-- Hair -->
+                            <path d="M124 48 C122 20 150 10 176 22 C180 35 174 50 172 50 C165 30 135 30 124 48 Z" fill="#2d1a0e" />
+                            
+                            <!-- Facial Features -->
+                            <g id="faceFeatures">
+                                <path d="M134 52 Q142 48 146 52" stroke="#2d1a0e" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                                <path d="M154 52 Q158 48 166 52" stroke="#2d1a0e" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                                <ellipse cx="140" cy="58" rx="3.5" ry="2.5" fill="#1e293b" />
+                                <ellipse cx="160" cy="58" rx="3.5" ry="2.5" fill="#1e293b" />
+                                <path d="M150 58 L148 68 L153 69" stroke="#d49b72" stroke-width="2" fill="none" stroke-linecap="round" />
+                                <path d="M142 78 Q150 83 158 78" stroke="#be123c" stroke-width="2.5" fill="none" stroke-linecap="round" id="mouthLine" />
+                            </g>
+                        </g>
+
+                        <!-- DYNAMIC CLOTHING LAYER -->
                         <g id="garmentLayer">
-                            <!-- Injected dynamically via JS depending on chosen clothing type -->
+                            <!-- Injected dynamically via script2.js -->
                         </g>
 
-                        <!-- Head Base -->
-                        <circle cx="100" cy="70" r="30" fill="#f3d2b3" id="headBase" />
-                        
-                        <!-- Dynamic Shivering Arms -->
-                        <g id="armsGroup">
-                            <path d="M55 125 Q45 155 40 185" stroke="#f3d2b3" stroke-width="12" stroke-linecap="round" fill="none" />
-                            <path d="M145 125 Q155 155 160 185" stroke="#f3d2b3" stroke-width="12" stroke-linecap="round" fill="none" />
-                        </g>
+                        <!-- DYNAMIC WEATHER UNCOMFORT OVERLAYS -->
+                        <g id="weatherFaceOverlay">
+                            <path d="M126 50 C126 25 174 25 174 50 C174 80 164 92 150 92 C136 92 126 80 126 50 Z" fill="url(#heatFlushGrad)" id="overlayHeat" class="hidden" />
+                            <path d="M126 50 C126 25 174 25 174 50 C174 80 164 92 150 92 C136 92 126 80 126 50 Z" fill="url(#coldPaleGrad)" id="overlayCold" class="hidden" />
 
-                        <!-- Dynamic Thermal Overlay Effects -->
-                        <!-- 1. Sweat Overlay (Overheating) -->
-                        <g id="sweatGroup" class="hidden">
-                            <ellipse cx="78" cy="60" rx="3" ry="5" fill="#38bdf8" class="sweat-drop" />
-                            <ellipse cx="122" cy="60" rx="3" ry="5" fill="#38bdf8" class="sweat-drop delay" />
-                        </g>
+                            <g id="sweatGroup" class="hidden">
+                                <path d="M132 45 Q130 52 132 55" stroke="#38bdf8" stroke-width="2" fill="none" class="sweat-drop" />
+                                <path d="M168 45 Q170 52 168 55" stroke="#38bdf8" stroke-width="2" fill="none" class="sweat-drop delay" />
+                            </g>
 
-                        <!-- 2. Frost/Cold Shiver Overlay (Freezing) -->
-                        <g id="coldGroup" class="hidden">
-                            <path d="M85 85 Q100 95 115 85" stroke="#38bdf8" stroke-width="3" fill="none" class="shiver-line" />
-                            <circle cx="82" cy="78" r="4" fill="#93c5fd" opacity="0.8" />
-                            <circle cx="118" cy="78" r="4" fill="#93c5fd" opacity="0.8" />
-                        </g>
+                            <g id="coldGroup" class="hidden">
+                                <path d="M130 85 Q150 95 170 85" stroke="#7dd3fc" stroke-width="2" fill="none" class="shiver-line" />
+                            </g>
 
-                        <!-- 3. Wet/Rain Droplets Overlay (Rain Impact) -->
-                        <g id="wetGroup" class="hidden">
-                            <circle cx="90" cy="130" r="3" fill="#60a5fa" />
-                            <circle cx="110" cy="150" r="3" fill="#60a5fa" />
-                            <circle cx="75" cy="160" r="2.5" fill="#60a5fa" />
+                            <g id="wetGroup" class="hidden">
+                                <circle cx="135" cy="140" r="2.5" fill="#60a5fa" />
+                                <circle cx="165" cy="180" r="3" fill="#60a5fa" />
+                                <circle cx="145" cy="210" r="2" fill="#60a5fa" />
+                            </g>
                         </g>
                     </svg>
                 </div>
@@ -154,127 +209,71 @@
                 </div>
             </section>
 
-            <!-- RIGHT PANEL: Interactive Simulation Controls -->
-            <aside class="panel glass-card panel-right">
-                <div class="panel-header">
-                    <h3>Simulation Matrix</h3>
-                    <button class="btn-text" id="btnRandomWeather">🎲 Randomize</button>
-                </div>
+            <!-- Right Panel: Analytics & Insights -->
+            <section class="panel glass-card panel-right">
+                <h2>Thermal Real-Time Analytics</h2>
 
-                <div class="control-group">
-                    <label class="control-label">Fabric Composition</label>
-                    <div class="chip-grid" id="fabricChips">
-                        <button class="chip active" data-value="Cotton">Cotton</button>
-                        <button class="chip" data-value="Polyester">Polyester</button>
-                        <button class="chip" data-value="Wool">Wool</button>
-                        <button class="chip" data-value="Silk">Silk</button>
-                        <button class="chip" data-value="Linen">Linen</button>
-                        <button class="chip" data-value="Denim">Denim</button>
-                        <button class="chip" data-value="Nylon">Nylon</button>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Garment & Color</label>
-                    <div class="garment-color-row">
-                        <select class="custom-select" id="selectGarment">
-                            <option value="T-Shirt">T-Shirt</option>
-                            <option value="Shirt">Shirt</option>
-                            <option value="Hoodie">Hoodie</option>
-                            <option value="Jacket">Jacket</option>
-                        </select>
-                        <div class="color-picker-wrapper">
-                            <input type="color" id="pickerColor" value="#3b82f6">
+                <!-- Overall Comfort Gauge -->
+                <div class="metric-card primary-card">
+                    <div class="gauge-wrapper">
+                        <svg class="gauge-svg" viewBox="0 0 120 120">
+                            <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                            <circle class="gauge-fill" id="gaugeComfort" cx="60" cy="60" r="50"></circle>
+                        </svg>
+                        <div class="gauge-center">
+                            <span class="gauge-value" id="valComfortScore">85</span>
+                            <span class="gauge-unit">%</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Weather Preset</label>
-                    <div class="chip-grid" id="weatherChips">
-                        <button class="chip active" data-value="Sunny">☀️ Sunny</button>
-                        <button class="chip" data-value="Rainy">🌧️ Rainy</button>
-                        <button class="chip" data-value="Cloudy">☁️ Cloudy</button>
-                        <button class="chip" data-value="Winter">❄️ Winter</button>
-                        <button class="chip" data-value="Summer">🔥 Summer</button>
+                    <div class="metric-info">
+                        <h3>Comfort Index</h3>
+                        <p id="currentThermalState">Thermoregulation Optimal</p>
                     </div>
                 </div>
 
-                <!-- Dynamic Sliders -->
-                <div class="control-group">
-                    <div class="slider-header">
-                        <span>Temperature</span>
-                        <strong id="valTemp">25°C</strong>
-                    </div>
-                    <input type="range" class="range-slider" id="sliderTemp" min="0" max="50" value="25">
-                </div>
-
-                <div class="control-group">
-                    <div class="slider-header">
-                        <span>Humidity</span>
-                        <strong id="valHumidity">50%</strong>
-                    </div>
-                    <input type="range" class="range-slider" id="sliderHumidity" min="0" max="100" value="50">
-                </div>
-
-                <div class="control-group">
-                    <div class="slider-header">
-                        <span>Wind Speed</span>
-                        <strong id="valWind">15 km/h</strong>
-                    </div>
-                    <input type="range" class="range-slider" id="sliderWind" min="0" max="100" value="15">
-                </div>
-
-                <!-- Actions -->
-                <div class="action-buttons">
-                    <button class="btn-secondary" id="btnReset">Reset</button>
-                    <button class="btn-primary" id="btnSimulate">
-                        <span>Simulate Comfort</span>
-                        <span class="btn-glow"></span>
-                    </button>
-                </div>
-            </aside>
-        </div>
-
-        <!-- RESULTS & RECOMMENDATION SECTION -->
-        <section class="results-section">
-            <div class="glass-card results-container">
-                <div class="results-header">
-                    <h2>Simulation Analytics</h2>
-                    <button class="btn-secondary btn-sm" id="btnExport">📄 Export Report</button>
-                </div>
-
-                <div class="scores-grid">
-                    <div class="score-card">
-                        <span class="score-title">Thermal Risk Score</span>
-                        <div class="score-value-row">
-                            <span class="score-number" id="valRiskScore">12%</span>
-                            <span class="score-badge badge-green" id="badgeRisk">Low</span>
-                        </div>
-                        <p class="score-desc">Calculated risk of hypothermia or heat exhaustion.</p>
-                    </div>
-
-                    <div class="score-card">
-                        <span class="score-title">Fashion Compatibility</span>
-                        <div class="score-value-row">
-                            <span class="score-number" id="valFashionScore">92%</span>
-                            <span class="score-badge badge-blue" id="badgeFashion">High</span>
-                        </div>
-                        <p class="score-desc">Garment-season pairing and aesthetic coherence.</p>
+                <!-- Subjective Avatar State -->
+                <div class="status-box">
+                    <span class="status-avatar" id="avatarFace">😀</span>
+                    <div class="status-details">
+                        <span class="status-title">Avatar State</span>
+                        <span class="status-desc" id="currentMood">Comfortable</span>
                     </div>
                 </div>
 
-                <!-- Recommendation Banner -->
-                <div class="recommendation-card" id="recommendationCard">
-                    <div class="rec-icon" id="recIcon">💡</div>
-                    <div class="rec-content">
-                        <h4 id="recTitle">Optimal Setup</h4>
-                        <p id="recReason">Cotton T-Shirts are perfect for moderate 25°C weather, maintaining ideal moisture transfer and airflow.</p>
+                <!-- Fabric Spec Breakdown -->
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Breathability</span>
+                        <span class="spec-val" id="valBreathability">80%</span>
+                        <div class="progress-bar"><div class="progress-fill" id="barBreathability" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Heat Retention</span>
+                        <span class="spec-val" id="valHeatRetention">45%</span>
+                        <div class="progress-bar"><div class="progress-fill" id="barHeatRetention" style="width: 45%;"></div></div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
+
+                <hr class="divider">
+
+                <!-- Risk Assessment & AI Recommendation -->
+                <div class="recommendation-card">
+                    <div class="card-header">
+                        <span class="card-title">AI Recommendation</span>
+                        <span class="score-badge badge-green" id="badgeRisk">Low Risk</span>
+                    </div>
+                    <p class="rec-headline" id="recTitle">Optimal Gear Setup</p>
+                    <p class="rec-text" id="recReason">The selected Cotton T-Shirt provides an ideal thermal balance for current atmospheric conditions.</p>
+                </div>
+
+                <div class="risk-meter">
+                    <label>Thermal Stress Index: <strong id="valRiskScore">15%</strong></label>
+                </div>
+
+                <button class="btn btn-full btn-success" id="btnExport">📥 Download Comfort Assessment</button>
+            </section>
+        </main>
+    </div>
 
     <script src="script2.js"></script>
 </body>
