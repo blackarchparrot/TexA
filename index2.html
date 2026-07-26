@@ -112,18 +112,18 @@
                         <path d="M75 190 L70 260 L85 260 L88 190 Z" fill="#1f2937" />
                         <path d="M125 190 L130 260 L115 260 L112 190 Z" fill="#1f2937" />
                         
-                        <!-- Garment Layer (Dynamic Fill) -->
-                        <g id="garmentLayer">
-                            <!-- Injected dynamically via JS depending on chosen clothing type -->
-                        </g>
-
                         <!-- Head Base -->
                         <circle cx="100" cy="70" r="30" fill="#f3d2b3" id="headBase" />
-                        
-                        <!-- Dynamic Shivering Arms -->
+
+                        <!-- Dynamic Arms (PLACED HERE: Behind Garment Layer) -->
                         <g id="armsGroup">
                             <path d="M55 125 Q45 155 40 185" stroke="#f3d2b3" stroke-width="12" stroke-linecap="round" fill="none" />
                             <path d="M145 125 Q155 155 160 185" stroke="#f3d2b3" stroke-width="12" stroke-linecap="round" fill="none" />
+                        </g>
+
+                        <!-- Garment Layer (Renders ON TOP of arms) -->
+                        <g id="garmentLayer">
+                            <!-- Injected dynamically via JS depending on chosen clothing type -->
                         </g>
 
                         <!-- Dynamic Thermal Overlay Effects -->
@@ -183,6 +183,7 @@
                             <option value="Hoodie">Hoodie</option>
                             <option value="Jacket">Jacket</option>
                         </select>
+
                         <div class="color-picker-wrapper">
                             <input type="color" id="pickerColor" value="#3b82f6">
                         </div>
@@ -234,6 +235,7 @@
                     </button>
                 </div>
             </aside>
+
         </div>
 
         <!-- RESULTS & RECOMMENDATION SECTION -->
@@ -274,8 +276,9 @@
                 </div>
             </div>
         </section>
+
     </main>
 
     <script src="script2.js"></script>
 </body>
-</html>
+    </html>
