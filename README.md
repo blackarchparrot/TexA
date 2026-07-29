@@ -21,7 +21,7 @@ git clone https://github.com/blackarchparrot/TexA.git
 Run locally by opening `index.html` or deploy it to your preferred hosting platform.
 
 ## Live
-<a href="https://texa-lilac.vercel.app/">Click here to use TexA <\a>
+<a href="https://texa-lilac.vercel.app/">Click here to use TexA </a>
 
 Or click the link below: <br>
 https://texa-lilac.vercel.app/
