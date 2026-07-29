@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TexA-Suggestor-BlackParrot</title>
+    <link rel="stylesheet" href="style3.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Ambient Background Effects -->
+    <div class="ambient-background">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <main class="app-container">
+
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Tex <strong>A</strong></span>
+            </div>
+
+            <a href="https://pdf-shelve.blackparrotfedora.workers.dev/me/" class="nav-badge" target="_blank" rel="noopener noreferrer">
+                Developed by Black Parrot
+            </a>
+        </nav>
+
+        <!-- Hero Header -->
+        <header class="hero">
+            <h1 class="hero-title">Smart Suggestor</h1>
+            <p class="hero-description">
+                Personalized apparel, skin tone color palette matching, and dermatologist-aware textile analysis for any occasion.
+            </p>
+        </header>
+
+        <!-- Main Form Card -->
+        <section class="form-section">
+            <div class="glass-card">
+                
+                <div class="grid-2">
+                    <!-- Occasion -->
+                    <div class="form-group">
+                        <label for="occasion">Occasion / Event</label>
+                        <select id="occasion">
+                            <option value="Office / Formal Corporate">Office / Formal</option>
+                            <option value="Party / Nightlife">Party / Nightlife</option>
+                            <option value="Crowd Function / Festival">Crowd Function / Festival</option>
+                            <option value="Mourning / Condolence">Mourning / Funeral</option>
+                            <option value="Casual Outing">Casual Outing</option>
+                            <option value="Date Night">Date Night</option>
+                        </select>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Non-Binary / Unisex">Non-Binary / Unisex</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Skin Tone Palette -->
+                <div class="form-group">
+                    <label>Select Skin Tone Palette</label>
+                    <div class="color-palette" id="skinPalette">
+                        <div class="color-circle selected" style="background-color: #f6e0d3;" data-tone="Fair / Very Light" title="Fair"></div>
+                        <div class="color-circle" style="background-color: #e3ba97;" data-tone="Light Warm / Peach" title="Light Warm"></div>
+                        <div class="color-circle" style="background-color: #c99368;" data-tone="Medium Olive / Warm" title="Medium Olive"></div>
+                        <div class="color-circle" style="background-color: #a16e4b;" data-tone="Tan / Deep Warm" title="Tan"></div>
+                        <div class="color-circle" style="background-color: #68462b;" data-tone="Dark / Deep Cool" title="Dark Cool"></div>
+                        <div class="color-circle" style="background-color: #3d2314;" data-tone="Deep Ebony" title="Deep Ebony"></div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <!-- Season -->
+                    <div class="form-group">
+                        <label for="season">Season</label>
+                        <select id="season">
+                            <option value="Summer">Summer</option>
+                            <option value="Winter">Winter</option>
+                            <option value="Monsoon / Rainy">Monsoon / Rainy</option>
+                            <option value="Spring / Autumn">Spring / Autumn</option>
+                        </select>
+                    </div>
+
+                    <!-- Weather -->
+                    <div class="form-group">
+                        <label for="weather">Weather Conditions</label>
+                        <select id="weather">
+                            <option value="Hot & Sunny">Hot & Sunny</option>
+                            <option value="Humid / Muggy">Humid / Muggy</option>
+                            <option value="Cloudy / Overcast">Cloudy / Overcast</option>
+                            <option value="Cold & Windy">Cold & Windy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Medical / Skin Issues -->
+                <div class="form-group">
+                    <label for="medicalConditions">Skin or Internal Conditions (Optional)</label>
+                    <textarea id="medicalConditions" rows="2" placeholder="E.g., Eczema, sensitive skin, prone to excessive sweating, heat rash..."></textarea>
+                </div>
+
+                <!-- Action Button -->
+                <button id="btnGenerate" class="btn-primary">
+                    <span class="btn-text">Get AI Styling Recommendations</span>
+                    <span class="btn-glow"></span>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- Dynamic Results Section -->
+        <section class="results-section hidden" id="resultsSection">
+            <div class="results-header">
+                <h2>Styling Report</h2>
+                <div class="status-pill"><span class="pulse-dot"></span> AI Verified</div>
+            </div>
+
+            <div id="resultsList"></div>
+        </section>
+
+    </main>
+
+    <script src="script3.js"></script>
+</body>
+
+<!-- &copy; 2026 Aftab Sunny. All Rights Reserved. Unauthorized copying and distribution is strictly prohibited. -->
+ 
+</html>
