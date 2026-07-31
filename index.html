@@ -128,7 +128,7 @@
       text-shadow: 0 0 15px #00e5ff;
     }
 
-    /* Buttons Hub Grid Layout */
+    /* Buttons Hub Grid Layout (2x2 Grid) */
     .btn-group {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -152,14 +152,6 @@
       font-weight: 600;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
-    }
-
-    /* Span full width for odd last item */
-    .btn.full-width {
-      grid-column: span 2;
-      flex-direction: row;
-      justify-content: center;
-      padding: 18px 24px;
     }
 
     .btn-icon {
@@ -215,9 +207,15 @@
         <span>Simulator</span>
       </a>
 
-      <a class="btn full-width" href="index3.html">
+      <a class="btn" href="index3.html">
         <i class="fa-solid fa-wand-magic-sparkles btn-icon" style="color: #b8b800;"></i>
         <span>Suggestor</span>
+      </a>
+
+      <!-- 4th Module: Dress Quality & Classification Analyzer -->
+      <a class="btn" href="index4.html">
+        <i class="fa-solid fa-shirt btn-icon" style="color: #10b981;"></i>
+        <span>Dress Quality</span>
       </a>
     </div>
   </div>
