@@ -1,10 +1,10 @@
-
-let OPENROUTER_API_KEY = "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";
+let OPENROUTER_API_KEY = "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"; // Updated key from TexelSense
+const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 document.addEventListener('DOMContentLoaded', () => {
     let selectedSkinTone = "Fair / Very Light";
-    let mediaStream = null;
 
+    // Reference map for RGB distance calculation
     const toneReferenceMap = [
         { tone: "Fair / Very Light", rgb: [246, 224, 211] },
         { tone: "Light Warm / Peach", rgb: [227, 186, 151] },
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { tone: "Deep Ebony", rgb: [61, 35, 20] }
     ];
 
+    // Skin Palette Click Selection
     const paletteCircles = document.querySelectorAll('#skinPalette .color-circle');
     paletteCircles.forEach(circle => {
         circle.addEventListener('click', function() {
@@ -27,53 +28,52 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedSkinTone = targetElement.getAttribute('data-tone');
     }
 
-    const openCameraBtn = document.getElementById('openCameraBtn');
-    const closeCameraBtn = document.getElementById('closeCameraBtn');
-    const cameraModal = document.getElementById('cameraModal');
-    const cameraVideo = document.getElementById('cameraVideo');
-    const captureBtn = document.getElementById('captureBtn');
+    // Photo Capture/Upload Handling (Native File Input - Matches TexelSense Flow)
+    const triggerScanBtn = document.getElementById('triggerScanBtn');
+    const skinFileInput = document.getElementById('skinFileInput');
     const scanCanvas = document.getElementById('scanCanvas');
 
-openCameraBtn.addEventListener('click', async () => {
-    try {
-        mediaStream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: { ideal: "user" } },
-            audio: false
-        });
-        cameraVideo.srcObject = mediaStream;
-        cameraModal.classList.remove('hidden');
-    } catch (err) {
-        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-            alert('Camera access was blocked. Please enable camera permissions in your browser site settings and refresh the page.');
-        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
-            alert('No camera found on this device.');
-        } else {
-            alert('Unable to access camera: ' + err.message);
+    triggerScanBtn.addEventListener('click', () => {
+        skinFileInput.click();
+    });
+
+    skinFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            processSkinFile(file);
         }
-    }
-});
-    closeCameraBtn.addEventListener('click', stopCamera);
+    });
 
-    function stopCamera() {
-        if (mediaStream) {
-            mediaStream.getTracks().forEach(track => track.stop());
-            mediaStream = null;
+    function processSkinFile(file) {
+        if (!file.type.startsWith('image/')) {
+            alert('Please upload a valid image file (PNG, JPG, WEBP).');
+            return;
         }
-        cameraModal.classList.add('hidden');
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                detectSkinToneFromImage(img);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
 
-    captureBtn.addEventListener('click', () => {
-        if (!cameraVideo.videoWidth || cameraVideo.videoWidth === 0) return;
-
+    function detectSkinToneFromImage(img) {
         const ctx = scanCanvas.getContext('2d');
-        scanCanvas.width = cameraVideo.videoWidth;
-        scanCanvas.height = cameraVideo.videoHeight;
+        scanCanvas.width = img.width;
+        scanCanvas.height = img.height;
 
-        ctx.drawImage(cameraVideo, 0, 0, scanCanvas.width, scanCanvas.height);
+        ctx.drawImage(img, 0, 0, scanCanvas.width, scanCanvas.height);
 
-        const centerX = Math.max(0, Math.floor(scanCanvas.width / 2) - 20);
-        const centerY = Math.max(0, Math.floor(scanCanvas.height / 2) - 20);
-        const imgData = ctx.getImageData(centerX, centerY, 40, 40).data;
+        // Sample center 10% region of the captured image
+        const sampleSize = Math.max(10, Math.floor(Math.min(img.width, img.height) * 0.1));
+        const centerX = Math.floor(img.width / 2) - Math.floor(sampleSize / 2);
+        const centerY = Math.floor(img.height / 2) - Math.floor(sampleSize / 2);
+
+        const imgData = ctx.getImageData(centerX, centerY, sampleSize, sampleSize).data;
 
         let totalR = 0, totalG = 0, totalB = 0, count = 0;
 
@@ -90,6 +90,7 @@ openCameraBtn.addEventListener('click', async () => {
         const avgG = Math.round(totalG / count);
         const avgB = Math.round(totalB / count);
 
+        // Find nearest palette tone using Euclidean Distance
         let bestTone = toneReferenceMap[0].tone;
         let minDistance = Infinity;
 
@@ -105,15 +106,15 @@ openCameraBtn.addEventListener('click', async () => {
             }
         });
 
+        // Auto-select palette circle
         paletteCircles.forEach(circle => {
             if (circle.getAttribute('data-tone') === bestTone) {
                 selectToneElement(circle);
             }
         });
+    }
 
-        stopCamera();
-    });
-
+    // AI Recommendation API Handler
     const btnGenerate = document.getElementById('btnGenerate');
     btnGenerate.addEventListener('click', getStylistRecommendation);
 
@@ -168,7 +169,7 @@ Output strictly valid JSON with this exact structure:
 - Skin Conditions / Medical Issues: ${payloadData.skinConditions}`;
 
         try {
-            const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            const response = await fetch(OPENROUTER_API_URL, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
@@ -187,21 +188,24 @@ Output strictly valid JSON with this exact structure:
             });
 
             if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error?.message || `API Error: ${response.status}`);
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error?.message || `HTTP Error ${response.status}`);
             }
 
             const data = await response.json();
-            let rawContent = data.choices[0].message.content;
+            let rawContent = data.choices?.[0]?.message?.content;
             
-            // Cleanup any stray markdown formatting inside the text block
+            if (!rawContent) {
+                throw new Error("No response content generated by the engine.");
+            }
+
             rawContent = rawContent.replace(/```json/g, '').replace(/```/g, '').trim();
             const resultData = JSON.parse(rawContent);
 
             if (resultData && resultData.recommendations) {
                 renderResults(resultData.recommendations);
             } else {
-                throw new Error("Invalid response format received from model.");
+                throw new Error("Invalid response format received.");
             }
         } catch (error) {
             alert('Error generating recommendations: ' + error.message);
