@@ -1,52 +1,44 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TexA - Dress Classification & Quality Analyzer</title>
     <link rel="stylesheet" href="style4.css">
     
-    <!-- Google Fonts (Matching previous pages) -->
+    <!-- Font Awesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Chart.js for Lifecycle Graph -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="dark-mode">
-
-    <!-- Ambient Glow Background -->
+<body>
+    <!-- Ambient Background Effects -->
     <div class="ambient-background">
         <div class="glow-orb orb-1"></div>
         <div class="glow-orb orb-2"></div>
     </div>
 
-    <!-- Top Navigation Bar (Matching previous page design with Theme Toggle preserved) -->
-    <nav class="top-nav">
-        <div class="logo">
-            <span class="logo-icon">⚡</span>
-            <span class="logo-text">Tex <strong>A</strong></span>
-        </div>
-
-        <div class="nav-actions" style="display: flex; align-items: center; gap: 12px;">
-            <!-- Theme Toggle Button -->
-            <button id="themeToggleBtn" class="theme-btn" title="Toggle Theme">
-                <i class="fa-solid fa-sun"></i>
-            </button>
-            
-            <a href="https://pdf-shelve.blackparrotfedora.workers.dev/me/" class="nav-badge">
-                Developed by Black Parrot
-            </a>
-        </div>
-    </nav>
-
     <main class="app-container">
 
-        <!-- Hero Header (Matching previous hero layout style) -->
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="logo">
+                <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
+                <span class="logo-text">Tex <strong>A</strong></span>
+            </div>
+
+            <a href="https://pdf-shelve.blackparrotfedora.workers.dev/me/" class="nav-badge" target="_blank" rel="noopener noreferrer">
+                Developed by Black Parrot
+            </a>
+        </nav>
+
+        <!-- Hero Header -->
         <header class="hero">
             <h1 class="hero-title">Dress & Textile Quality AI</h1>
             <p class="hero-description">
@@ -54,12 +46,11 @@
             </p>
         </header>
 
-        <!-- Upload & Real-Time Camera Section -->
+        <!-- Main Form Card -->
         <section class="form-section">
             <div class="glass-card">
                 
                 <div class="upload-box" id="uploadZone">
-                    <!-- Transparent file input layer over entire box for instant touch response -->
                     <input type="file" id="dressFileInput" accept="image/*" capture="environment">
                     
                     <div id="uploadPlaceholder">
@@ -72,11 +63,10 @@
                     <div id="previewWrapper" class="preview-container hidden">
                         <img id="imagePreview" src="" alt="Dress Preview">
                         
-                        <!-- Real-Time Camera Guide Overlay -->
                         <div class="camera-guide-overlay">
                             <div class="focus-box"></div>
                             <div id="cameraGuideTip" class="guide-tip">
-                                <i class="fa-solid fa-circle-info"></i> AI Tip: Good lighting & close-up weave detected!
+                                <i class="fa-solid fa-circle-info"></i> AI Tip: Clear weave pattern detected
                             </div>
                         </div>
 
@@ -84,69 +74,65 @@
                     </div>
                 </div>
 
-                <button id="btnAnalyze" class="btn-primary" disabled>
+                <button id="btnAnalyze" class="btn-primary" disabled style="margin-top: 1.25rem;">
                     <span class="btn-text"><i class="fa-solid fa-microscope"></i> Analyze Dress Quality</span>
                 </button>
 
             </div>
         </section>
 
-        <!-- AI Analysis Results Dashboard -->
-        <section id="analysisResults" class="results-section hidden">
+        <!-- Dynamic Results Section -->
+        <section class="results-section hidden" id="analysisResults">
             <div class="results-header">
-                <h2>Textile Quality & Performance Report</h2>
+                <h2>Quality & Performance Report</h2>
                 <div class="status-pill"><span class="pulse-dot"></span> AI Verified</div>
             </div>
 
-            <!-- Grid Cards for Scores -->
+            <!-- Grid Metrics -->
             <div class="metrics-grid">
                 
-                <!-- Eco-Friendly Score -->
                 <div class="metric-card">
                     <div class="card-icon eco"><i class="fa-solid fa-leaf"></i></div>
                     <h4>Sustainability Score</h4>
                     <div id="resEcoScore" class="metric-value">85 / 100</div>
-                    <p id="resEcoDesc" class="metric-desc">Organic & Low Environmental Impact</p>
+                    <p class="metric-desc">Organic & Low Impact</p>
                 </div>
 
-                <!-- Pilling Resistance -->
                 <div class="metric-card">
                     <div class="card-icon pilling"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h4>Pilling & Abrasion</h4>
+                    <h4>Pilling Resistance</h4>
                     <div id="resPillingGrade" class="metric-value">Grade 4 / 5</div>
-                    <p class="metric-desc">High Resistance to lint & fuzz balls</p>
+                    <p class="metric-desc">High Resistance to Lint</p>
                 </div>
 
-                <!-- Color Fastness -->
                 <div class="metric-card">
                     <div class="card-icon color"><i class="fa-solid fa-droplet-slash"></i></div>
                     <h4>Color Fastness</h4>
                     <div id="resColorFastness" class="metric-value">Grade 4.5 / 5</div>
-                    <p class="metric-desc">Low risk of bleeding during washing</p>
+                    <p class="metric-desc">Low Risk of Bleeding</p>
                 </div>
 
-                <!-- Athletic Moisture Wicking Rate -->
                 <div class="metric-card">
                     <div class="card-icon gym"><i class="fa-solid fa-person-running"></i></div>
                     <h4>Moisture Wicking</h4>
-                    <div id="resWickingRate" class="metric-value">Fast Dry (15 min)</div>
-                    <p class="metric-desc">Ideal for gym, running & high physical exertion</p>
+                    <div id="resWickingRate" class="metric-value">Fast Dry (15m)</div>
+                    <p class="metric-desc">Ideal for Activewear</p>
                 </div>
 
             </div>
 
             <!-- Washing Lifecycle Chart -->
-            <div class="glass-card chart-card">
-                <h3><i class="fa-solid fa-chart-line"></i> Washing Lifecycle Prediction Graph</h3>
-                <p class="chart-subtitle">Predicted Color Bleeding & Shrinkage over 5, 20, and 50 wash cycles</p>
+            <div class="result-card chart-card">
+                <h3><i class="fa-solid fa-chart-line icon-label"></i> Washing Lifecycle Prediction</h3>
+                <p class="chart-subtitle">Predicted color retention and shrinkage over 5, 20, and 50 wash cycles</p>
                 <div class="chart-container">
                     <canvas id="lifecycleChart"></canvas>
                 </div>
             </div>
 
             <!-- Detailed Summary -->
-            <div class="glass-card">
-                <h3><i class="fa-solid fa-file-contract"></i> AI Textile Summary</h3>
+            <div class="result-card">
+                <h3><i class="fa-solid fa-file-contract icon-label"></i> AI Textile Summary</h3>
                 <p id="resSummaryText" class="summary-text">Analyzing weave density and fiber structure...</p>
             </div>
 
