@@ -1,10 +1,10 @@
-const OPENROUTER_API_KEY = "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";
+
+let OPENROUTER_API_KEY = "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";
 
 document.addEventListener('DOMContentLoaded', () => {
     let selectedSkinTone = "Fair / Very Light";
     let mediaStream = null;
 
-    // Standard Palette Reference Tones mapped to RGB for nearest-color matching
     const toneReferenceMap = [
         { tone: "Fair / Very Light", rgb: [246, 224, 211] },
         { tone: "Light Warm / Peach", rgb: [227, 186, 151] },
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { tone: "Deep Ebony", rgb: [61, 35, 20] }
     ];
 
-    // Palette Selection Event
     const paletteCircles = document.querySelectorAll('#skinPalette .color-circle');
     paletteCircles.forEach(circle => {
         circle.addEventListener('click', function() {
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedSkinTone = targetElement.getAttribute('data-tone');
     }
 
-    // Camera Scanner Handlers
     const openCameraBtn = document.getElementById('openCameraBtn');
     const closeCameraBtn = document.getElementById('closeCameraBtn');
     const cameraModal = document.getElementById('cameraModal');
@@ -39,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     openCameraBtn.addEventListener('click', async () => {
         try {
             mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "user" },
+                video: { facingMode: { ideal: "user" } },
                 audio: false
             });
             cameraVideo.srcObject = mediaStream;
@@ -59,9 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cameraModal.classList.add('hidden');
     }
 
-    // Capture Frame & Detect Skin Color
     captureBtn.addEventListener('click', () => {
-        if (!cameraVideo.videoWidth) return;
+        if (!cameraVideo.videoWidth || cameraVideo.videoWidth === 0) return;
 
         const ctx = scanCanvas.getContext('2d');
         scanCanvas.width = cameraVideo.videoWidth;
@@ -69,9 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ctx.drawImage(cameraVideo, 0, 0, scanCanvas.width, scanCanvas.height);
 
-        // Extract central region (40x40 pixel sample)
-        const centerX = Math.floor(scanCanvas.width / 2) - 20;
-        const centerY = Math.floor(scanCanvas.height / 2) - 20;
+        const centerX = Math.max(0, Math.floor(scanCanvas.width / 2) - 20);
+        const centerY = Math.max(0, Math.floor(scanCanvas.height / 2) - 20);
         const imgData = ctx.getImageData(centerX, centerY, 40, 40).data;
 
         let totalR = 0, totalG = 0, totalB = 0, count = 0;
@@ -83,11 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
             count++;
         }
 
+        if (count === 0) return;
+
         const avgR = Math.round(totalR / count);
         const avgG = Math.round(totalG / count);
         const avgB = Math.round(totalB / count);
 
-        // Find Nearest Tone Match via Euclidean Distance in RGB space
         let bestTone = toneReferenceMap[0].tone;
         let minDistance = Infinity;
 
@@ -103,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Auto-select calculated palette circle
         paletteCircles.forEach(circle => {
             if (circle.getAttribute('data-tone') === bestTone) {
                 selectToneElement(circle);
@@ -113,14 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
         stopCamera();
     });
 
-    // Generate AI Styling Recommendations
     const btnGenerate = document.getElementById('btnGenerate');
     btnGenerate.addEventListener('click', getStylistRecommendation);
 
     async function getStylistRecommendation() {
-        if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY.includes("YOUR_OPENROUTER_API_KEY_HERE")) {
-            alert('Please configure your OpenRouter API key inside script3.js.');
-            return;
+        if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY.includes("YOUR_OPENROUTER_API_KEY")) {
+            const userKey = prompt("Please enter your OpenRouter API Key:");
+            if (!userKey) return;
+            OPENROUTER_API_KEY = userKey.trim();
         }
 
         const resultsSection = document.getElementById('resultsSection');
@@ -141,19 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
             skinConditions: document.getElementById('medicalConditions').value.trim() || "None"
         };
 
-        const systemPrompt = `You are a celebrity fashion stylist and skin-aware textile advisor.
-Suggest 3 distinct outfit combinations tailored to the user's inputs.
-Return ONLY a valid JSON object strictly matching this schema:
+        const systemPrompt = `You are a fashion stylist and skin-aware textile advisor.
+Suggest 3 distinct outfit combinations tailored to inputs.
+Output strictly valid JSON with this exact structure:
 {
   "recommendations": [
     {
       "title": "Outfit Title",
       "matchPercentage": 95,
-      "outfitDescription": "Detailed clothing description",
-      "colorPalette": [{"name": "Navy Blue", "hex": "#000080"}, {"name": "Beige", "hex": "#F5F5DC"}],
-      "recommendedFabrics": ["Organic Cotton", "Linen"],
-      "whyItWorks": "Explanation regarding complexion, occasion, and weather",
-      "skinCareOrComfortTip": "Specific advice regarding skin issues or weather comfort"
+      "outfitDescription": "Detailed description",
+      "colorPalette": [{"name": "Navy Blue", "hex": "#000080"}],
+      "recommendedFabrics": ["Cotton"],
+      "whyItWorks": "Explanation",
+      "skinCareOrComfortTip": "Tip"
     }
   ]
 }`;
@@ -191,9 +187,17 @@ Return ONLY a valid JSON object strictly matching this schema:
             }
 
             const data = await response.json();
-            const resultData = JSON.parse(data.choices[0].message.content);
+            let rawContent = data.choices[0].message.content;
+            
+            // Cleanup any stray markdown formatting inside the text block
+            rawContent = rawContent.replace(/```json/g, '').replace(/```/g, '').trim();
+            const resultData = JSON.parse(rawContent);
 
-            renderResults(resultData.recommendations);
+            if (resultData && resultData.recommendations) {
+                renderResults(resultData.recommendations);
+            } else {
+                throw new Error("Invalid response format received from model.");
+            }
         } catch (error) {
             alert('Error generating recommendations: ' + error.message);
         } finally {
@@ -210,23 +214,23 @@ Return ONLY a valid JSON object strictly matching this schema:
             const card = document.createElement('div');
             card.className = 'result-card';
 
-            const colorsHtml = item.colorPalette.map(c => `
+            const colorsHtml = (item.colorPalette || []).map(c => `
                 <span class="tag">
                     <span class="swatch" style="background-color: ${c.hex || '#ffffff'};"></span>
                     ${c.name || c}
                 </span>
             `).join('');
 
-            const fabricsHtml = item.recommendedFabrics.map(f => `
+            const fabricsHtml = (item.recommendedFabrics || []).map(f => `
                 <span class="tag">${f}</span>
             `).join('');
 
             card.innerHTML = `
                 <div class="result-header-row">
-                    <h3>${item.title}</h3>
-                    <span class="match-badge">${item.matchPercentage}% Match</span>
+                    <h3>${item.title || 'Recommended Outfit'}</h3>
+                    <span class="match-badge">${item.matchPercentage || 90}% Match</span>
                 </div>
-                <p style="margin-bottom: 0.85rem; color: #e2e8f0; font-size:0.95rem;">${item.outfitDescription}</p>
+                <p style="margin-bottom: 0.85rem; color: #e2e8f0; font-size:0.95rem;">${item.outfitDescription || ''}</p>
                 
                 <div style="margin-bottom: 0.5rem;">
                     <strong style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase;">Colors:</strong> 
@@ -239,7 +243,7 @@ Return ONLY a valid JSON object strictly matching this schema:
                 </div>
 
                 <p style="font-size:0.9rem; color:#cbd5e1; margin-top:0.75rem; line-height:1.4;">
-                    <strong>Why it matches:</strong> ${item.whyItWorks}
+                    <strong>Why it matches:</strong> ${item.whyItWorks || ''}
                 </p>
 
                 ${item.skinCareOrComfortTip ? `
