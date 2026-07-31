@@ -1,169 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TexA-Suggestor-BlackParrot</title>
-    <link rel="stylesheet" href="style3.css">
-    <!-- Font Awesome 6 CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Hub</title>
+  
+  <!-- Google Font & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --text-dim: #94a3b8;
+      --accent-1: #6366f1;
+      --accent-2: #a855f7;
+      --accent-3: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glowing Background Orbs */
+    .glow-1, .glow-2 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      opacity: 0.5;
+      animation: float 10s ease-in-out infinite alternate;
+    }
+
+    .glow-1 {
+      width: 350px;
+      height: 350px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      top: 15%;
+      left: 20%;
+    }
+
+    .glow-2 {
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, var(--accent-3), #06b6d4);
+      bottom: 15%;
+      right: 20%;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -30px) scale(1.1); }
+    }
+
+    /* Glassmorphism Container */
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      padding: 40px 28px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .header-icon {
+      font-size: 32px;
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    
+    .logo-text {
+      font-size: 50pt;
+      font-weight: 800;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .tex {
+      color: #80acff;
+    }
+
+    .a {
+      color: #00e5ff;
+      text-shadow: 0 0 15px #00e5ff;
+    }
+
+    /* Buttons Hub Grid Layout */
+    .btn-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    /* Span full width for odd last item */
+    .btn.full-width {
+      grid-column: span 2;
+      flex-direction: row;
+      justify-content: center;
+      padding: 18px 24px;
+    }
+
+    .btn-icon {
+      font-size: 28px;
+      color: #a855f7;
+      transition: transform 0.3s ease;
+    }
+
+    /* Button Hover Effects */
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -6px rgba(168, 85, 247, 0.25);
+    }
+
+    .btn:hover .btn-icon {
+      transform: scale(1.18);
+    }
+
+    /* Active Tap Effect for Mobile */
+    .btn:active {
+      transform: translateY(0) scale(0.96);
+    }
+  </style>
 </head>
 <body>
-    <!-- Ambient Background Effects -->
-    <div class="ambient-background">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
+
+  <!-- Ambient background lighting -->
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <!-- Main Card -->
+  <div class="container">
+    <div class="header-icon">
+      <img src="1785091505295.png" width="120" height="100" alt="AI Icon">
     </div>
+    
+    <p class="logo-text">
+      <span class="tex">Tex</span><span class="a">A</span>
+    </p>
 
-    <main class="app-container">
+    <p class="subtitle">Select a module to launch</p>
 
-        <!-- Top Navigation Bar -->
-        <nav class="top-nav">
-            <div class="logo">
-                <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
-                <span class="logo-text">Tex <strong>A</strong></span>
-            </div>
+    <div class="btn-group">
+      <a class="btn" href="index1.html">
+        <i class="fa-solid fa-microscope btn-icon"></i>
+        <span>Fabric Scanner</span>
+      </a>
 
-            <a href="https://pdf-shelve.blackparrotfedora.workers.dev/me/" class="nav-badge" target="_blank" rel="noopener noreferrer">
-                Developed by Black Parrot
-            </a>
-        </nav>
+      <a class="btn" href="index2.html">
+        <i class="fa-solid fa-vr-cardboard btn-icon" style="color: #3b82f6;"></i>
+        <span>Simulator</span>
+      </a>
 
-        <!-- Hero Header -->
-        <header class="hero">
-            <h1 class="hero-title">Smart Suggestor</h1>
-            <p class="hero-description">
-                Personalized apparel, skin tone color palette matching, and dermatologist-aware textile analysis for any occasion.
-            </p>
-        </header>
-
-        <!-- Main Form Card -->
-        <section class="form-section">
-            <div class="glass-card">
-                
-                <div class="grid-2">
-                    <!-- Occasion -->
-                    <div class="form-group">
-                        <label for="occasion"><i class="fa-solid fa-calendar-day icon-label"></i> Occasion / Event</label>
-                        <select id="occasion">
-                            <option value="Office / Formal Corporate">Office / Formal</option>
-                            <option value="Party / Nightlife">Party / Nightlife</option>
-                            <option value="Crowd Function / Festival">Crowd Function / Festival</option>
-                            <option value="Mourning / Condolence">Mourning / Funeral</option>
-                            <option value="Casual Outing">Casual Outing</option>
-                            <option value="Date Night">Date Night</option>
-                        </select>
-                    </div>
-
-                    <!-- Gender -->
-                    <div class="form-group">
-                        <label for="gender"><i class="fa-solid fa-user icon-label"></i> Gender</label>
-                        <select id="gender">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Non-Binary / Unisex">Non-Binary / Unisex</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Skin Tone Palette + Camera Scanner -->
-                <div class="form-group">
-                    <div class="label-with-action">
-                        <label><i class="fa-solid fa-palette icon-label"></i> Select Skin Tone Palette</label>
-                        <button type="button" class="scanner-btn" id="openCameraBtn" title="Scan Skin Tone via Camera">
-                            <i class="fa-solid fa-camera"></i>
-                            <span>Scan Skin</span>
-                        </button>
-                    </div>
-
-                    <div class="color-palette" id="skinPalette">
-                        <div class="color-circle selected" style="background-color: #f6e0d3;" data-tone="Fair / Very Light" title="Fair"></div>
-                        <div class="color-circle" style="background-color: #e3ba97;" data-tone="Light Warm / Peach" title="Light Warm"></div>
-                        <div class="color-circle" style="background-color: #c99368;" data-tone="Medium Olive / Warm" title="Medium Olive"></div>
-                        <div class="color-circle" style="background-color: #a16e4b;" data-tone="Tan / Deep Warm" title="Tan"></div>
-                        <div class="color-circle" style="background-color: #68462b;" data-tone="Dark / Deep Cool" title="Dark Cool"></div>
-                        <div class="color-circle" style="background-color: #3d2314;" data-tone="Deep Ebony" title="Deep Ebony"></div>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <!-- Season -->
-                    <div class="form-group">
-                        <label for="season"><i class="fa-solid fa-cloud-sun icon-label"></i> Season</label>
-                        <select id="season">
-                            <option value="Summer">Summer</option>
-                            <option value="Winter">Winter</option>
-                            <option value="Monsoon / Rainy">Monsoon / Rainy</option>
-                            <option value="Spring / Autumn">Spring / Autumn</option>
-                        </select>
-                    </div>
-
-                    <!-- Weather -->
-                    <div class="form-group">
-                        <label for="weather"><i class="fa-solid fa-temperature-three-quarters icon-label"></i> Weather Conditions</label>
-                        <select id="weather">
-                            <option value="Hot & Sunny">Hot & Sunny</option>
-                            <option value="Humid / Muggy">Humid / Muggy</option>
-                            <option value="Cloudy / Overcast">Cloudy / Overcast</option>
-                            <option value="Cold & Windy">Cold & Windy</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Medical / Skin Issues -->
-                <div class="form-group">
-                    <label for="medicalConditions"><i class="fa-solid fa-notes-medical icon-label"></i> Skin or Internal Conditions (Optional)</label>
-                    <textarea id="medicalConditions" rows="2" placeholder="E.g., Eczema, sensitive skin, prone to excessive sweating, heat rash..."></textarea>
-                </div>
-
-                <!-- Action Button -->
-                <button id="btnGenerate" class="btn-primary">
-                    <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Get AI Styling Recommendations</span>
-                    <span class="btn-glow"></span>
-                </button>
-
-            </div>
-        </section>
-
-        <!-- Dynamic Results Section -->
-        <section class="results-section hidden" id="resultsSection">
-            <div class="results-header">
-                <h2>Styling Report</h2>
-                <div class="status-pill"><span class="pulse-dot"></span> AI Verified</div>
-            </div>
-
-            <div id="resultsList"></div>
-        </section>
-
-    </main>
-
-    <!-- Camera Scanner Modal Overlay -->
-    <div class="camera-modal hidden" id="cameraModal">
-        <div class="camera-card">
-            <div class="camera-header">
-                <h3><i class="fa-solid fa-expand icon-label"></i> Skin Tone Detector</h3>
-                <button type="button" class="close-modal" id="closeCameraBtn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <p class="camera-hint">Place your arm, wrist, or hand inside the circle under clear lighting.</p>
-            
-            <div class="video-container">
-                <video id="cameraVideo" autoplay playsinline></video>
-                <div class="scan-target"></div>
-            </div>
-
-            <button type="button" class="btn-primary" id="captureBtn" style="margin-top: 1rem;">
-                <i class="fa-solid fa-circle-dot"></i> Capture & Detect Tone
-            </button>
-        </div>
+      <a class="btn full-width" href="index3.html">
+        <i class="fa-solid fa-wand-magic-sparkles btn-icon" style="color: #b8b800;"></i>
+        <span>Suggestor</span>
+      </a>
     </div>
+  </div>
 
-    <!-- Hidden canvas for sampling RGB pixels -->
-    <canvas id="scanCanvas" class="hidden"></canvas>
-
-    <script src="script3.js"></script>
 </body>
 
 <!-- &copy; 2026 Aftab Sunny. All Rights Reserved. Unauthorized copying and distribution is strictly prohibited. -->
