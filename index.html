@@ -76,7 +76,7 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       padding: 40px 28px;
       background: var(--card-bg);
       backdrop-filter: blur(20px);
@@ -113,84 +113,76 @@
       margin-bottom: 32px;
     }
     
-.logo-text {
-  font-size: 50pt;
-  font-weight: 800;
-  font-family: "Plus Jakarta Sans", sans-serif;
-}
+    .logo-text {
+      font-size: 50pt;
+      font-weight: 800;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
 
-.tex {
-  color: #80acff;
-}
+    .tex {
+      color: #80acff;
+    }
 
-.a {
-  color: #00e5ff;
-  text-shadow: 0 0 15px #00e5ff;
+    .a {
+      color: #00e5ff;
+      text-shadow: 0 0 15px #00e5ff;
+    }
 
-}
-
-    /* Buttons Hub Layout */
+    /* Buttons Hub Grid Layout */
     .btn-group {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
 
     .btn {
       position: relative;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 18px 24px;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px 16px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--card-border);
       color: var(--text);
       text-decoration: none;
-      border-radius: 16px;
-      font-size: 16px;
+      border-radius: 20px;
+      font-size: 15px;
       font-weight: 600;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
     }
 
-    .btn-content {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    /* Span full width for odd last item */
+    .btn.full-width {
+      grid-column: span 2;
+      flex-direction: row;
+      justify-content: center;
+      padding: 18px 24px;
     }
 
     .btn-icon {
-      font-size: 18px;
+      font-size: 28px;
       color: #a855f7;
       transition: transform 0.3s ease;
-    }
-
-    .btn .arrow {
-      font-size: 14px;
-      color: var(--text-dim);
-      transition: transform 0.3s ease, color 0.3s ease;
     }
 
     /* Button Hover Effects */
     .btn:hover {
       background: rgba(255, 255, 255, 0.08);
       border-color: rgba(168, 85, 247, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px -5px rgba(168, 85, 247, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -6px rgba(168, 85, 247, 0.25);
     }
 
     .btn:hover .btn-icon {
-      transform: scale(1.15);
-    }
-
-    .btn:hover .arrow {
-      transform: translateX(4px);
-      color: #ffffff;
+      transform: scale(1.18);
     }
 
     /* Active Tap Effect for Mobile */
     .btn:active {
-      transform: translateY(0) scale(0.98);
+      transform: translateY(0) scale(0.96);
     }
   </style>
 </head>
@@ -203,37 +195,29 @@
   <!-- Main Card -->
   <div class="container">
     <div class="header-icon">
-  <img src="1785091505295.png" width="120" height="100" alt="AI Icon">
-</div>
+      <img src="1785091505295.png" width="120" height="100" alt="AI Icon">
+    </div>
+    
     <p class="logo-text">
-  <span class="tex">Tex</span><span class="a">A</span>
-</p>
+      <span class="tex">Tex</span><span class="a">A</span>
+    </p>
 
-<p class="subtitle">Select a module to launch</p>
+    <p class="subtitle">Select a module to launch</p>
 
     <div class="btn-group">
       <a class="btn" href="index1.html">
-        <div class="btn-content">
-          <i class="fa-solid fa-microscope btn-icon"></i>
-          <span>Fabric Scanner</span>
-        </div>
-        <i class="fa-solid fa-chevron-right arrow"></i>
+        <i class="fa-solid fa-microscope btn-icon"></i>
+        <span>Fabric Scanner</span>
       </a>
 
       <a class="btn" href="index2.html">
-        <div class="btn-content">
-          <i class="fa-solid fa-vr-cardboard btn-icon" style="color: #3b82f6;"></i>
-          <span>Simulator</span>
-        </div>
-        <i class="fa-solid fa-chevron-right arrow"></i>
+        <i class="fa-solid fa-vr-cardboard btn-icon" style="color: #3b82f6;"></i>
+        <span>Simulator</span>
       </a>
 
-      <a class="btn" href="index3.html">
-        <div class="btn-content">
-          <i class="fa-solid fa-wand-magic-sparkles" style="color: #b8b800;"></i>
-          <span>Suggestor</span>
-        </div>
-        <i class="fa-solid fa-chevron-right arrow"></i>
+      <a class="btn full-width" href="index3.html">
+        <i class="fa-solid fa-wand-magic-sparkles btn-icon" style="color: #b8b800;"></i>
+        <span>Suggestor</span>
       </a>
     </div>
   </div>
