@@ -1,4 +1,4 @@
-const OPENROUTER_API_KEY = "sk-or-v1-YOUR_OPENROUTER_API_KEY_HERE";
+const OPENROUTER_API_KEY = "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";
 
 document.addEventListener('DOMContentLoaded', () => {
     let selectedSkinTone = "Fair / Very Light";
