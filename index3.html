@@ -69,14 +69,17 @@
                     </div>
                 </div>
 
-                <!-- Skin Tone Palette + Camera Scanner -->
+                <!-- Skin Tone Palette + Native Camera/File Input -->
                 <div class="form-group">
                     <div class="label-with-action">
                         <label><i class="fa-solid fa-palette icon-label"></i> Select Skin Tone Palette</label>
-                        <button type="button" class="scanner-btn" id="openCameraBtn" title="Scan Skin Tone via Camera">
+                        <!-- Native Trigger Button -->
+                        <button type="button" class="scanner-btn" id="triggerScanBtn" title="Scan Skin Tone via Photo">
                             <i class="fa-solid fa-camera"></i>
-                            <span>Scan Skin</span>
+                            <span>Scan Photo</span>
                         </button>
+                        <!-- Native Camera/File Input -->
+                        <input type="file" id="skinFileInput" accept="image/*" capture="user" class="hidden">
                     </div>
 
                     <div class="color-palette" id="skinPalette">
@@ -139,27 +142,7 @@
 
     </main>
 
-    <!-- Camera Scanner Modal Overlay -->
-    <div class="camera-modal hidden" id="cameraModal">
-        <div class="camera-card">
-            <div class="camera-header">
-                <h3><i class="fa-solid fa-expand icon-label"></i> Skin Tone Detector</h3>
-                <button type="button" class="close-modal" id="closeCameraBtn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <p class="camera-hint">Place your arm, wrist, or hand inside the frame under clear lighting.</p>
-            
-            <div class="video-container">
-                <video id="cameraVideo" autoplay playsinline></video>
-                <div class="scan-target"></div>
-            </div>
-
-            <button type="button" class="btn-primary" id="captureBtn" style="margin-top: 1rem;">
-                <i class="fa-solid fa-circle-dot"></i> Capture & Detect Tone
-            </button>
-        </div>
-    </div>
-
-    <!-- Hidden canvas for sampling RGB pixels -->
+    <!-- Hidden canvas for processing RGB color sampling -->
     <canvas id="scanCanvas" class="hidden"></canvas>
 
     <script src="script3.js"></script>
