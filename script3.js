@@ -1,26 +1,125 @@
-// Hardcoded API Key Config
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = "sk-or-v1-YOUR_OPENROUTER_API_KEY_HERE";
 
 document.addEventListener('DOMContentLoaded', () => {
     let selectedSkinTone = "Fair / Very Light";
+    let mediaStream = null;
 
-    // Handle Skin Palette Selection
+    // Standard Palette Reference Tones mapped to RGB for nearest-color matching
+    const toneReferenceMap = [
+        { tone: "Fair / Very Light", rgb: [246, 224, 211] },
+        { tone: "Light Warm / Peach", rgb: [227, 186, 151] },
+        { tone: "Medium Olive / Warm", rgb: [201, 147, 104] },
+        { tone: "Tan / Deep Warm", rgb: [161, 110, 75] },
+        { tone: "Dark / Deep Cool", rgb: [104, 70, 43] },
+        { tone: "Deep Ebony", rgb: [61, 35, 20] }
+    ];
+
+    // Palette Selection Event
     const paletteCircles = document.querySelectorAll('#skinPalette .color-circle');
     paletteCircles.forEach(circle => {
         circle.addEventListener('click', function() {
-            paletteCircles.forEach(c => c.classList.remove('selected'));
-            this.classList.add('selected');
-            selectedSkinTone = this.getAttribute('data-tone');
+            selectToneElement(this);
         });
     });
 
-    // Handle Generate Event
+    function selectToneElement(targetElement) {
+        paletteCircles.forEach(c => c.classList.remove('selected'));
+        targetElement.classList.add('selected');
+        selectedSkinTone = targetElement.getAttribute('data-tone');
+    }
+
+    // Camera Scanner Handlers
+    const openCameraBtn = document.getElementById('openCameraBtn');
+    const closeCameraBtn = document.getElementById('closeCameraBtn');
+    const cameraModal = document.getElementById('cameraModal');
+    const cameraVideo = document.getElementById('cameraVideo');
+    const captureBtn = document.getElementById('captureBtn');
+    const scanCanvas = document.getElementById('scanCanvas');
+
+    openCameraBtn.addEventListener('click', async () => {
+        try {
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "user" },
+                audio: false
+            });
+            cameraVideo.srcObject = mediaStream;
+            cameraModal.classList.remove('hidden');
+        } catch (err) {
+            alert('Unable to access camera: ' + err.message);
+        }
+    });
+
+    closeCameraBtn.addEventListener('click', stopCamera);
+
+    function stopCamera() {
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream = null;
+        }
+        cameraModal.classList.add('hidden');
+    }
+
+    // Capture Frame & Detect Skin Color
+    captureBtn.addEventListener('click', () => {
+        if (!cameraVideo.videoWidth) return;
+
+        const ctx = scanCanvas.getContext('2d');
+        scanCanvas.width = cameraVideo.videoWidth;
+        scanCanvas.height = cameraVideo.videoHeight;
+
+        ctx.drawImage(cameraVideo, 0, 0, scanCanvas.width, scanCanvas.height);
+
+        // Extract central region (40x40 pixel sample)
+        const centerX = Math.floor(scanCanvas.width / 2) - 20;
+        const centerY = Math.floor(scanCanvas.height / 2) - 20;
+        const imgData = ctx.getImageData(centerX, centerY, 40, 40).data;
+
+        let totalR = 0, totalG = 0, totalB = 0, count = 0;
+
+        for (let i = 0; i < imgData.length; i += 4) {
+            totalR += imgData[i];
+            totalG += imgData[i + 1];
+            totalB += imgData[i + 2];
+            count++;
+        }
+
+        const avgR = Math.round(totalR / count);
+        const avgG = Math.round(totalG / count);
+        const avgB = Math.round(totalB / count);
+
+        // Find Nearest Tone Match via Euclidean Distance in RGB space
+        let bestTone = toneReferenceMap[0].tone;
+        let minDistance = Infinity;
+
+        toneReferenceMap.forEach(item => {
+            const dist = Math.sqrt(
+                Math.pow(avgR - item.rgb[0], 2) +
+                Math.pow(avgG - item.rgb[1], 2) +
+                Math.pow(avgB - item.rgb[2], 2)
+            );
+            if (dist < minDistance) {
+                minDistance = dist;
+                bestTone = item.tone;
+            }
+        });
+
+        // Auto-select calculated palette circle
+        paletteCircles.forEach(circle => {
+            if (circle.getAttribute('data-tone') === bestTone) {
+                selectToneElement(circle);
+            }
+        });
+
+        stopCamera();
+    });
+
+    // Generate AI Styling Recommendations
     const btnGenerate = document.getElementById('btnGenerate');
     btnGenerate.addEventListener('click', getStylistRecommendation);
 
     async function getStylistRecommendation() {
         if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY.includes("YOUR_OPENROUTER_API_KEY_HERE")) {
-            alert('Please replace OPENROUTER_API_KEY inside script.js with your valid key.');
+            alert('Please configure your OpenRouter API key inside script3.js.');
             return;
         }
 
@@ -29,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnText = btnGenerate.querySelector('.btn-text');
 
         btnGenerate.disabled = true;
-        btnText.innerText = 'Analyzing & Styling...';
+        btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing & Styling...';
         resultsSection.classList.add('hidden');
         resultsList.innerHTML = '';
 
@@ -73,7 +172,7 @@ Return ONLY a valid JSON object strictly matching this schema:
                 headers: {
                     'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
                     'HTTP-Referer': window.location.origin,
-                    'X-Title': 'Tex AI Stylist',
+                    'X-Title': 'Tex A Suggestor',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -99,7 +198,7 @@ Return ONLY a valid JSON object strictly matching this schema:
             alert('Error generating recommendations: ' + error.message);
         } finally {
             btnGenerate.disabled = false;
-            btnText.innerText = 'Get AI Styling Recommendations';
+            btnText.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Get AI Styling Recommendations';
         }
     }
 
@@ -145,7 +244,7 @@ Return ONLY a valid JSON object strictly matching this schema:
 
                 ${item.skinCareOrComfortTip ? `
                     <div class="medical-warning">
-                        <strong>Care & Skin Tip:</strong> ${item.skinCareOrComfortTip}
+                        <i class="fa-solid fa-circle-info"></i> <strong>Care & Skin Tip:</strong> ${item.skinCareOrComfortTip}
                     </div>
                 ` : ''}
             `;
