@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TexA - Dress Classification & Quality Analyzer</title>
+    <link rel="stylesheet" href="style4.css">
+    <!-- Font Awesome 6 & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for Lifecycle Graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark-mode">
+
+    <!-- Ambient Glow Background -->
+    <div class="ambient-background">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <main class="app-container">
+
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="logo">
+                <i class="fa-solid fa-shirt logo-icon"></i>
+                <span class="logo-text">Tex <strong>A</strong> Analyzer</span>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Theme Toggle Button (Feature 3) -->
+                <button id="themeToggleBtn" class="theme-btn" title="Toggle Theme">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+                <a href="index.html" class="nav-badge">Back to Suggestor</a>
+            </div>
+        </nav>
+
+        <!-- Hero Header -->
+        <header class="hero">
+            <h1 class="hero-title">Dress & Textile Quality AI</h1>
+            <p class="hero-description">
+                Upload or capture a photo of your dress to analyze durability, color fastness, pilling resistance, and athletic performance.
+            </p>
+        </header>
+
+        <!-- Upload & Real-Time Camera Section -->
+        <section class="form-section">
+            <div class="glass-card">
+                
+                <div class="upload-box" id="uploadZone">
+                    <!-- Transparent file input layer over entire box for instant touch response -->
+                    <input type="file" id="dressFileInput" accept="image/*" capture="environment">
+                    
+                    <div id="uploadPlaceholder">
+                        <i class="fa-solid fa-camera-retro upload-icon"></i>
+                        <h3>Capture or Upload Dress Image</h3>
+                        <p>Click anywhere inside to open camera / pick photo</p>
+                    </div>
+
+                    <!-- Image Preview Overlay -->
+                    <div id="previewWrapper" class="preview-container hidden">
+                        <img id="imagePreview" src="" alt="Dress Preview">
+                        
+                        <!-- Real-Time Camera Guide Overlay (Feature 4) -->
+                        <div class="camera-guide-overlay">
+                            <div class="focus-box"></div>
+                            <div id="cameraGuideTip" class="guide-tip">
+                                <i class="fa-solid fa-circle-info"></i> AI Tip: Good lighting & close-up weave detected!
+                            </div>
+                        </div>
+
+                        <button id="btnRemove" class="btn-remove" title="Remove Photo"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+
+                <button id="btnAnalyze" class="btn-primary" disabled>
+                    <span class="btn-text"><i class="fa-solid fa-microscope"></i> Analyze Dress Quality</span>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- AI Analysis Results Dashboard -->
+        <section id="analysisResults" class="results-section hidden">
+            <div class="results-header">
+                <h2>Textile Quality & Performance Report</h2>
+                <div class="status-pill"><span class="pulse-dot"></span> AI Verified</div>
+            </div>
+
+            <!-- Grid Cards for Scores -->
+            <div class="metrics-grid">
+                
+                <!-- Feature 5: Eco-Friendly Score -->
+                <div class="metric-card">
+                    <div class="card-icon eco"><i class="fa-solid fa-leaf"></i></div>
+                    <h4>Sustainability Score</h4>
+                    <div id="resEcoScore" class="metric-value">85 / 100</div>
+                    <p id="resEcoDesc" class="metric-desc">Organic & Low Environmental Impact</p>
+                </div>
+
+                <!-- Feature 6: Pilling Resistance -->
+                <div class="metric-card">
+                    <div class="card-icon pilling"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4>Pilling & Abrasion</h4>
+                    <div id="resPillingGrade" class="metric-value">Grade 4 / 5</div>
+                    <p class="metric-desc">High Resistance to lint & fuzz balls</p>
+                </div>
+
+                <!-- Feature 7: Color Fastness -->
+                <div class="metric-card">
+                    <div class="card-icon color"><i class="fa-solid fa-droplet-slash"></i></div>
+                    <h4>Color Fastness</h4>
+                    <div id="resColorFastness" class="metric-value">Grade 4.5 / 5</div>
+                    <p class="metric-desc">Low risk of bleeding during washing</p>
+                </div>
+
+                <!-- Feature 2: Athletic Moisture Wicking Rate -->
+                <div class="metric-card">
+                    <div class="card-icon gym"><i class="fa-solid fa-person-running"></i></div>
+                    <h4>Moisture Wicking</h4>
+                    <div id="resWickingRate" class="metric-value">Fast Dry (15 min)</div>
+                    <p class="metric-desc">Ideal for gym, running & high physical exertion</p>
+                </div>
+
+            </div>
+
+            <!-- Feature 1: Washing Lifecycle Chart -->
+            <div class="glass-card chart-card">
+                <h3><i class="fa-solid fa-chart-line"></i> Washing Lifecycle Prediction Graph</h3>
+                <p class="chart-subtitle">Predicted Color Bleeding & Shrinkage over 5, 20, and 50 wash cycles</p>
+                <div class="chart-container">
+                    <canvas id="lifecycleChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Detailed Summary -->
+            <div class="glass-card">
+                <h3><i class="fa-solid fa-file-contract"></i> AI Textile Summary</h3>
+                <p id="resSummaryText" class="summary-text">Analyzing weave density and fiber structure...</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script4.js"></script>
+</body>
+</html>
