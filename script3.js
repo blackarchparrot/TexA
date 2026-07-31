@@ -34,19 +34,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const captureBtn = document.getElementById('captureBtn');
     const scanCanvas = document.getElementById('scanCanvas');
 
-    openCameraBtn.addEventListener('click', async () => {
-        try {
-            mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: { ideal: "user" } },
-                audio: false
-            });
-            cameraVideo.srcObject = mediaStream;
-            cameraModal.classList.remove('hidden');
-        } catch (err) {
+openCameraBtn.addEventListener('click', async () => {
+    try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "user" } },
+            audio: false
+        });
+        cameraVideo.srcObject = mediaStream;
+        cameraModal.classList.remove('hidden');
+    } catch (err) {
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+            alert('Camera access was blocked. Please enable camera permissions in your browser site settings and refresh the page.');
+        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+            alert('No camera found on this device.');
+        } else {
             alert('Unable to access camera: ' + err.message);
         }
-    });
-
+    }
+});
     closeCameraBtn.addEventListener('click', stopCamera);
 
     function stopCamera() {
