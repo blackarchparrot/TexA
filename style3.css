@@ -29,7 +29,6 @@ body {
     padding-bottom: 3rem;
 }
 
-/* Ambient Glow Orbs */
 .ambient-background {
     position: fixed;
     top: 0;
@@ -70,7 +69,6 @@ body {
     padding: 1.5rem 1rem;
 }
 
-/* Top Navigation Bar */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -87,7 +85,7 @@ body {
 }
 
 .logo-icon {
-    font-size: 1.3rem;
+    color: var(--accent);
 }
 
 .logo-text {
@@ -115,7 +113,6 @@ body {
     background: rgba(99, 102, 241, 0.1);
 }
 
-/* Hero Header */
 .hero {
     text-align: center;
     margin-bottom: 2rem;
@@ -138,7 +135,6 @@ body {
     line-height: 1.5;
 }
 
-/* Glassmorphism Cards */
 .glass-card {
     background: var(--card-bg);
     backdrop-filter: blur(16px);
@@ -164,14 +160,39 @@ body {
     margin-bottom: 1.25rem;
 }
 
+.label-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
 label {
     display: block;
     font-size: 0.8rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+.scanner-btn {
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #a5b4fc;
+    padding: 0.3rem 0.65rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.scanner-btn:hover {
+    background: rgba(99, 102, 241, 0.3);
+    color: #ffffff;
 }
 
 select, textarea {
@@ -191,7 +212,6 @@ select:focus, textarea:focus {
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
-/* Skin Palette */
 .color-palette {
     display: flex;
     gap: 12px;
@@ -217,7 +237,6 @@ select:focus, textarea:focus {
     box-shadow: 0 0 12px var(--accent);
 }
 
-/* Primary Button with Glow */
 .btn-primary {
     position: relative;
     width: 100%;
@@ -246,7 +265,6 @@ select:focus, textarea:focus {
     cursor: not-allowed;
 }
 
-/* Results Section Styling */
 .results-header {
     display: flex;
     justify-content: space-between;
@@ -341,4 +359,83 @@ select:focus, textarea:focus {
     color: #fecdd3;
 }
 
-.hidden { display: none; }
+/* Modal Styling */
+.camera-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(8, 12, 20, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 1rem;
+}
+
+.camera-card {
+    background: #0f172a;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+}
+
+.camera-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.camera-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.close-modal {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: var(--text-main);
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cameraVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scan-target {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 2px dashed #6366f1;
+    border-radius: 50%;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.hidden { display: none !important; }
