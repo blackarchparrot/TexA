@@ -18,99 +18,90 @@
     .glitch-card {
       background: rgba(10, 10, 18, 0.9);
       backdrop-filter: blur(16px);
-      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
     }
   </style>
 </head>
-<body class="bg-black text-red-500 min-h-screen overflow-hidden relative select-none">
+<body class="bg-black text-red-500 min-h-screen overflow-hidden relative select-none flex flex-col justify-center">
 
   <!-- Background Glitch Overlay Grid -->
   <div class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(#1e1e2f_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
 
-  <!-- Main Viewport -->
-  <div class="relative z-10 min-h-screen flex flex-col justify-between p-6 max-w-6xl mx-auto">
+  <!-- Main Viewport Container -->
+  <div class="relative z-10 h-full max-h-screen flex flex-col justify-between p-3 sm:p-6 max-w-6xl mx-auto w-full">
     
     <!-- Header -->
-    <header class="text-center pt-4">
-      <div id="badge" class="inline-block bg-red-950 border border-red-600 text-red-400 text-xs px-3 py-1 font-bold rounded animate-pulse mb-2">
+    <header class="text-center pt-1 sm:pt-2">
+      <div id="badge" class="inline-block bg-red-950 border border-red-600 text-red-400 text-[9px] sm:text-xs px-2 py-0.5 font-bold rounded animate-pulse mb-1">
         ⚠️ SYSTEM STATUS: UNSTABLE
       </div>
-      <h1 id="title" class="text-4xl md:text-6xl font-black tracking-widest text-white uppercase">
+      <h1 id="title" class="text-2xl sm:text-5xl font-black tracking-widest text-white uppercase leading-tight">
         THREE BUGS
       </h1>
-      <p id="subtitle" class="text-xs text-red-400 mt-1">
+      <p id="subtitle" class="text-[10px] sm:text-xs text-red-400 mt-0.5">
         [ EXECUTING HACKATHON MELTDOWN ]
       </p>
     </header>
 
     <!-- Cards Grid -->
-    <main class="grid grid-cols-1 md:grid-cols-3 gap-6 my-auto py-6">
+    <main class="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-6 my-auto py-2">
 
       <!-- ================= BUG 1: PRIME MINISTER ================= -->
-      <div id="bug1" class="glitch-card border-2 border-red-600 p-6 rounded-2xl relative">
-        <div class="absolute -top-3 right-4 bg-red-600 text-black text-[10px] px-2 py-0.5 rounded font-bold uppercase">
+      <div id="bug1" class="glitch-card border border-red-600 p-3 sm:p-5 rounded-xl relative">
+        <div class="absolute -top-2.5 right-3 bg-red-600 text-black text-[8px] sm:text-[10px] px-1.5 py-0.2 rounded font-bold uppercase">
           BUG #1
         </div>
         
-        <div class="text-5xl mb-3 text-center">👑</div>
-        <h2 class="text-2xl font-extrabold text-white text-center">Alvina Shahid</h2>
-        <p class="text-xs text-center text-red-400 font-bold mt-0.5">Prime Minister / Leader and Presenter</p>
+        <div class="text-2xl sm:text-4xl mb-1 text-center">👑</div>
+        <h2 class="text-base sm:text-xl font-extrabold text-white text-center">Alvina Shahid</h2>
+        <p class="text-[10px] sm:text-xs text-center text-red-400 font-bold">Prime Minister / Leader & Presenter</p>
         
-        <div class="mt-4 space-y-2 text-xs text-slate-300 border-t border-red-900/60 pt-3">
+        <div class="mt-2 space-y-1 text-[10px] sm:text-xs text-slate-300 border-t border-red-900/60 pt-1.5">
           <p><strong>Main Role:</strong> Gives speeches, Forces workers to execute new plans.</p>
-          <p><strong>Superpower:</strong> Approves every plan and supports team with supreme confidence</p>
-          <p class="text-red-400 font-semibold mt-2">Bug Count: 999,999+</p>
+          <p><strong>Superpower:</strong> Approves every plan & supports team with supreme confidence.</p>
+          <p class="text-red-400 font-semibold mt-1">Bug Count: 999,999+</p>
         </div>
       </div>
 
       <!-- ================= BUG 2: CHIEF ADVISOR ================= -->
-      <div id="bug2" class="glitch-card border-2 border-yellow-500 p-6 rounded-2xl relative">
-        <div class="absolute -top-3 right-4 bg-yellow-500 text-black text-[10px] px-2 py-0.5 rounded font-bold uppercase">
+      <div id="bug2" class="glitch-card border border-yellow-500 p-3 sm:p-5 rounded-xl relative">
+        <div class="absolute -top-2.5 right-3 bg-yellow-500 text-black text-[8px] sm:text-[10px] px-1.5 py-0.2 rounded font-bold uppercase">
           BUG #2
         </div>
 
-        <div class="text-5xl mb-3 text-center">📜</div>
-        <h2 class="text-2xl font-extrabold text-white text-center">MST Sumaiya</h2>
-        <p class="text-xs text-center text-yellow-400 font-bold mt-0.5">Chief Advisor / Idea Specialist</p>
+        <div class="text-2xl sm:text-4xl mb-1 text-center">📜</div>
+        <h2 class="text-base sm:text-xl font-extrabold text-white text-center">MST Sumaiya</h2>
+        <p class="text-[10px] sm:text-xs text-center text-yellow-400 font-bold">Chief Advisor / Idea Specialist</p>
         
-        <div class="mt-4 space-y-2 text-xs text-slate-300 border-t border-yellow-900/60 pt-3">
-          <p><strong>Main Role:</strong> Gives endless advice</p>
-          <p><strong>Superpower:</strong>Generates brilliant ideas faster than anyone can implement them.</p>
-          <p class="text-yellow-400 font-semibold mt-2">Advice Given: 10,000+ (0 Worked)</p>
+        <div class="mt-2 space-y-1 text-[10px] sm:text-xs text-slate-300 border-t border-yellow-900/60 pt-1.5">
+          <p><strong>Main Role:</strong> Gives endless advice.</p>
+          <p><strong>Superpower:</strong> Generates brilliant ideas faster than anyone can implement them.</p>
+          <p class="text-yellow-400 font-semibold mt-1">Advice Given: 10,000+ (0 Worked)</p>
         </div>
       </div>
 
       <!-- ================= BUG 3: KAMLA (AFTAB SUNNY) ================= -->
-      <div id="bug3" class="glitch-card border-2 border-emerald-400 p-6 rounded-2xl relative shadow-[0_0_40px_rgba(52,211,153,0.4)]">
-        <div class="absolute -top-3 right-4 bg-emerald-400 text-black text-[10px] px-2 py-0.5 rounded font-bold uppercase animate-bounce">
+      <div id="bug3" class="glitch-card border border-emerald-400 p-3 sm:p-5 rounded-xl relative shadow-[0_0_20px_rgba(52,211,153,0.3)]">
+        <div class="absolute -top-2.5 right-3 bg-emerald-400 text-black text-[8px] sm:text-[10px] px-1.5 py-0.2 rounded font-bold uppercase animate-bounce">
           BUG #3
         </div>
 
-        <div class="text-5xl mb-3 text-center">🦾</div>
-        <h2 class="text-2xl font-extrabold text-emerald-300 text-center">Aftab Sunny</h2>
-        <p class="text-xs text-center text-emerald-400 font-bold mt-0.5">Kamla / Executes plans</p>
+        <div class="text-2xl sm:text-4xl mb-1 text-center">🦾</div>
+        <h2 class="text-base sm:text-xl font-extrabold text-emerald-300 text-center">Aftab Sunny</h2>
+        <p class="text-[10px] sm:text-xs text-center text-emerald-400 font-bold">Kamla / Executes plans</p>
         
-        <div class="mt-4 space-y-2 text-xs text-slate-200 border-t border-emerald-900/60 pt-3">
-          <p><strong>Main Role:</strong> Transforms plan into working code, but full of errors.</p>
+        <div class="mt-2 space-y-1 text-[10px] sm:text-xs text-slate-200 border-t border-emerald-900/60 pt-1.5">
+          <p><strong>Main Role:</strong> Transforms plan into working code, full of errors.</p>
           <p><strong>Superpower:</strong> Fixes bugs that somehow didn't exist yesterday.</p>
-          <p class="text-emerald-400 font-semibold mt-2">Failed projects: Unlimited ∞</p>
+          <p class="text-emerald-400 font-semibold mt-1">Failed projects: Unlimited ∞</p>
         </div>
       </div>
 
     </main>
 
-    <!-- 
-    <footer class="text-center pb-4">
-      <button onclick="runMeltdownSequence()" class="bg-red-600 hover:bg-red-500 text-black font-bold text-xs px-6 py-3 rounded-full tracking-wider uppercase transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(220,38,38,0.5)]">
-        💥 RE-TRIGGER BUG ENTRY
-      </button>
-    </footer>
-
   </div>
 
-GSAP Choreography -->
-
-
+  <!-- GSAP Choreography -->
   <script>
     function runMeltdownSequence() {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
