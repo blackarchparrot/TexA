@@ -26,23 +26,30 @@
 
     <main class="app-container">
 
-        <!-- Top Navigation Bar -->
+        <!-- Top Navigation Bar with Theme Toggle & Badge -->
         <nav class="top-nav">
             <div class="logo">
                 <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
                 <span class="logo-text">Tex <strong>A</strong></span>
             </div>
 
-            <a href="https://pdf-shelve.blackparrotfedora.workers.dev/me/" class="nav-badge" target="_blank" rel="noopener noreferrer">
-                Developed by Black Parrot
-            </a>
+            <div class="nav-right">
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+
+                <a href="https://pdf-shelve.blackparrotfedora.workers.dev/me/" class="nav-badge" target="_blank" rel="noopener noreferrer">
+                    Developed by Black Parrot
+                </a>
+            </div>
         </nav>
 
         <!-- Hero Header -->
         <header class="hero">
             <h1 class="hero-title">Dress & Textile Quality AI</h1>
             <p class="hero-description">
-                Upload or capture a photo of your dress to analyze durability, color fastness, pilling resistance, and athletic performance.
+                Upload or capture a photo of your dress or fabric to analyze durability, color fastness, pilling resistance, and athletic performance.
             </p>
         </header>
 
@@ -66,7 +73,7 @@
                         <div class="camera-guide-overlay">
                             <div class="focus-box"></div>
                             <div id="cameraGuideTip" class="guide-tip">
-                                <i class="fa-solid fa-circle-info"></i> AI Tip: Clear weave pattern detected
+                                <i class="fa-solid fa-circle-info"></i> AI Tip: Focus on fabric weave or pattern
                             </div>
                         </div>
 
@@ -85,44 +92,49 @@
         <section class="results-section hidden" id="analysisResults">
             <div class="results-header">
                 <h2>Quality & Performance Report</h2>
-                <div class="status-pill"><span class="pulse-dot"></span> AI Verified</div>
+                <div id="statusPill" class="status-pill"><span class="pulse-dot"></span> AI Verified</div>
+            </div>
+
+            <!-- Warning Banner for Non-Textile Objects -->
+            <div id="nonFabricWarning" class="medical-warning hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i> <strong>Non-Fabric Detected:</strong> <span id="warningMessage"></span>
             </div>
 
             <!-- Grid Metrics -->
-            <div class="metrics-grid">
+            <div id="metricsGrid" class="metrics-grid">
                 
                 <div class="metric-card">
                     <div class="card-icon eco"><i class="fa-solid fa-leaf"></i></div>
                     <h4>Sustainability Score</h4>
-                    <div id="resEcoScore" class="metric-value">85 / 100</div>
-                    <p class="metric-desc">Organic & Low Impact</p>
+                    <div id="resEcoScore" class="metric-value">-- / 100</div>
+                    <p id="resEcoDesc" class="metric-desc">Eco Impact Assessment</p>
                 </div>
 
                 <div class="metric-card">
                     <div class="card-icon pilling"><i class="fa-solid fa-shield-halved"></i></div>
                     <h4>Pilling Resistance</h4>
-                    <div id="resPillingGrade" class="metric-value">Grade 4 / 5</div>
-                    <p class="metric-desc">High Resistance to Lint</p>
+                    <div id="resPillingGrade" class="metric-value">Grade -- / 5</div>
+                    <p id="resPillingDesc" class="metric-desc">Lint & Fuzz Resistance</p>
                 </div>
 
                 <div class="metric-card">
                     <div class="card-icon color"><i class="fa-solid fa-droplet-slash"></i></div>
                     <h4>Color Fastness</h4>
-                    <div id="resColorFastness" class="metric-value">Grade 4.5 / 5</div>
-                    <p class="metric-desc">Low Risk of Bleeding</p>
+                    <div id="resColorFastness" class="metric-value">Grade -- / 5</div>
+                    <p id="resColorDesc" class="metric-desc">Color Bleed Risk</p>
                 </div>
 
                 <div class="metric-card">
                     <div class="card-icon gym"><i class="fa-solid fa-person-running"></i></div>
                     <h4>Moisture Wicking</h4>
-                    <div id="resWickingRate" class="metric-value">Fast Dry (15m)</div>
-                    <p class="metric-desc">Ideal for Activewear</p>
+                    <div id="resWickingRate" class="metric-value">--</div>
+                    <p id="resWickingDesc" class="metric-desc">Drying & Breathability</p>
                 </div>
 
             </div>
 
             <!-- Washing Lifecycle Chart -->
-            <div class="result-card chart-card">
+            <div id="chartCard" class="result-card chart-card">
                 <h3><i class="fa-solid fa-chart-line icon-label"></i> Washing Lifecycle Prediction</h3>
                 <p class="chart-subtitle">Predicted color retention and shrinkage over 5, 20, and 50 wash cycles</p>
                 <div class="chart-container">
