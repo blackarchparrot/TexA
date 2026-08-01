@@ -1,4 +1,5 @@
 :root {
+    /* Dark Theme Default */
     --bg-color: #080c14;
     --card-bg: rgba(21, 28, 44, 0.65);
     --card-inner: rgba(15, 23, 42, 0.8);
@@ -9,6 +10,23 @@
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     --badge-bg: #059669;
+    --glow-1: #6366f1;
+    --glow-2: #a855f7;
+}
+
+/* Light Mode Overrides */
+body.light-theme {
+    --bg-color: #f1f5f9;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-inner: rgba(248, 250, 252, 0.95);
+    --border: rgba(0, 0, 0, 0.1);
+    --border-hover: rgba(99, 102, 241, 0.6);
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --glow-1: #818cf8;
+    --glow-2: #c084fc;
 }
 
 * {
@@ -27,6 +45,7 @@ body {
     overflow-x: hidden;
     position: relative;
     padding-bottom: 3rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Ambient Background Effects */
@@ -51,7 +70,7 @@ body {
 .orb-1 {
     width: 400px;
     height: 400px;
-    background: #6366f1;
+    background: var(--glow-1);
     top: -100px;
     left: -100px;
 }
@@ -59,7 +78,7 @@ body {
 .orb-2 {
     width: 500px;
     height: 500px;
-    background: #a855f7;
+    background: var(--glow-2);
     bottom: -150px;
     right: -150px;
 }
@@ -76,6 +95,12 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0 2rem 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo {
@@ -96,6 +121,28 @@ body {
 
 .logo-text strong {
     color: var(--accent);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    color: var(--text-main);
+    border-color: var(--accent);
+    background: rgba(99, 102, 241, 0.1);
 }
 
 .nav-badge {
@@ -124,7 +171,7 @@ body {
     font-size: 2.25rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+    background: linear-gradient(135deg, var(--text-main) 0%, #a5b4fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -144,7 +191,7 @@ body {
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 1.75rem;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
     margin-bottom: 1.5rem;
 }
 
@@ -313,12 +360,33 @@ body {
     font-weight: 600;
 }
 
+.status-pill.rejected {
+    background: rgba(225, 29, 72, 0.15);
+    border-color: rgba(225, 29, 72, 0.3);
+    color: #f43f5e;
+}
+
 .pulse-dot {
     width: 6px;
     height: 6px;
     background-color: #34d399;
     border-radius: 50%;
     box-shadow: 0 0 8px #34d399;
+}
+
+.status-pill.rejected .pulse-dot {
+    background-color: #f43f5e;
+    box-shadow: 0 0 8px #f43f5e;
+}
+
+.medical-warning {
+    background-color: rgba(225, 29, 72, 0.1);
+    border-left: 4px solid #f43f5e;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.25rem;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    color: #fecdd3;
 }
 
 .result-card {
@@ -397,7 +465,7 @@ body {
 .summary-text {
     font-size: 0.92rem;
     line-height: 1.6;
-    color: #e2e8f0;
+    color: var(--text-main);
     margin-top: 0.5rem;
 }
 
