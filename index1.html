@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="dark-theme">
     <div class="ambient-background">
@@ -20,19 +21,18 @@
         <!-- Navigation Bar -->
         <nav class="top-nav">
             <div class="logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">Tex <strong>AI</strong></span>
+                <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
+                <span class="logo-text">Tex <strong>A</strong></span>
             </div>
 
-            <div class="nav-controls">
-                <!-- Day / Night Theme Switcher -->
-                <button type="button" id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
-                    <span class="theme-icon sun-icon">☀️</span>
-                    <span class="theme-icon moon-icon">🌙</span>
+            <div class="nav-right">
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-sun" id="themeIcon"></i>
                 </button>
 
-                <a href="info.html" class="nav-badge">
-                    Developed by <b>Three Bugs</b>
+                <a href="https://pdf-shelve.blackparrotfedora.workers.dev/me/" class="nav-badge" target="_blank" rel="noopener noreferrer">
+                    Developed by Black Parrot
                 </a>
             </div>
         </nav>
@@ -190,9 +190,7 @@
             <!-- Care Instructions Card -->
             <div class="glass-card care-card">
                 <h3>Care Instructions</h3>
-                <ul id="resCareInstructions" class="care-list">
-                    <!-- Care instructions injected here -->
-                </ul>
+                <ul id="resCareInstructions" class="care-list"></ul>
             </div>
         </section>
     </main>
