@@ -55,7 +55,8 @@ function initTheme() {
     }
 }
 
-function toggleTheme() {
+function toggleTheme(e) {
+    if (e) e.stopPropagation(); // Prevents bubbling issues on mobile webviews
     if (document.body.classList.contains('dark-theme')) {
         document.body.classList.remove('dark-theme');
         document.body.classList.add('light-theme');
@@ -73,7 +74,7 @@ function setupEventListeners() {
     }
 
     elements.uploadZone.addEventListener('click', (e) => {
-        if (e.target.closest('#btnRemove')) return;
+        if (e.target.closest('#btnRemove') || e.target.closest('#previewWrapper')) return;
         elements.fileInput.click();
     });
 
@@ -128,7 +129,8 @@ function processFile(file) {
     reader.readAsDataURL(file);
 }
 
-function resetImageUpload() {
+function resetImageUpload(e) {
+    if (e) e.stopPropagation();
     currentDataUrl = null;
     elements.fileInput.value = '';
     elements.imagePreview.src = '';
