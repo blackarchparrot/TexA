@@ -479,6 +479,15 @@ label { font-size: 12px; font-weight: 600; color: var(--text-dim); }
   font-size: 14px;
   outline: none;
 }
+
+/* Highlight active vote button */
+.btn-reaction.active-vote {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
+
 .glass-input:focus {
   border-color: var(--accent-cyan);
 }
