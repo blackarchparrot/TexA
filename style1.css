@@ -87,7 +87,7 @@ body.light-theme .glow-orb {
 .app-container {
     width: 100%;
     max-width: 800px;
-    padding: 2rem 1.5rem 4rem;
+    padding: 1rem 1.5rem 4rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -98,6 +98,13 @@ body.light-theme .glow-orb {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo {
@@ -105,34 +112,32 @@ body.light-theme .glow-orb {
     align-items: center;
     gap: 0.5rem;
     font-size: 1.25rem;
+    font-weight: 700;
 }
 
 .logo-icon {
-    font-size: 1.5rem;
+    color: var(--accent-cyan);
 }
 
-.nav-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+.logo-text strong {
+    color: var(--accent-blue);
 }
 
-/* Theme Toggle Switch - Mobile Optimized */
+/* Theme Toggle Button */
 .theme-toggle-btn {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--border-glass);
-    border-radius: 20px;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0.5rem;
-    cursor: pointer;
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    cursor: pointer;
+    font-size: 1rem;
     transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
 }
 
 body.light-theme .theme-toggle-btn {
@@ -143,15 +148,6 @@ body.light-theme .theme-toggle-btn {
     border-color: var(--accent-cyan);
     transform: scale(1.05);
 }
-
-.theme-icon {
-    pointer-events: none;
-}
-
-body.dark-theme .sun-icon { display: inline-block; }
-body.dark-theme .moon-icon { display: none; }
-body.light-theme .sun-icon { display: none; }
-body.light-theme .moon-icon { display: inline-block; }
 
 .nav-badge {
     text-decoration: none;
