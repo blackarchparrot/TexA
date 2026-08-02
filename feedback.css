@@ -1,0 +1,144 @@
+/* Feedback Specific Layout & Styles */
+.feedback-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.required {
+    color: #ef4444;
+}
+
+.field-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: -0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Glassmorphism Inputs */
+.glass-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+body.light-theme .glass-input {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.glass-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.glass-input:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.glass-textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+/* Star Rating Component */
+.rating-group {
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.star-rating {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.star-icon {
+    color: rgba(255, 255, 255, 0.2);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+body.light-theme .star-icon {
+    color: rgba(0, 0, 0, 0.15);
+}
+
+.star-icon.active, 
+.star-icon.hover {
+    color: var(--warning-yellow);
+    transform: scale(1.15);
+}
+
+.rating-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Thank You State Card */
+.thankyou-card {
+    text-align: center;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.success-icon-wrapper {
+    font-size: 3.5rem;
+    color: #22c55e;
+    animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.thankyou-card h2 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+}
+
+.thankyou-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    max-width: 450px;
+    line-height: 1.6;
+}
+
+.btn-return {
+    display: inline-block;
+    text-decoration: none;
+    max-width: 250px;
+    margin-top: 1rem;
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
