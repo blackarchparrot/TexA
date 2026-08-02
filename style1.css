@@ -5,6 +5,7 @@
     --text-secondary: #94a3b8;
     --accent-cyan: #38bdf8;
     --accent-blue: #6366f1;
+    --accent-purple: #a855f7; /* Defined missing purple variable */
     --border-glass: rgba(255, 255, 255, 0.08);
     --bg-glass: rgba(15, 23, 42, 0.65);
     --dropzone-bg: rgba(0, 0, 0, 0.2);
@@ -19,6 +20,7 @@ body.light-theme {
     --text-secondary: #475569;
     --accent-cyan: #0284c7;
     --accent-blue: #4f46e5;
+    --accent-purple: #9333ea; /* Darker purple for light theme high contrast */
     --border-glass: rgba(0, 0, 0, 0.1);
     --bg-glass: rgba(255, 255, 255, 0.75);
     --dropzone-bg: rgba(255, 255, 255, 0.5);
@@ -113,6 +115,14 @@ body.light-theme .glow-orb {
     gap: 0.5rem;
     font-size: 1.25rem;
     font-weight: 700;
+}
+
+/* Logo Image Styling */
+.logo-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 6px;
 }
 
 .logo-icon {
