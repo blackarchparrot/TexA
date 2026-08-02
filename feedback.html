@@ -3,128 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TexelSense AI - User Feedback</title>
-    <link rel="stylesheet" href="style1.css">
+    <title>TexA - Ratings & Reviews</title>
     <link rel="stylesheet" href="feedback.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="dark-theme">
-    <div class="ambient-background">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-    </div>
 
-    <main class="app-container">
+    <!-- Ambient Glowing Background Orbs -->
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
+    <div class="app-container">
 
         <!-- Navigation Bar -->
         <nav class="top-nav">
+            <!-- Left: Logo -->
             <div class="logo">
-                <img src="1785091505295.png" width="25" height="25" alt="TexelSense Logo" class="logo-img">
-                <span class="logo-text">Tex <strong>A</strong></span>
+                <img src="1785091505295.png" alt="TexA Logo" class="logo-img">
+                <span class="logo-text"><span class="tex">Tex</span><span class="a">A</span></span>
             </div>
 
-            <div class="nav-right">
-                <a href="index.html" class="nav-badge">
-                    <i class="fa-solid fa-arrow-left"></i> Back to TexA Hub
-                </a>
+            <!-- Middle: Theme Toggle Button -->
+            <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                <i class="fa-solid fa-sun" id="themeIcon"></i>
+            </button>
 
-                <!-- Theme Toggle Button -->
-                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
-                    <i class="fa-solid fa-sun" id="themeIcon"></i>
-                </button>
-            </div>
+            <!-- Right Corner: Back Button -->
+            <a href="index.html" class="nav-back-btn">
+                <span>Back</span>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
         </nav>
 
-        <!-- Hero Header -->
-        <header class="hero">
-            <div class="badge pulse-badge">
-                💬 WE VALUE YOUR FEEDBACK
-            </div>
-            <h1 class="hero-title">Help Us Improve</h1>
-            <p class="hero-description">
-                Your thoughts and recommendations help us train our AI models and improve the user experience.
-            </p>
-        </header>
+        <!-- Main Content -->
+        <main class="content-wrapper">
 
-        <!-- Feedback Form Card Container -->
-        <section class="feedback-section">
-            <div class="glass-card feedback-card">
-                
-                <!-- Feedback Form -->
-                <form id="feedbackForm" novalidate>
-                    
-                    <!-- Star Rating Section -->
-                    <div class="form-group rating-group">
-                        <label class="form-label">Overall Experience</label>
-                        <div class="star-rating" id="starRating">
-                            <i class="fa-solid fa-star star-icon" data-value="1"></i>
-                            <i class="fa-solid fa-star star-icon" data-value="2"></i>
-                            <i class="fa-solid fa-star star-icon" data-value="3"></i>
-                            <i class="fa-solid fa-star star-icon" data-value="4"></i>
-                            <i class="fa-solid fa-star star-icon" data-value="5"></i>
-                        </div>
-                        <input type="hidden" name="rating" id="ratingInput" value="0">
-                        <span class="rating-text" id="ratingText">Tap to rate</span>
-                    </div>
-
-                    <!-- Name Field -->
-                    <div class="form-group">
-                        <label for="userName" class="form-label">Full Name <span class="required">*</span></label>
-                        <input type="text" id="userName" class="glass-input" placeholder="e.g., Alex Morgan" required>
-                    </div>
-
-                    <!-- Contact Methods (Email & Phone) -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="userEmail" class="form-label">Email Address</label>
-                            <input type="email" id="userEmail" class="glass-input" placeholder="name@example.com">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="userPhone" class="form-label">Phone Number</label>
-                            <input type="tel" id="userPhone" class="glass-input" placeholder="+1 (555) 000-0000">
-                        </div>
-                    </div>
-                    <p class="field-hint">* Please provide at least an email or a phone number so we can reach out with updates.</p>
-
-                    <!-- Text Feedback -->
-                    <div class="form-group">
-                        <label for="userFeedback" class="form-label">Your Message <span class="required">*</span></label>
-                        <textarea id="userFeedback" class="glass-input glass-textarea" rows="4" placeholder="Tell us what you liked or what features you'd like to see..." required></textarea>
-                    </div>
-
-                    <!-- Error Banner -->
-                    <div class="error-banner hidden" id="feedbackError">
-                        <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                        <p id="feedbackErrorMessage">Please fill out all required fields.</p>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" id="btnSubmitFeedback" class="btn-primary">
-                        <span class="btn-text">Submit Feedback</span>
-                    </button>
-                </form>
-
-                <!-- Success / Thank You View (Hidden by default) -->
-                <div class="thankyou-card hidden" id="thankyouState">
-                    <div class="success-icon-wrapper">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                    <h2>Thank You!</h2>
-                    <p>Your feedback has been received. We appreciate your time and will use your input to keep improving TexelSense AI.</p>
-                    <a href="index.html" class="btn-primary btn-return">Return to TexA Hub</a>
+            <!-- App Ratings & Reviews Overview (Play Store Style) -->
+            <section class="overview-card">
+                <div class="card-header">
+                    <h2>Ratings & Reviews</h2>
+                    <p class="subtitle">Ratings and reviews are verified and from people using TexA.</p>
                 </div>
 
+                <div class="rating-dashboard">
+                    <!-- Average Score Display -->
+                    <div class="score-box">
+                        <span class="big-score">4.8</span>
+                        <div class="stars-row">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <span class="total-reviews">1,248 ratings</span>
+                    </div>
+
+                    <!-- Rating Bars Breakdown -->
+                    <div class="rating-bars">
+                        <div class="bar-row">
+                            <span class="star-num">5</span>
+                            <div class="progress-bar"><div class="fill" style="width: 82%;"></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="star-num">4</span>
+                            <div class="progress-bar"><div class="fill" style="width: 12%;"></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="star-num">3</span>
+                            <div class="progress-bar"><div class="fill" style="width: 4%;"></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="star-num">2</span>
+                            <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="star-num">1</span>
+                            <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <!-- Action Button to Open Review Form -->
+                <div class="write-review-prompt">
+                    <span>Rate this app & leave your feedback</span>
+                    <button id="btnOpenModal" class="btn-write">
+                        <i class="fa-solid fa-pen"></i> Write a review
+                    </button>
+                </div>
+            </section>
+
+            <!-- Community Reviews Feed -->
+            <section class="reviews-feed">
+                <h3 class="feed-title">User Reviews</h3>
+
+                <!-- Review Item 1 -->
+                <div class="review-card">
+                    <div class="user-info">
+                        <div class="avatar">A</div>
+                        <div class="user-meta">
+                            <span class="user-name">Alex Johnson</span>
+                            <span class="review-date">August 1, 2026</span>
+                        </div>
+                    </div>
+                    <div class="user-rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">The fabric scanning accuracy is top-notch! The new simulator features make testing quality super fast. Highly recommended.</p>
+                </div>
+
+                <!-- Review Item 2 -->
+                <div class="review-card">
+                    <div class="user-info">
+                        <div class="avatar teal">S</div>
+                        <div class="user-meta">
+                            <span class="user-name">Sarah Chen</span>
+                            <span class="review-date">July 28, 2026</span>
+                        </div>
+                    </div>
+                    <div class="user-rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                    <p class="review-text">Great suite of tools. Suggestor module gave me exactly the recommendations I needed for my project.</p>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- Review Form Modal -->
+    <div class="modal-backdrop hidden" id="reviewModal">
+        <div class="glass-modal">
+            <button class="modal-close" id="btnCloseModal"><i class="fa-solid fa-xmark"></i></button>
+            
+            <h3 class="modal-title">Write a Review</h3>
+            <p class="modal-subtitle">Share your experience to help us improve TexA</p>
+
+            <form id="feedbackForm" novalidate>
+                
+                <!-- Star Rating System -->
+                <div class="rating-picker">
+                    <div class="star-rating" id="starRating">
+                        <i class="fa-solid fa-star star-icon" data-value="1"></i>
+                        <i class="fa-solid fa-star star-icon" data-value="2"></i>
+                        <i class="fa-solid fa-star star-icon" data-value="3"></i>
+                        <i class="fa-solid fa-star star-icon" data-value="4"></i>
+                        <i class="fa-solid fa-star star-icon" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="ratingInput" value="0">
+                    <span class="rating-label" id="ratingText">Tap stars to rate</span>
+                </div>
+
+                <!-- Input Fields -->
+                <div class="form-group">
+                    <label for="userName">Your Name <span class="req">*</span></label>
+                    <input type="text" id="userName" class="glass-input" placeholder="e.g. Aftab" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" id="userEmail" class="glass-input" placeholder="name@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPhone">Phone</label>
+                        <input type="tel" id="userPhone" class="glass-input" placeholder="+123456789">
+                    </div>
+                </div>
+                <span class="hint">* Provide email or phone (or both) so we can update/thank you.</span>
+
+                <div class="form-group margin-top">
+                    <label for="userFeedback">Your Feedback <span class="req">*</span></label>
+                    <textarea id="userFeedback" class="glass-input textarea" rows="4" placeholder="Describe your experience with TexA..." required></textarea>
+                </div>
+
+                <!-- Error Box -->
+                <div class="error-msg hidden" id="errorMsg"></div>
+
+                <button type="submit" class="btn-submit">Post Review</button>
+            </form>
+
+            <!-- Success Screen inside Modal -->
+            <div class="thank-you-box hidden" id="thankYouState">
+                <i class="fa-solid fa-circle-check success-icon"></i>
+                <h3>Thank You!</h3>
+                <p>Your review has been submitted successfully.</p>
+                <button class="btn-submit" id="btnDone">Done</button>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
     <script src="feedback.js"></script>
 </body>
