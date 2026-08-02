@@ -116,11 +116,11 @@ body.light-theme .glow-orb {
 }
 
 .logo-icon {
-    color: var(--accent-cyan);
+    color: var(--accent-purple);
 }
 
 .logo-text strong {
-    color: var(--accent-blue);
+    color: var(--accent-purple);
 }
 
 /* Theme Toggle Button */
