@@ -1,7 +1,3 @@
-/**
- * TexelSense AI - Fabric Scanner Engine
- * Powered by OpenRouter Free Multimodal Engine.
- */
 
 // Global Configuration
 const OPENROUTER_API_KEY = "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"; 
@@ -9,7 +5,8 @@ const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 // DOM Element Registry
 const elements = {
-    themeToggle: document.getElementById('themeToggle'),
+    themeToggleBtn: document.getElementById('themeToggleBtn'),
+    themeIcon: document.getElementById('themeIcon'),
     uploadZone: document.getElementById('uploadZone'),
     uploadPlaceholder: document.getElementById('uploadPlaceholder'),
     fileInput: document.getElementById('fileInput'),
@@ -49,28 +46,34 @@ function initTheme() {
     if (savedTheme === 'light') {
         document.body.classList.remove('dark-theme');
         document.body.classList.add('light-theme');
+        if (elements.themeIcon) elements.themeIcon.className = 'fa-solid fa-moon';
     } else {
         document.body.classList.remove('light-theme');
         document.body.classList.add('dark-theme');
+        if (elements.themeIcon) elements.themeIcon.className = 'fa-solid fa-sun';
     }
 }
 
 function toggleTheme(e) {
-    if (e) e.stopPropagation(); // Prevents bubbling issues on mobile webviews
-    if (document.body.classList.contains('dark-theme')) {
+    if (e) e.stopPropagation();
+    const isDark = document.body.classList.contains('dark-theme');
+    
+    if (isDark) {
         document.body.classList.remove('dark-theme');
         document.body.classList.add('light-theme');
         localStorage.setItem('texelsense_theme', 'light');
+        if (elements.themeIcon) elements.themeIcon.className = 'fa-solid fa-moon';
     } else {
         document.body.classList.remove('light-theme');
         document.body.classList.add('dark-theme');
         localStorage.setItem('texelsense_theme', 'dark');
+        if (elements.themeIcon) elements.themeIcon.className = 'fa-solid fa-sun';
     }
 }
 
 function setupEventListeners() {
-    if (elements.themeToggle) {
-        elements.themeToggle.addEventListener('click', toggleTheme);
+    if (elements.themeToggleBtn) {
+        elements.themeToggleBtn.addEventListener('click', toggleTheme);
     }
 
     elements.uploadZone.addEventListener('click', (e) => {
@@ -201,7 +204,7 @@ async function performFabricScan() {
     };
 
     try {
-        updateLoadingStep("Sending fabric data to OpenRouter Vision AI...");
+        updateLoadingStep("Scanning fabric data and sending to TexA Main Core...");
 
         const response = await fetch(OPENROUTER_API_URL, {
             method: "POST",
