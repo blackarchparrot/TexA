@@ -4,6 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allReviews = [];
 
+    // --- Helper Functions for Local Reactions ---
+    function getUserReactions() {
+        return JSON.parse(localStorage.getItem('texa_reactions') || '{}');
+    }
+
+    function saveUserReaction(key, value) {
+        const reactions = getUserReactions();
+        if (value) {
+            reactions[key] = value;
+        } else {
+            delete reactions[key];
+        }
+        localStorage.setItem('texa_reactions', JSON.stringify(reactions));
+    }
+
     // --- 1. Theme Toggle Logic ---
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
@@ -105,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const avatarColors = ['#6366f1', '#06b6d4', '#a855f7', '#10b981', '#f59e0b'];
+        const userReactions = getUserReactions();
 
         container.innerHTML = reviews.map((r, index) => {
             const initial = r.name ? r.name.charAt(0).toUpperCase() : 'U';
@@ -116,6 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const revDislikes = parseInt(r.review_dislikes) || 0;
             const repLikes = parseInt(r.reply_likes) || 0;
             const repDislikes = parseInt(r.reply_dislikes) || 0;
+
+            // Retrieve local user reaction states for this review item
+            const revKey = `rev_${r.name}_${index}`;
+            const repKey = `rep_${r.name}_${index}`;
+
+            const revUserVote = userReactions[revKey]; // 'like' or 'dislike'
+            const repUserVote = userReactions[repKey];
 
             let starsHTML = '';
             for (let i = 1; i <= 5; i++) {
@@ -130,11 +153,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <p class="reply-text">${escapeHTML(r.reply)}</p>
                     <div class="reaction-actions">
-                        <button class="btn-reaction" onclick="handleReaction(${index}, 'reply', 'like')">
-                            <i class="fa-regular fa-thumbs-up"></i> <span>${repLikes}</span>
+                        <button class="btn-reaction ${repUserVote === 'like' ? 'active-vote' : ''}" 
+                                onclick="handleReaction(${index}, 'reply', 'like')">
+                            <i class="fa-${repUserVote === 'like' ? 'solid' : 'regular'} fa-thumbs-up"></i> <span>${repLikes}</span>
                         </button>
-                        <button class="btn-reaction" onclick="handleReaction(${index}, 'reply', 'dislike')">
-                            <i class="fa-regular fa-thumbs-down"></i> <span>${repDislikes}</span>
+                        <button class="btn-reaction ${repUserVote === 'dislike' ? 'active-vote' : ''}" 
+                                onclick="handleReaction(${index}, 'reply', 'dislike')">
+                            <i class="fa-${repUserVote === 'dislike' ? 'solid' : 'regular'} fa-thumbs-down"></i> <span>${repDislikes}</span>
                         </button>
                     </div>
                 </div>
@@ -154,11 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     <!-- Review Like/Dislike Buttons -->
                     <div class="reaction-actions">
-                        <button class="btn-reaction" onclick="handleReaction(${index}, 'review', 'like')">
-                            <i class="fa-regular fa-thumbs-up"></i> <span>${revLikes}</span>
+                        <button class="btn-reaction ${revUserVote === 'like' ? 'active-vote' : ''}" 
+                                onclick="handleReaction(${index}, 'review', 'like')">
+                            <i class="fa-${revUserVote === 'like' ? 'solid' : 'regular'} fa-thumbs-up"></i> <span>${revLikes}</span>
                         </button>
-                        <button class="btn-reaction" onclick="handleReaction(${index}, 'review', 'dislike')">
-                            <i class="fa-regular fa-thumbs-down"></i> <span>${revDislikes}</span>
+                        <button class="btn-reaction ${revUserVote === 'dislike' ? 'active-vote' : ''}" 
+                                onclick="handleReaction(${index}, 'review', 'dislike')">
+                            <i class="fa-${revUserVote === 'dislike' ? 'solid' : 'regular'} fa-thumbs-down"></i> <span>${revDislikes}</span>
                         </button>
                     </div>
 
@@ -168,30 +195,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
     }
 
-    // --- 5. Handle Reactions (Local + SheetDB Patch) ---
+    // --- 5. Handle Reactions (Local Storage + One Vote Limit + SheetDB Patch) ---
     window.handleReaction = async function(index, target, type) {
         const review = allReviews[index];
         if (!review) return;
 
-        let colName = '';
-        if (target === 'review') {
-            colName = type === 'like' ? 'review_likes' : 'review_dislikes';
-        } else {
-            colName = type === 'like' ? 'reply_likes' : 'reply_dislikes';
+        const voteKey = `${target === 'review' ? 'rev' : 'rep'}_${review.name}_${index}`;
+        const userReactions = getUserReactions();
+        const existingVote = userReactions[voteKey];
+
+        // Block voting if clicking the exact same action again
+        if (existingVote === type) {
+            return;
         }
 
-        // Increment locally for instant responsiveness
-        const currentCount = parseInt(review[colName]) || 0;
-        review[colName] = currentCount + 1;
+        let colToIncrement = target === 'review' 
+            ? (type === 'like' ? 'review_likes' : 'review_dislikes')
+            : (type === 'like' ? 'reply_likes' : 'reply_dislikes');
 
-        // Re-render UI
+        let colToDecrement = null;
+
+        // If user is switching vote (from like to dislike or vice versa)
+        if (existingVote && existingVote !== type) {
+            colToDecrement = target === 'review'
+                ? (existingVote === 'like' ? 'review_likes' : 'review_dislikes')
+                : (existingVote === 'like' ? 'reply_likes' : 'reply_dislikes');
+        }
+
+        // 1. Update local counts
+        review[colToIncrement] = (parseInt(review[colToIncrement]) || 0) + 1;
+        if (colToDecrement) {
+            review[colToDecrement] = Math.max(0, (parseInt(review[colToDecrement]) || 0) - 1);
+        }
+
+        // 2. Persist user's reaction choice
+        saveUserReaction(voteKey, type);
+
+        // 3. Immediately render updated state in UI
         renderReviewsList(allReviews);
 
-        // Update SheetDB row
+        // 4. Sync updated reaction counts with SheetDB
         try {
             const patchUrl = `${SHEETDB_API_URL}/name/${encodeURIComponent(review.name)}`;
             const updateData = {};
-            updateData[colName] = review[colName];
+            updateData[colToIncrement] = review[colToIncrement];
+            if (colToDecrement) {
+                updateData[colToDecrement] = review[colToDecrement];
+            }
 
             await fetch(patchUrl, {
                 method: 'PATCH',
