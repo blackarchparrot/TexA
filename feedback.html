@@ -41,7 +41,7 @@
         <!-- Main Content -->
         <main class="content-wrapper">
 
-            <!-- App Ratings & Reviews Overview (Play Store Style) -->
+            <!-- App Ratings & Reviews Overview -->
             <section class="overview-card">
                 <div class="card-header">
                     <h2>Ratings & Reviews</h2>
@@ -51,38 +51,38 @@
                 <div class="rating-dashboard">
                     <!-- Average Score Display -->
                     <div class="score-box">
-                        <span class="big-score">4.8</span>
-                        <div class="stars-row">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star-half-stroke"></i>
+                        <span class="big-score" id="avgScore">--</span>
+                        <div class="stars-row" id="avgStarsRow">
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
                         </div>
-                        <span class="total-reviews">1,248 ratings</span>
+                        <span class="total-reviews" id="totalReviewsCount">Loading ratings...</span>
                     </div>
 
                     <!-- Rating Bars Breakdown -->
                     <div class="rating-bars">
                         <div class="bar-row">
                             <span class="star-num">5</span>
-                            <div class="progress-bar"><div class="fill" style="width: 82%;"></div></div>
+                            <div class="progress-bar"><div class="fill" id="bar5" style="width: 0%;"></div></div>
                         </div>
                         <div class="bar-row">
                             <span class="star-num">4</span>
-                            <div class="progress-bar"><div class="fill" style="width: 12%;"></div></div>
+                            <div class="progress-bar"><div class="fill" id="bar4" style="width: 0%;"></div></div>
                         </div>
                         <div class="bar-row">
                             <span class="star-num">3</span>
-                            <div class="progress-bar"><div class="fill" style="width: 4%;"></div></div>
+                            <div class="progress-bar"><div class="fill" id="bar3" style="width: 0%;"></div></div>
                         </div>
                         <div class="bar-row">
                             <span class="star-num">2</span>
-                            <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
+                            <div class="progress-bar"><div class="fill" id="bar2" style="width: 0%;"></div></div>
                         </div>
                         <div class="bar-row">
                             <span class="star-num">1</span>
-                            <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
+                            <div class="progress-bar"><div class="fill" id="bar1" style="width: 0%;"></div></div>
                         </div>
                     </div>
                 </div>
@@ -102,42 +102,11 @@
             <section class="reviews-feed">
                 <h3 class="feed-title">User Reviews</h3>
 
-                <!-- Review Item 1 -->
-                <div class="review-card">
-                    <div class="user-info">
-                        <div class="avatar">A</div>
-                        <div class="user-meta">
-                            <span class="user-name">Alex Johnson</span>
-                            <span class="review-date">August 1, 2026</span>
-                        </div>
+                <!-- Container where reviews render -->
+                <div id="reviewsContainer">
+                    <div class="loading-spinner">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading reviews...
                     </div>
-                    <div class="user-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="review-text">The fabric scanning accuracy is top-notch! The new simulator features make testing quality super fast. Highly recommended.</p>
-                </div>
-
-                <!-- Review Item 2 -->
-                <div class="review-card">
-                    <div class="user-info">
-                        <div class="avatar teal">S</div>
-                        <div class="user-meta">
-                            <span class="user-name">Sarah Chen</span>
-                            <span class="review-date">July 28, 2026</span>
-                        </div>
-                    </div>
-                    <div class="user-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                    </div>
-                    <p class="review-text">Great suite of tools. Suggestor module gave me exactly the recommendations I needed for my project.</p>
                 </div>
             </section>
 
@@ -194,14 +163,16 @@
                 <!-- Error Box -->
                 <div class="error-msg hidden" id="errorMsg"></div>
 
-                <button type="submit" class="btn-submit">Post Review</button>
+                <button type="submit" class="btn-submit" id="btnSubmit">
+                    <span id="btnSubmitText">Post Review</span>
+                </button>
             </form>
 
             <!-- Success Screen inside Modal -->
             <div class="thank-you-box hidden" id="thankYouState">
                 <i class="fa-solid fa-circle-check success-icon"></i>
                 <h3>Thank You!</h3>
-                <p>Your review has been submitted successfully.</p>
+                <p>Your review has been published instantly.</p>
                 <button class="btn-submit" id="btnDone">Done</button>
             </div>
         </div>
