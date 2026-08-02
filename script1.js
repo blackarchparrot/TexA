@@ -1,15 +1,13 @@
 /**
  * Tex AI - Smart Fabric Scanner Engine
- * Fixed Theme Toggle Listener & Initialization
+ * Full Integrated Script with Universal Theme Toggle & API Handlers
  */
 
 const OPENROUTER_API_KEY = "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"; 
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-// DOM Elements
+// Global DOM Registry & App State
 let elements = {};
-
-// Global App State
 let cropperInstance = null;
 let finalCroppedDataUrl = null;
 
@@ -59,43 +57,61 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
 });
 
+/* ==========================================================================
+   THEME TOGGLE ENGINE (Handles <html>, <body>, classes, and data-theme)
+   ========================================================================== */
+
+function applyTheme(theme) {
+    const themeClasses = ['light-theme', 'dark-theme', 'light', 'dark'];
+    
+    // Clear existing theme classes across target elements
+    document.documentElement.classList.remove(...themeClasses);
+    document.body.classList.remove(...themeClasses);
+
+    // Apply class names and data attributes for maximum CSS compatibility
+    document.documentElement.classList.add(`${theme}-theme`, theme);
+    document.body.classList.add(`${theme}-theme`, theme);
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // Persist user selection
+    localStorage.setItem('texelsense_theme', theme);
+}
+
 function initTheme() {
     const savedTheme = localStorage.getItem('texelsense_theme') || 'dark';
-    if (savedTheme === 'light') {
-        document.body.classList.remove('dark-theme');
-        document.body.classList.add('light-theme');
-    } else {
-        document.body.classList.remove('light-theme');
-        document.body.classList.add('dark-theme');
-    }
+    applyTheme(savedTheme);
 }
 
 function toggleTheme() {
-    if (document.body.classList.contains('dark-theme')) {
-        document.body.classList.remove('dark-theme');
-        document.body.classList.add('light-theme');
-        localStorage.setItem('texelsense_theme', 'light');
-    } else {
-        document.body.classList.remove('light-theme');
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('texelsense_theme', 'dark');
-    }
+    const isDark = document.documentElement.classList.contains('dark') || 
+                   document.documentElement.classList.contains('dark-theme') || 
+                   document.body.classList.contains('dark-theme') ||
+                   document.body.classList.contains('dark');
+                   
+    const newTheme = isDark ? 'light' : 'dark';
+    applyTheme(newTheme);
 }
+
+/* ==========================================================================
+   EVENT LISTENERS & WORKFLOW LOGIC
+   ========================================================================== */
 
 function setupEventListeners() {
     // Theme Toggle Listener
     if (elements.themeToggle) {
         elements.themeToggle.addEventListener('click', toggleTheme);
+    } else {
+        console.warn("Theme toggle button (#themeToggle) not found in DOM.");
     }
 
-    elements.btnCamera.addEventListener('click', () => elements.fileInputCamera.click());
-    elements.btnGallery.addEventListener('click', () => elements.fileInputGallery.click());
+    if (elements.btnCamera) elements.btnCamera.addEventListener('click', () => elements.fileInputCamera.click());
+    if (elements.btnGallery) elements.btnGallery.addEventListener('click', () => elements.fileInputGallery.click());
 
-    elements.fileInputCamera.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
-    elements.fileInputGallery.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+    if (elements.fileInputCamera) elements.fileInputCamera.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+    if (elements.fileInputGallery) elements.fileInputGallery.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
 
-    elements.btnApplyCrop.addEventListener('click', applyCropSelection);
-    elements.btnScan.addEventListener('click', performFabricScan);
+    if (elements.btnApplyCrop) elements.btnApplyCrop.addEventListener('click', applyCropSelection);
+    if (elements.btnScan) elements.btnScan.addEventListener('click', performFabricScan);
 }
 
 function handleFileSelect(file) {
@@ -203,6 +219,10 @@ function applyCropSelection() {
     elements.btnScan.disabled = false;
     showWarning("ক্রপ করা সম্পন্ন হয়েছে। এবার 'Scan Fabric' বাটনে ট্যাপ করুন।");
 }
+
+/* ==========================================================================
+   API SCAN ENGINE
+   ========================================================================== */
 
 async function performFabricScan() {
     if (!finalCroppedDataUrl) {
@@ -319,6 +339,10 @@ async function performFabricScan() {
         setLoading(false);
     }
 }
+
+/* ==========================================================================
+   UI RENDERING & HELPERS
+   ========================================================================== */
 
 function renderResults(data) {
     elements.resFabricType.textContent = data.fabricType || 'Unable to determine';
