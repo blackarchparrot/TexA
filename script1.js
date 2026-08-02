@@ -1,58 +1,62 @@
 /**
  * Tex AI - Smart Fabric Scanner Engine
- * Enhanced with Image Quality Checks, Cropper Integration, & Real-World AI Estimations.
+ * Fixed Theme Toggle Listener & Initialization
  */
 
 const OPENROUTER_API_KEY = "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"; 
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 // DOM Elements
-const elements = {
-    themeToggle: document.getElementById('themeToggle'),
-    btnCamera: document.getElementById('btnCamera'),
-    btnGallery: document.getElementById('btnGallery'),
-    fileInputCamera: document.getElementById('fileInputCamera'),
-    fileInputGallery: document.getElementById('fileInputGallery'),
-    cropContainer: document.getElementById('cropContainer'),
-    cropperImage: document.getElementById('cropperImage'),
-    btnApplyCrop: document.getElementById('btnApplyCrop'),
-    warningBanner: document.getElementById('warningBanner'),
-    warningMessage: document.getElementById('warningMessage'),
-    btnScan: document.getElementById('btnScan'),
-    loadingState: document.getElementById('loadingState'),
-    loadingStep: document.getElementById('loadingStep'),
-    errorBanner: document.getElementById('errorBanner'),
-    errorMessage: document.getElementById('errorMessage'),
-    resultsSection: document.getElementById('resultsSection'),
-    
-    // Result Outputs
-    resFabricType: document.getElementById('resFabricType'),
-    confFabricType: document.getElementById('confFabricType'),
-    resMaterial: document.getElementById('resMaterial'),
-    confMaterial: document.getElementById('confMaterial'),
-    resPossibleBlend: document.getElementById('resPossibleBlend'),
-    confPossibleBlend: document.getElementById('confPossibleBlend'),
-    resComfortLevel: document.getElementById('resComfortLevel'),
-    confComfortLevel: document.getElementById('confComfortLevel'),
-    resDurability: document.getElementById('resDurability'),
-    confDurability: document.getElementById('confDurability'),
-    resBreathability: document.getElementById('resBreathability'),
-    confBreathability: document.getElementById('confBreathability'),
-    resBestWeather: document.getElementById('resBestWeather'),
-    confBestWeather: document.getElementById('confBestWeather'),
-    resRecommendedUsage: document.getElementById('resRecommendedUsage'),
-    confRecommendedUsage: document.getElementById('confRecommendedUsage'),
-    resCareInstructions: document.getElementById('resCareInstructions'),
-    resExplanation: document.getElementById('resExplanation')
-};
+let elements = {};
 
 // Global App State
 let cropperInstance = null;
 let finalCroppedDataUrl = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    setupEventListeners();
+    // 1. Register DOM Elements after DOM is fully loaded
+    elements = {
+        themeToggle: document.getElementById('themeToggle'),
+        btnCamera: document.getElementById('btnCamera'),
+        btnGallery: document.getElementById('btnGallery'),
+        fileInputCamera: document.getElementById('fileInputCamera'),
+        fileInputGallery: document.getElementById('fileInputGallery'),
+        cropContainer: document.getElementById('cropContainer'),
+        cropperImage: document.getElementById('cropperImage'),
+        btnApplyCrop: document.getElementById('btnApplyCrop'),
+        warningBanner: document.getElementById('warningBanner'),
+        warningMessage: document.getElementById('warningMessage'),
+        btnScan: document.getElementById('btnScan'),
+        loadingState: document.getElementById('loadingState'),
+        loadingStep: document.getElementById('loadingStep'),
+        errorBanner: document.getElementById('errorBanner'),
+        errorMessage: document.getElementById('errorMessage'),
+        resultsSection: document.getElementById('resultsSection'),
+        
+        // Result Outputs
+        resFabricType: document.getElementById('resFabricType'),
+        confFabricType: document.getElementById('confFabricType'),
+        resMaterial: document.getElementById('resMaterial'),
+        confMaterial: document.getElementById('confMaterial'),
+        resPossibleBlend: document.getElementById('resPossibleBlend'),
+        confPossibleBlend: document.getElementById('confPossibleBlend'),
+        resComfortLevel: document.getElementById('resComfortLevel'),
+        confComfortLevel: document.getElementById('confComfortLevel'),
+        resDurability: document.getElementById('resDurability'),
+        confDurability: document.getElementById('confDurability'),
+        resBreathability: document.getElementById('resBreathability'),
+        confBreathability: document.getElementById('confBreathability'),
+        resBestWeather: document.getElementById('resBestWeather'),
+        confBestWeather: document.getElementById('confBestWeather'),
+        resRecommendedUsage: document.getElementById('resRecommendedUsage'),
+        confRecommendedUsage: document.getElementById('confRecommendedUsage'),
+        resCareInstructions: document.getElementById('resCareInstructions'),
+        resExplanation: document.getElementById('resExplanation')
+    };
+
+    // 2. Initialize Theme and Event Listeners
     initTheme();
+    setupEventListeners();
 });
 
 function initTheme() {
@@ -79,6 +83,7 @@ function toggleTheme() {
 }
 
 function setupEventListeners() {
+    // Theme Toggle Listener
     if (elements.themeToggle) {
         elements.themeToggle.addEventListener('click', toggleTheme);
     }
@@ -106,7 +111,6 @@ function handleFileSelect(file) {
     reader.onload = (e) => {
         const rawImageDataUrl = e.target.result;
         
-        // Analyze Image Quality (Blur & Low-light detection)
         analyzeImageQuality(rawImageDataUrl, (qualityReport) => {
             if (qualityReport.hasWarnings) {
                 showWarning(qualityReport.warningText);
@@ -117,16 +121,13 @@ function handleFileSelect(file) {
     reader.readAsDataURL(file);
 }
 
-/**
- * Image Quality Assessment via Canvas API
- */
 function analyzeImageQuality(dataUrl, callback) {
     const img = new Image();
     img.src = dataUrl;
     img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const width = 200; // downsample for performance
+        const width = 200;
         const height = Math.floor((img.height / img.width) * width);
         canvas.width = width;
         canvas.height = height;
@@ -149,7 +150,6 @@ function analyzeImageQuality(dataUrl, callback) {
 
         const avgBrightness = totalBrightness / (grayPixels.length);
 
-        // Simple Laplacian Variance Proxy for Blur Detection
         let varianceSum = 0;
         for (let i = 1; i < grayPixels.length; i++) {
             const diff = grayPixels[i] - grayPixels[i - 1];
@@ -172,9 +172,6 @@ function analyzeImageQuality(dataUrl, callback) {
     };
 }
 
-/**
- * Initialize Interactive Cropper.js instance
- */
 function initCropper(imageSrc) {
     if (cropperInstance) {
         cropperInstance.destroy();
@@ -186,7 +183,7 @@ function initCropper(imageSrc) {
     elements.btnScan.disabled = true;
 
     cropperInstance = new Cropper(elements.cropperImage, {
-        aspectRatio: NaN, // Free crop
+        aspectRatio: NaN,
         viewMode: 1,
         autoCropArea: 0.8,
         responsive: true,
@@ -207,9 +204,6 @@ function applyCropSelection() {
     showWarning("ক্রপ করা সম্পন্ন হয়েছে। এবার 'Scan Fabric' বাটনে ট্যাপ করুন।");
 }
 
-/**
- * Main AI Analysis Execution
- */
 async function performFabricScan() {
     if (!finalCroppedDataUrl) {
         showError("দয়া করে ছবি সিলেক্ট করে এলাকা ক্রপ করার পর 'Scan' চাপুন।");
@@ -230,8 +224,8 @@ async function performFabricScan() {
     CRITICAL INSTRUCTIONS:
     1. First, check if this cropped image strictly shows a fabric/textile weave/pattern.
     2. If the image is blurred, unreadable, or NOT a fabric (e.g. background, skin, metal, paper), set "isFabric" to false and explain in "notFabricReason". DO NOT attempt analysis on non-fabrics.
-    3. DO NOT give exact synthetic percentage estimates like "95% Cotton, 5% Polyester" because visual analysis cannot pinpoint exact laboratory percentages. Use approximate terms like "Cotton-Dominant Blend" or "Polyester Blend".
-    4. Provide realistic confidence ratings ("High", "Medium", "Low") for each parameter based on visual clarity. If unsure about any value, explicitly set the value to "Unable to determine".
+    3. DO NOT give exact synthetic percentage estimates like "95% Cotton, 5% Polyester". Use approximate terms like "Cotton-Dominant Blend" or "Polyester Blend".
+    4. Provide realistic confidence ratings ("High", "Medium", "Low") for each parameter. If unsure, explicitly set the value to "Unable to determine".
     5. Provide smart, actionable Care Instructions (Washing temp, Ironing, Dry cleaning).
 
     Respond strictly in pure JSON without markdown code blocks using this exact template:
@@ -255,9 +249,9 @@ async function performFabricScan() {
         "recommendedUsage": "e.g. Shirts, Casual Wear / Heavy Outerwear / Unable to determine",
         "confRecommendedUsage": "High / Medium / Low",
         "careInstructions": [
-            "Wash instruction (e.g., ঠান্ডা পানিতে হালকা ডিটারজেন্ট দিয়ে ধোবেন)",
-            "Ironing instruction (e.g., মাঝারি তাপে ইস্ত্রি করুন)",
-            "Dry clean / Drying advice (e.g., ছায়ায় শুকান, ড্রাই ক্লিন প্রয়োজন নেই)"
+            "Wash instruction",
+            "Ironing instruction",
+            "Dry clean / Drying advice"
         ],
         "explanation": "A concise structural explanation of the visible weave geometry, density, and optical surface properties."
     }
