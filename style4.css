@@ -1,5 +1,5 @@
 :root {
-    /* Dark Theme Default */
+      
     --bg-color: #080c14;
     --card-bg: rgba(21, 28, 44, 0.65);
     --card-inner: rgba(15, 23, 42, 0.8);
@@ -14,7 +14,7 @@
     --glow-2: #a855f7;
 }
 
-/* Light Mode Overrides */
+  
 body.light-theme {
     --bg-color: #f1f5f9;
     --card-bg: rgba(255, 255, 255, 0.85);
@@ -48,7 +48,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Ambient Background Effects */
+  
 .ambient-background {
     position: fixed;
     top: 0;
@@ -89,7 +89,7 @@ body {
     padding: 1.5rem 1rem;
 }
 
-/* Header & Nav Structure */
+  
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -123,7 +123,7 @@ body {
     color: var(--accent);
 }
 
-/* Theme Toggle Button */
+  
 .theme-toggle-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
@@ -195,7 +195,7 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Upload Drop Box */
+  
 .upload-box {
     position: relative;
     border: 2px dashed var(--border);
@@ -245,7 +245,7 @@ body {
     color: var(--text-muted);
 }
 
-/* Camera Preview Overlay */
+  
 .preview-container {
     position: absolute;
     top: 0;
@@ -310,7 +310,7 @@ body {
     justify-content: center;
 }
 
-/* Buttons */
+  
 .btn-primary {
     position: relative;
     width: 100%;
@@ -334,7 +334,7 @@ body {
     cursor: not-allowed;
 }
 
-/* Dashboard & Cards */
+  
 .results-header {
     display: flex;
     justify-content: space-between;

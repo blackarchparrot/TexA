@@ -1,7 +1,7 @@
 let OPENROUTER_API_KEY = "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";
 
 document.addEventListener('DOMContentLoaded', () => {
-    // UI Elements
+ 
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const dressFileInput = document.getElementById('dressFileInput');
     const uploadPlaceholder = document.getElementById('uploadPlaceholder');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRemove = document.getElementById('btnRemove');
     const btnAnalyze = document.getElementById('btnAnalyze');
     
-    // Result Elements
+ 
     const analysisResults = document.getElementById('analysisResults');
     const statusPill = document.getElementById('statusPill');
     const nonFabricWarning = document.getElementById('nonFabricWarning');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let base64Image = null;
     let chartInstance = null;
 
-    // --- 1. Theme Toggle Logic ---
+ 
     const savedTheme = localStorage.getItem('texa_theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-theme');
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 2. Image Selection & Base64 Encoder ---
+ 
     dressFileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         analysisResults.classList.add('hidden');
     });
 
-    // --- 3. Vision AI Quality Analysis Call ---
+ 
     btnAnalyze.addEventListener('click', analyzeImageWithAI);
 
     async function analyzeImageWithAI() {
@@ -157,12 +157,12 @@ Return strictly valid JSON:
         }
     }
 
-    // --- 4. Render Analysis Dashboard ---
+ 
     function displayResults(data) {
         analysisResults.classList.remove('hidden');
 
         if (!data.isFabric) {
-            // Rejection View for non-clothing items (Keyboards, Tiles, etc.)
+ 
             statusPill.className = "status-pill rejected";
             statusPill.innerHTML = `<span class="pulse-dot"></span> Invalid Image`;
 
@@ -174,7 +174,7 @@ Return strictly valid JSON:
 
             resSummaryText.textContent = "Unable to generate textile metrics for non-apparel items. Please upload a clear photo of a dress, garment, or fabric weave.";
         } else {
-            // Valid Garment Analysis
+ 
             statusPill.className = "status-pill";
             statusPill.innerHTML = `<span class="pulse-dot"></span> AI Verified`;
 
@@ -197,7 +197,7 @@ Return strictly valid JSON:
         analysisResults.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // --- 5. Chart.js Lifecycle Graph ---
+ 
     function renderLifecycleChart(colorData, shrinkageData) {
         const ctx = document.getElementById('lifecycleChart').getContext('2d');
         const isLight = document.body.classList.contains('light-theme');

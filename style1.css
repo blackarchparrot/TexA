@@ -1,11 +1,11 @@
-/* Core Reset & Dynamic Variables */
+  
 :root {
     --bg-dark: #090d16;
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --accent-cyan: #38bdf8;
     --accent-blue: #6366f1;
-    --accent-purple: #a855f7; /* Defined missing purple variable */
+    --accent-purple: #a855f7;   
     --border-glass: rgba(255, 255, 255, 0.08);
     --bg-glass: rgba(15, 23, 42, 0.65);
     --dropzone-bg: rgba(0, 0, 0, 0.2);
@@ -13,14 +13,14 @@
     --warning-yellow: #f59e0b;
 }
 
-/* Light Theme Variables */
+  
 body.light-theme {
     --bg-dark: #f0f4f8;
     --text-primary: #0f172a;
     --text-secondary: #475569;
     --accent-cyan: #0284c7;
     --accent-blue: #4f46e5;
-    --accent-purple: #9333ea; /* Darker purple for light theme high contrast */
+    --accent-purple: #9333ea;   
     --border-glass: rgba(0, 0, 0, 0.1);
     --bg-glass: rgba(255, 255, 255, 0.75);
     --dropzone-bg: rgba(255, 255, 255, 0.5);
@@ -46,7 +46,7 @@ body {
     transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Ambient Background Orbs */
+  
 .ambient-background {
     position: fixed;
     top: 0;
@@ -85,7 +85,7 @@ body.light-theme .glow-orb {
     right: -150px;
 }
 
-/* Container Structure */
+  
 .app-container {
     width: 100%;
     max-width: 800px;
@@ -95,7 +95,7 @@ body.light-theme .glow-orb {
     gap: 1.5rem;
 }
 
-/* Navigation Bar */
+  
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -117,7 +117,7 @@ body.light-theme .glow-orb {
     font-weight: 700;
 }
 
-/* Logo Image Styling */
+  
 .logo-img {
     width: 28px;
     height: 28px;
@@ -133,7 +133,7 @@ body.light-theme .glow-orb {
     color: var(--accent-purple);
 }
 
-/* Theme Toggle Button */
+  
 .theme-toggle-btn {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--border-glass);
@@ -175,7 +175,7 @@ body.light-theme .theme-toggle-btn {
     border-color: var(--accent-cyan);
 }
 
-/* Hero Section */
+  
 .hero {
     text-align: center;
     display: flex;
@@ -218,7 +218,7 @@ body.light-theme .theme-toggle-btn {
     line-height: 1.5;
 }
 
-/* Glassmorphism Cards */
+  
 .glass-card {
     background: var(--bg-glass);
     backdrop-filter: blur(16px);
@@ -230,7 +230,7 @@ body.light-theme .theme-toggle-btn {
     transition: background 0.4s ease, border-color 0.4s ease;
 }
 
-/* Dropzone Upload */
+  
 .upload-zone {
     border: 2px dashed var(--border-glass);
     border-radius: 16px;
@@ -275,7 +275,7 @@ body.light-theme .theme-toggle-btn {
     margin-top: 0.25rem;
 }
 
-/* Preview Wrapper */
+  
 .preview-wrapper {
     position: relative;
     max-height: 300px;
@@ -313,7 +313,7 @@ body.light-theme .theme-toggle-btn {
     background: rgba(239, 68, 68, 0.8);
 }
 
-/* Primary Button */
+  
 .btn-primary {
     width: 100%;
     margin-top: 1.25rem;
@@ -339,7 +339,7 @@ body.light-theme .theme-toggle-btn {
     transform: scale(0.99);
 }
 
-/* Loading Animation */
+  
 .loading-container {
     margin-top: 1.5rem;
     text-align: center;
@@ -378,7 +378,7 @@ body.light-theme .theme-toggle-btn {
     color: var(--text-secondary);
 }
 
-/* Error Banner */
+  
 .error-banner {
     margin-top: 1.25rem;
     padding: 0.85rem 1rem;
@@ -398,7 +398,7 @@ body.light-theme .theme-toggle-btn {
     flex-shrink: 0;
 }
 
-/* Results Layout */
+  
 .results-section {
     display: flex;
     flex-direction: column;
@@ -443,7 +443,7 @@ body.light-theme .theme-toggle-btn {
     color: var(--text-secondary);
 }
 
-/* Metric Grid */
+  
 .results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -482,7 +482,7 @@ body.light-theme .theme-toggle-btn {
     margin-top: 0.2rem;
 }
 
-/* Care Instructions List */
+  
 .care-list {
     list-style-position: inside;
     display: flex;
@@ -492,7 +492,7 @@ body.light-theme .theme-toggle-btn {
     font-size: 0.9rem;
 }
 
-/* Helper Utility */
+  
 .hidden {
     display: none !important;
 }

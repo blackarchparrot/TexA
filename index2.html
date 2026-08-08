@@ -10,13 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Ambient Dynamic Lighting Background -->
+     
     <div class="ambient-background">
         <div class="glow-orb orb-1"></div>
         <div class="glow-orb orb-2"></div>
     </div>
 
-    <!-- Navigation Bar -->
+     
     <nav class="top-nav">
         <div class="logo">
             <span class="logo-icon">⚡</span>
@@ -27,9 +27,9 @@
 </a>
     </nav>
 
-    <!-- Main App Container -->
+     
     <main class="app-container">
-        <!-- Hero Section -->
+         
         <header class="hero">
             <h1 class="hero-title">Smart Comfort Simulator</h1>
             <p class="hero-description">
@@ -37,17 +37,17 @@
             </p>
         </header>
 
-        <!-- Simulator Layout -->
+         
         <div class="simulator-grid">
             
-            <!-- LEFT PANEL: Status & Metrics -->
+             
             <aside class="panel glass-card panel-left">
                 <div class="panel-header">
                     <h3>Biometric Status</h3>
                     <span class="pulse-status"><span class="pulse-dot"></span> Live Sync</span>
                 </div>
 
-                <!-- Avatar Status Badge -->
+                 
                 <div class="status-box">
                     <div class="avatar-face" id="avatarFace">😀</div>
                     <div class="status-details">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <!-- Primary Gauge: Comfort Score -->
+                 
                 <div class="gauge-container">
                     <div class="radial-gauge">
                         <svg viewBox="0 0 120 120">
@@ -71,7 +71,7 @@
                     <span class="gauge-label">Comfort Meter</span>
                 </div>
 
-                <!-- Secondary Bars -->
+                 
                 <div class="mini-metrics">
                     <div class="mini-metric-item">
                         <div class="mini-metric-header">
@@ -95,54 +95,54 @@
                 </div>
             </aside>
 
-            <!-- CENTER PANEL: Animated Character & Visualizer -->
+             
             <section class="panel glass-card panel-center" id="visualizerPanel">
                 
-                <!-- Dynamic Weather Particle Stage -->
+                 
                 <div class="stage-background weather-sunny" id="stageBg">
                     <div class="sun-rays" id="sunRays"></div>
                     <div class="particles-container" id="particleContainer"></div>
                 </div>
 
-                <!-- Layered Animated Character Vector SVG -->
+                 
                 <div class="character-container" id="characterWrapper">
                     <svg class="character-svg" viewBox="0 0 200 300" id="characterSvg">
-                        <!-- Shadow -->
+                         
                         <ellipse cx="100" cy="275" rx="55" ry="10" fill="rgba(0,0,0,0.35)" />
                         
-                        <!-- Body Base / Legs -->
+                         
                         <path d="M75 190 L70 260 L85 260 L88 190 Z" fill="#1f2937" />
                         <path d="M125 190 L130 260 L115 260 L112 190 Z" fill="#1f2937" />
                         
-                        <!-- Head Base -->
+                         
                         <circle cx="100" cy="70" r="30" fill="#f3d2b3" id="headBase" />
 
-                        <!-- Dynamic Arms (PLACED HERE: Behind Garment Layer) -->
+                         
                         <g id="armsGroup">
                             <path d="M55 125 Q45 155 40 185" stroke="#f3d2b3" stroke-width="12" stroke-linecap="round" fill="none" />
                             <path d="M145 125 Q155 155 160 185" stroke="#f3d2b3" stroke-width="12" stroke-linecap="round" fill="none" />
                         </g>
 
-                        <!-- Garment Layer (Renders ON TOP of arms) -->
+                         
                         <g id="garmentLayer">
-                            <!-- Injected dynamically via JS depending on chosen clothing type -->
+                             
                         </g>
 
-                        <!-- Dynamic Thermal Overlay Effects -->
-                        <!-- 1. Sweat Overlay (Overheating) -->
+                         
+                         
                         <g id="sweatGroup" class="hidden">
                             <ellipse cx="78" cy="60" rx="3" ry="5" fill="#38bdf8" class="sweat-drop" />
                             <ellipse cx="122" cy="60" rx="3" ry="5" fill="#38bdf8" class="sweat-drop delay" />
                         </g>
 
-                        <!-- 2. Frost/Cold Shiver Overlay (Freezing) -->
+                         
                         <g id="coldGroup" class="hidden">
                             <path d="M85 85 Q100 95 115 85" stroke="#38bdf8" stroke-width="3" fill="none" class="shiver-line" />
                             <circle cx="82" cy="78" r="4" fill="#93c5fd" opacity="0.8" />
                             <circle cx="118" cy="78" r="4" fill="#93c5fd" opacity="0.8" />
                         </g>
 
-                        <!-- 3. Wet/Rain Droplets Overlay (Rain Impact) -->
+                         
                         <g id="wetGroup" class="hidden">
                             <circle cx="90" cy="130" r="3" fill="#60a5fa" />
                             <circle cx="110" cy="150" r="3" fill="#60a5fa" />
@@ -156,7 +156,7 @@
                 </div>
             </section>
 
-            <!-- RIGHT PANEL: Interactive Simulation Controls -->
+             
             <aside class="panel glass-card panel-right">
                 <div class="panel-header">
                     <h3>Simulation Matrix</h3>
@@ -203,7 +203,7 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Sliders -->
+                 
                 <div class="control-group">
                     <div class="slider-header">
                         <span>Temperature</span>
@@ -228,7 +228,7 @@
                     <input type="range" class="range-slider" id="sliderWind" min="0" max="100" value="15">
                 </div>
 
-                <!-- Actions -->
+                 
                 <div class="action-buttons">
                     <button class="btn-secondary" id="btnReset">Reset</button>
                     <button class="btn-primary" id="btnSimulate">
@@ -240,7 +240,7 @@
 
         </div>
 
-        <!-- RESULTS & RECOMMENDATION SECTION -->
+         
         <section class="results-section">
             <div class="glass-card results-container">
                 <div class="results-header">
@@ -268,7 +268,7 @@
                     </div>
                 </div>
 
-                <!-- Recommendation Banner -->
+                 
                 <div class="recommendation-card" id="recommendationCard">
                     <div class="rec-icon" id="recIcon">💡</div>
                     <div class="rec-content">

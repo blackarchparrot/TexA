@@ -12,36 +12,36 @@
 </head>
 <body class="dark-theme">
 
-    <!-- Ambient Glowing Background Orbs -->
+      
     <div class="glow-orb glow-1"></div>
     <div class="glow-orb glow-2"></div>
 
     <div class="app-container">
 
-        <!-- Navigation Bar -->
+          
         <nav class="top-nav">
-            <!-- Left: Logo -->
+              
             <div class="logo">
                 <img src="1785091505295.png" alt="TexA Logo" class="logo-img">
                 <span class="logo-text"><span class="tex">Tex</span><span class="a">A</span></span>
             </div>
 
-            <!-- Middle: Theme Toggle Button -->
+              
             <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
                 <i class="fa-solid fa-sun" id="themeIcon"></i>
             </button>
 
-            <!-- Right Corner: Back Button -->
+              
             <a href="index.html" class="nav-back-btn">
                 <span>Back</span>
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </a>
         </nav>
 
-        <!-- Main Content -->
+          
         <main class="content-wrapper">
 
-            <!-- App Ratings & Reviews Overview -->
+              
             <section class="overview-card">
                 <div class="card-header">
                     <h2>Ratings & Reviews</h2>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="rating-dashboard">
-                    <!-- Average Score Display -->
+                      
                     <div class="score-box">
                         <span class="big-score" id="avgScore">--</span>
                         <div class="stars-row" id="avgStarsRow">
@@ -62,7 +62,7 @@
                         <span class="total-reviews" id="totalReviewsCount">Loading ratings...</span>
                     </div>
 
-                    <!-- Rating Bars Breakdown -->
+                      
                     <div class="rating-bars">
                         <div class="bar-row">
                             <span class="star-num">5</span>
@@ -89,7 +89,7 @@
 
                 <hr class="divider">
 
-                <!-- Action Button to Open Review Form -->
+                  
                 <div class="write-review-prompt">
                     <span>Rate this app & leave your feedback</span>
                     <button id="btnOpenModal" class="btn-write">
@@ -98,11 +98,11 @@
                 </div>
             </section>
 
-            <!-- Community Reviews Feed -->
+              
             <section class="reviews-feed">
                 <h3 class="feed-title">User Reviews</h3>
 
-                <!-- Container where reviews render -->
+                  
                 <div id="reviewsContainer">
                     <div class="loading-spinner">
                         <i class="fa-solid fa-circle-notch fa-spin"></i> Loading reviews...
@@ -114,7 +114,7 @@
 
     </div>
 
-    <!-- Review Form Modal -->
+      
     <div class="modal-backdrop hidden" id="reviewModal">
         <div class="glass-modal">
             <button class="modal-close" id="btnCloseModal"><i class="fa-solid fa-xmark"></i></button>
@@ -124,7 +124,7 @@
 
             <form id="feedbackForm" novalidate>
                 
-                <!-- Star Rating System -->
+                  
                 <div class="rating-picker">
                     <div class="star-rating" id="starRating">
                         <i class="fa-solid fa-star star-icon" data-value="1"></i>
@@ -137,7 +137,7 @@
                     <span class="rating-label" id="ratingText">Tap stars to rate</span>
                 </div>
 
-                <!-- Input Fields -->
+                  
                 <div class="form-group">
                     <label for="userName">Your Name <span class="req">*</span></label>
                     <input type="text" id="userName" class="glass-input" placeholder="e.g. Aftab" required>
@@ -160,7 +160,7 @@
                     <textarea id="userFeedback" class="glass-input textarea" rows="4" placeholder="Describe your experience with TexA..." required></textarea>
                 </div>
 
-                <!-- Error Box -->
+                  
                 <div class="error-msg hidden" id="errorMsg"></div>
 
                 <button type="submit" class="btn-submit" id="btnSubmit">
@@ -168,7 +168,7 @@
                 </button>
             </form>
 
-            <!-- Success Screen inside Modal -->
+              
             <div class="thank-you-box hidden" id="thankYouState">
                 <i class="fa-solid fa-circle-check success-icon"></i>
                 <h3>Thank You!</h3>

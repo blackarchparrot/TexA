@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>THREE BUGS // CRITICAL FAILURE</title>
-  <!-- Tailwind CSS -->
+    
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- GSAP Animation Engine -->
+    
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <!-- Custom Fonts -->
+    
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Space+Grotesk:wght@800&display=swap" rel="stylesheet">
   
   <style>
@@ -24,13 +24,13 @@
 </head>
 <body class="bg-black text-red-500 min-h-screen overflow-hidden relative select-none flex flex-col justify-center">
 
-  <!-- Background Glitch Overlay Grid -->
+    
   <div class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(#1e1e2f_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
 
-  <!-- Main Viewport Container -->
+    
   <div class="relative z-10 h-full max-h-screen flex flex-col justify-between p-3 sm:p-6 max-w-6xl mx-auto w-full">
     
-    <!-- Header -->
+      
     <header class="text-center pt-1 sm:pt-2">
       <div id="badge" class="inline-block bg-red-950 border border-red-600 text-red-400 text-[9px] sm:text-xs px-2 py-0.5 font-bold rounded animate-pulse mb-1">
         ⚠️ SYSTEM STATUS: UNSTABLE
@@ -43,11 +43,11 @@
       </p>
     </header>
 
-    <!-- Cards Grid -->
+      
     <main class="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-6 my-auto py-2">
       <br>
 
-      <!-- ================= BUG 1: PRIME MINISTER ================= -->
+        
       <div id="bug1" class="glitch-card border border-red-600 p-3 sm:p-5 rounded-xl relative">
         <div class="absolute -top-2.5 right-3 bg-red-600 text-black text-[8px] sm:text-[10px] px-1.5 py-0.2 rounded font-bold uppercase">
           BUG #1
@@ -64,7 +64,7 @@
         </div>
       </div>
 <br>
-      <!-- ================= BUG 2: CHIEF ADVISOR ================= -->
+        
       <div id="bug2" class="glitch-card border border-yellow-500 p-3 sm:p-5 rounded-xl relative">
         <div class="absolute -top-2.5 right-3 bg-yellow-500 text-black text-[8px] sm:text-[10px] px-1.5 py-0.2 rounded font-bold uppercase">
           BUG #2
@@ -81,7 +81,7 @@
         </div>
       </div>
 <br>
-      <!-- ================= BUG 3: KAMLA (AFTAB SUNNY) ================= -->
+        
       <div id="bug3" class="glitch-card border border-emerald-400 p-3 sm:p-5 rounded-xl relative shadow-[0_0_20px_rgba(52,211,153,0.3)]">
         <div class="absolute -top-2.5 right-3 bg-emerald-400 text-black text-[8px] sm:text-[10px] px-1.5 py-0.2 rounded font-bold uppercase animate-bounce">
           BUG #3
@@ -102,7 +102,7 @@
 
   </div>
 
-  <!-- GSAP Choreography -->
+    
   <script>
     function runMeltdownSequence() {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });

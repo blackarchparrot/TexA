@@ -4,7 +4,7 @@ const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 document.addEventListener('DOMContentLoaded', () => {
     let selectedSkinTone = "Fair / Very Light";
 
-    // Reference map for RGB distance calculation
+  
     const toneReferenceMap = [
         { tone: "Fair / Very Light", rgb: [246, 224, 211] },
         { tone: "Light Warm / Peach", rgb: [227, 186, 151] },
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { tone: "Deep Ebony", rgb: [61, 35, 20] }
     ];
 
-    // Skin Palette Click Selection
+  
     const paletteCircles = document.querySelectorAll('#skinPalette .color-circle');
     paletteCircles.forEach(circle => {
         circle.addEventListener('click', function() {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedSkinTone = targetElement.getAttribute('data-tone');
     }
 
-    // Photo Capture/Upload Handling (Native File Input - Matches TexelSense Flow)
+  
     const triggerScanBtn = document.getElementById('triggerScanBtn');
     const skinFileInput = document.getElementById('skinFileInput');
     const scanCanvas = document.getElementById('scanCanvas');
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ctx.drawImage(img, 0, 0, scanCanvas.width, scanCanvas.height);
 
-        // Sample center 10% region of the captured image
+  
         const sampleSize = Math.max(10, Math.floor(Math.min(img.width, img.height) * 0.1));
         const centerX = Math.floor(img.width / 2) - Math.floor(sampleSize / 2);
         const centerY = Math.floor(img.height / 2) - Math.floor(sampleSize / 2);
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const avgG = Math.round(totalG / count);
         const avgB = Math.round(totalB / count);
 
-        // Find nearest palette tone using Euclidean Distance
+  
         let bestTone = toneReferenceMap[0].tone;
         let minDistance = Infinity;
 
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Auto-select palette circle
+  
         paletteCircles.forEach(circle => {
             if (circle.getAttribute('data-tone') === bestTone) {
                 selectToneElement(circle);
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // AI Recommendation API Handler
+  
     const btnGenerate = document.getElementById('btnGenerate');
     btnGenerate.addEventListener('click', getStylistRecommendation);
 

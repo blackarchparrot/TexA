@@ -45,7 +45,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Background Glowing Orbs */
+  
 .glow-orb {
   position: fixed;
   width: 400px;
@@ -64,7 +64,7 @@ body {
   padding: 20px 16px 60px;
 }
 
-/* Top Navigation */
+  
 .top-nav {
   display: flex;
   align-items: center;
@@ -129,7 +129,7 @@ body {
   border-color: var(--accent-blue);
 }
 
-/* Overview Card */
+  
 .overview-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -190,7 +190,7 @@ body {
   font-weight: 500;
 }
 
-/* Rating Bars */
+  
 .rating-bars {
   display: flex;
   flex-direction: column;
@@ -256,7 +256,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* Reviews Feed */
+  
 .reviews-feed {
   display: flex;
   flex-direction: column;
@@ -322,7 +322,7 @@ body {
   opacity: 0.95;
 }
 
-/* Developer Reply Box */
+  
 .developer-reply {
   margin-top: 12px;
   padding: 12px 14px;
@@ -350,7 +350,7 @@ body {
   line-height: 1.4;
 }
 
-/* Reaction Buttons (Like/Dislike) */
+  
 .reaction-actions {
   display: flex;
   align-items: center;
@@ -376,7 +376,7 @@ body {
   border-color: var(--accent-cyan);
 }
 
-/* Modal Styling */
+  
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -418,7 +418,7 @@ body {
 .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
 .modal-subtitle { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
 
-/* Interactive Star Picker */
+  
 .rating-picker {
   text-align: center;
   margin-bottom: 20px;
@@ -449,7 +449,7 @@ body {
   font-weight: 500;
 }
 
-/* Form Styling */
+  
 .form-group {
   display: flex;
   flex-direction: column;
@@ -480,7 +480,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text-dim); }
   outline: none;
 }
 
-/* Highlight active vote button */
+  
 .btn-reaction.active-vote {
   background: rgba(56, 189, 248, 0.15);
   color: var(--accent-cyan);
@@ -515,7 +515,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text-dim); }
 }
 .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* Thank You Box */
+  
 .thank-you-box {
   text-align: center;
   padding: 20px 0;

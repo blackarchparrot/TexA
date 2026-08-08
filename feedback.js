@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // SheetDB API Endpoint
+  
     const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/649vd8jib23jz';
 
     let allReviews = [];
 
-    // --- Helper Functions for Local Reactions ---
+  
     function getUserReactions() {
         return JSON.parse(localStorage.getItem('texa_reactions') || '{}');
     }
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('texa_reactions', JSON.stringify(reactions));
     }
 
-    // --- 1. Theme Toggle Logic ---
+  
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
     const body = document.body;
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         themeIcon.className = theme === 'light-theme' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
     }
 
-    // --- 2. Fetch Live Reviews from SheetDB ---
+  
     async function fetchReviews() {
         const reviewsContainer = document.getElementById('reviewsContainer');
         try {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!res.ok) throw new Error("Failed to load reviews");
             const data = await res.json();
 
-            // Reverse data so newest reviews display on top
+  
             allReviews = Array.isArray(data) ? data.reverse() : [];
             
             calculateAndRenderStats(allReviews);
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 3. Compute Real Stats & Rating Breakdown ---
+  
     function calculateAndRenderStats(reviews) {
         const total = reviews.length;
         const totalReviewsCount = document.getElementById('totalReviewsCount');
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         avgStarsRow.innerHTML = starsHTML;
     }
 
-    // --- 4. Render Reviews List & Reaction Actions ---
+  
     function renderReviewsList(reviews) {
         const container = document.getElementById('reviewsContainer');
         if (reviews.length === 0) {
@@ -127,13 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const bg = avatarColors[index % avatarColors.length];
             const ratingNum = parseInt(r.rating) || 5;
 
-            // Reaction counts defaults
+  
             const revLikes = parseInt(r.review_likes) || 0;
             const revDislikes = parseInt(r.review_dislikes) || 0;
             const repLikes = parseInt(r.reply_likes) || 0;
             const repDislikes = parseInt(r.reply_dislikes) || 0;
 
-            // Retrieve local user reaction states for this review item
+  
             const revKey = `rev_${r.name}_${index}`;
             const repKey = `rep_${r.name}_${index}`;
 
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 starsHTML += i <= ratingNum ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
             }
 
-            // Developer Reply Block
+  
             const replyBlock = r.reply && r.reply.trim() !== '' ? `
                 <div class="developer-reply">
                     <div class="reply-header">
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
     }
 
-    // --- 5. Handle Reactions (Local Storage + One Vote Limit + SheetDB Patch) ---
+  
     window.handleReaction = async function(index, target, type) {
         const review = allReviews[index];
         if (!review) return;
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const userReactions = getUserReactions();
         const existingVote = userReactions[voteKey];
 
-        // Block voting if clicking the exact same action again
+  
         if (existingVote === type) {
             return;
         }
@@ -215,26 +215,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let colToDecrement = null;
 
-        // If user is switching vote (from like to dislike or vice versa)
+  
         if (existingVote && existingVote !== type) {
             colToDecrement = target === 'review'
                 ? (existingVote === 'like' ? 'review_likes' : 'review_dislikes')
                 : (existingVote === 'like' ? 'reply_likes' : 'reply_dislikes');
         }
 
-        // 1. Update local counts
+  
         review[colToIncrement] = (parseInt(review[colToIncrement]) || 0) + 1;
         if (colToDecrement) {
             review[colToDecrement] = Math.max(0, (parseInt(review[colToDecrement]) || 0) - 1);
         }
 
-        // 2. Persist user's reaction choice
+  
         saveUserReaction(voteKey, type);
 
-        // 3. Immediately render updated state in UI
+  
         renderReviewsList(allReviews);
 
-        // 4. Sync updated reaction counts with SheetDB
+  
         try {
             const patchUrl = `${SHEETDB_API_URL}/name/${encodeURIComponent(review.name)}`;
             const updateData = {};
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 
-    // --- 6. Modal Interactions ---
+  
     const reviewModal = document.getElementById('reviewModal');
     const btnOpenModal = document.getElementById('btnOpenModal');
     const btnCloseModal = document.getElementById('btnCloseModal');
@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetForm();
     });
 
-    // --- 7. Interactive Star Picker ---
+  
     const stars = document.querySelectorAll('.star-icon');
     const ratingInput = document.getElementById('ratingInput');
     const ratingText = document.getElementById('ratingText');
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 8. Post New Review ---
+  
     const feedbackForm = document.getElementById('feedbackForm');
     const errorMsg = document.getElementById('errorMsg');
     const thankYouState = document.getElementById('thankYouState');

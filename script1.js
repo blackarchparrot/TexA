@@ -1,9 +1,9 @@
 
-// Global Configuration
+  
 const OPENROUTER_API_KEY = "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"; 
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-// DOM Element Registry
+  
 const elements = {
     themeToggleBtn: document.getElementById('themeToggleBtn'),
     themeIcon: document.getElementById('themeIcon'),
@@ -20,7 +20,7 @@ const elements = {
     errorMessage: document.getElementById('errorMessage'),
     resultsSection: document.getElementById('resultsSection'),
     
-    // Result Outputs
+  
     resFabricType: document.getElementById('resFabricType'),
     resMaterial: document.getElementById('resMaterial'),
     resPossibleBlend: document.getElementById('resPossibleBlend'),
@@ -33,7 +33,7 @@ const elements = {
     resExplanation: document.getElementById('resExplanation')
 };
 
-// Application State
+  
 let currentDataUrl = null;
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -3,7 +3,7 @@
  * Optimized for High-Performance Real-Time UI Responsiveness
  */
 
-// 1. Empirical Fabric Clo & Resistance Matrix
+  
 const FABRICS = {
     Cotton:    { clo: 0.35, ret: 12, hydrophobic: 15, breathability: 85 },
     Polyester: { clo: 0.40, ret: 26, hydrophobic: 80, breathability: 35 },
@@ -21,8 +21,8 @@ const GARMENTS = {
     'Jacket':  { cloMult: 3.2, coverage: 0.95 }
 };
 
-// 2. Ideal Thermal Envelope (Clo required vs Temperature in °C)
-// Based on empirical ASHRAE 55 neutral thermal comfort zone
+  
+  
 function getTargetClo(temp) {
     if (temp <= 0)  return 3.5;
     if (temp <= 10) return 2.5;
@@ -33,7 +33,7 @@ function getTargetClo(temp) {
     return 0.1; // > 30°C extreme heat
 }
 
-// State
+  
 const state = {
     fabric: 'Cotton',
     garment: 'T-Shirt',
@@ -159,54 +159,54 @@ function runSimulation() {
     const fab = FABRICS[state.fabric];
     const garm = GARMENTS[state.garment];
 
-    // 1. Calculate Actual Clothing Insulation (Clo)
+  
     const currentClo = fab.clo * garm.cloMult;
 
-    // 2. Apparent Temperature (Wind Chill + Humidity Index)
+  
     const windEffect = (state.wind / 10) * 1.2;
     const humidityEffect = (state.humidity > 50) ? ((state.humidity - 50) * 0.12) : 0;
     const apparentTemp = state.temperature - windEffect + humidityEffect;
 
-    // 3. Ideal Clo for Apparent Temperature
+  
     const targetClo = getTargetClo(apparentTemp);
 
-    // 4. Clo Delta (Positive = Over-insulated/Hot | Negative = Under-insulated/Cold)
+  
     const cloDelta = currentClo - targetClo;
 
-    // 5. Non-Linear Comfort Penalty Engine
+  
     let comfort = 100;
 
     if (cloDelta > 0) {
-        // OVERHEATING: Heavy clothing in mild/hot weather (e.g., Hoodie/Jacket at 25°C+)
+  
         const heatPenalty = cloDelta * 42; // Heavy penalty multiplier
         const humidityStifling = 1 + ((state.humidity / 100) * (fab.ret / 20));
         comfort -= heatPenalty * humidityStifling;
     } else {
-        // FREEZING: Light clothing in cold weather
+  
         const coldPenalty = Math.abs(cloDelta) * 35;
         const windPenalty = 1 + (state.wind / 30);
         comfort -= coldPenalty * windPenalty;
     }
 
-    // Rain Penalty
+  
     if (state.weather === 'Rainy' && fab.hydrophobic < 50) {
         comfort -= (50 - fab.hydrophobic) * 1.2;
     }
 
     comfort = Math.max(0, Math.min(100, Math.round(comfort)));
 
-    // 6. Risk Score Logic
+  
     let risk = 2;
     if (cloDelta > 1.2) risk += (cloDelta - 1.2) * 45;      // Heat exhaustion
     if (cloDelta < -1.5) risk += (Math.abs(cloDelta) - 1.5) * 40; // Hypothermia
     if (state.weather === 'Rainy' && fab.hydrophobic < 25) risk += 35;
     risk = Math.max(2, Math.min(99, Math.round(risk)));
 
-    // 7. Display Bar Metrics
+  
     const heatRetention = Math.min(100, Math.round((currentClo / 3.0) * 100));
     const breathability = Math.max(5, Math.min(100, Math.round(fab.breathability / (garm.coverage * 1.1))));
 
-    // Fashion Appropriateness
+  
     let fashion = 90;
     if (state.temperature >= 22 && ['Hoodie', 'Jacket'].includes(state.garment)) fashion -= 55;
     if (state.temperature <= 14 && ['Linen', 'Silk', 'T-Shirt'].includes(state.garment)) fashion -= 50;
@@ -262,33 +262,33 @@ function applyBiometricState(res) {
     elements.characterWrapper.classList.remove('shivering');
     elements.headBase.setAttribute('fill', '#f3d2b3');
 
-    // 1. Overheating (High Clo Delta or High Temp with Low Comfort)
+  
     if (res.cloDelta > 0.6 || (state.temperature >= 24 && ['Hoodie', 'Jacket'].includes(state.garment))) {
         setAvatar('🥵', 'Overheating', 'Excess Thermal Trapping');
         elements.sweatGroup.classList.remove('hidden');
         elements.headBase.setAttribute('fill', '#fca5a5'); // Flushed skin
     } 
-    // 2. Freezing (Low Clo Delta or Cold Temp with Low Comfort)
+  
     else if (res.cloDelta < -0.6 || (state.temperature <= 12 && res.comfort < 50)) {
         setAvatar('🥶', 'Freezing', 'Severe Thermal Deficit');
         elements.coldGroup.classList.remove('hidden');
         elements.characterWrapper.classList.add('shivering');
         elements.headBase.setAttribute('fill', '#dbeafe'); // Cold skin
     } 
-    // 3. Wet State
+  
     else if (state.weather === 'Rainy' && res.waterResistance < 45) {
         setAvatar('🌧️', 'Soaked', 'High Water Penetration');
         elements.wetGroup.classList.remove('hidden');
     } 
-    // 4. Relaxed State
+  
     else if (res.comfort >= 80) {
         setAvatar('😎', 'Relaxed', 'Thermoregulation Neutral');
     } 
-    // 5. Comfortable State
+  
     else if (res.comfort >= 55) {
         setAvatar('😀', 'Comfortable', 'Microclimate Stable');
     } 
-    // 6. Uneasy State
+  
     else {
         setAvatar('😐', 'Uneasy', 'Sub-optimal Microclimate');
     }

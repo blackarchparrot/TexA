@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TexA - Smart Apparel & Textile Suggestor</title>
     <link rel="stylesheet" href="style3.css">
-    <!-- Font Awesome 6 CDN -->
+     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Ambient Background Effects -->
+     
     <div class="ambient-background">
         <div class="glow-orb orb-1"></div>
         <div class="glow-orb orb-2"></div>
@@ -20,7 +20,7 @@
 
     <main class="app-container">
 
-        <!-- Top Navigation Bar -->
+         
         <nav class="top-nav">
             <div class="logo">
                 <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
@@ -32,7 +32,7 @@
             </a>
         </nav>
 
-        <!-- Hero Header -->
+         
         <header class="hero">
             <h1 class="hero-title">Smart Suggestor</h1>
             <p class="hero-description">
@@ -40,12 +40,12 @@
             </p>
         </header>
 
-        <!-- Main Form Card -->
+         
         <section class="form-section">
             <div class="glass-card">
                 
                 <div class="grid-2">
-                    <!-- Occasion -->
+                     
                     <div class="form-group">
                         <label for="occasion"><i class="fa-solid fa-calendar-day icon-label"></i> Occasion / Event</label>
                         <select id="occasion">
@@ -58,7 +58,7 @@
                         </select>
                     </div>
 
-                    <!-- Gender -->
+                     
                     <div class="form-group">
                         <label for="gender"><i class="fa-solid fa-user icon-label"></i> Gender</label>
                         <select id="gender">
@@ -69,16 +69,16 @@
                     </div>
                 </div>
 
-                <!-- Skin Tone Palette + Native Camera/File Input -->
+                 
                 <div class="form-group">
                     <div class="label-with-action">
                         <label><i class="fa-solid fa-palette icon-label"></i> Select Skin Tone Palette</label>
-                        <!-- Native Trigger Button -->
+                         
                         <button type="button" class="scanner-btn" id="triggerScanBtn" title="Scan Skin Tone via Photo">
                             <i class="fa-solid fa-camera"></i>
                             <span>Scan Photo</span>
                         </button>
-                        <!-- Native Camera/File Input -->
+                         
                         <input type="file" id="skinFileInput" accept="image/*" capture="user" class="hidden">
                     </div>
 
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="grid-2">
-                    <!-- Season -->
+                     
                     <div class="form-group">
                         <label for="season"><i class="fa-solid fa-cloud-sun icon-label"></i> Season</label>
                         <select id="season">
@@ -104,7 +104,7 @@
                         </select>
                     </div>
 
-                    <!-- Weather -->
+                     
                     <div class="form-group">
                         <label for="weather"><i class="fa-solid fa-temperature-three-quarters icon-label"></i> Weather Conditions</label>
                         <select id="weather">
@@ -116,13 +116,13 @@
                     </div>
                 </div>
 
-                <!-- Medical / Skin Issues -->
+                 
                 <div class="form-group">
                     <label for="medicalConditions"><i class="fa-solid fa-notes-medical icon-label"></i> Skin or Internal Conditions (Optional)</label>
                     <textarea id="medicalConditions" rows="2" placeholder="E.g., Eczema, sensitive skin, prone to excessive sweating, heat rash..."></textarea>
                 </div>
 
-                <!-- Action Button -->
+                 
                 <button id="btnGenerate" class="btn-primary">
                     <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Get AI Styling Recommendations</span>
                 </button>
@@ -130,7 +130,7 @@
             </div>
         </section>
 
-        <!-- Dynamic Results Section -->
+         
         <section class="results-section hidden" id="resultsSection">
             <div class="results-header">
                 <h2>Styling Report</h2>
@@ -142,7 +142,7 @@
 
     </main>
 
-    <!-- Hidden canvas for processing RGB color sampling -->
+     
     <canvas id="scanCanvas" class="hidden"></canvas>
 
     <script src="script3.js"></script>
