@@ -18,16 +18,16 @@
 
     <main class="app-container">
 
-        <!-- Navigation Bar -->
+          
         <nav class="top-nav">
             <div class="logo">
-                <!-- Fixed: Replaced <i class="1785091505295.png"></i> with an <img> tag -->
+                  
                 <img src="1785091505295.png" alt="TexelSense Logo" class="logo-img">
                 <span class="logo-text">Tex <strong>A</strong></span>
             </div>
 
             <div class="nav-right">
-                <!-- Theme Toggle Button -->
+                  
                 <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
                     <i class="fa-solid fa-sun" id="themeIcon"></i>
                 </button>
@@ -38,7 +38,7 @@
             </div>
         </nav>
 
-        <!-- Hero Header -->
+          
         <header class="hero">
             <div class="badge pulse-badge">
                 ⚠️ SYSTEM STATUS: ONLINE
@@ -49,11 +49,11 @@
             </p>
         </header>
 
-        <!-- Scanner Card Container -->
+          
         <section class="scanner-section">
             <div class="glass-card scanner-card">
                 
-                <!-- Upload Dropzone / Camera Capture Area -->
+                  
                 <div class="upload-zone" id="uploadZone">
                     <input type="file" id="fileInput" accept="image/*" capture="environment" hidden>
                     
@@ -68,7 +68,7 @@
                         <p class="upload-subtext">Supports PNG, JPG, WEBP</p>
                     </div>
 
-                    <!-- Image Preview Surface -->
+                      
                     <div class="preview-wrapper hidden" id="previewWrapper">
                         <img id="imagePreview" alt="Fabric Preview">
                         <button type="button" class="btn-remove" id="btnRemove" aria-label="Remove image">
@@ -80,13 +80,13 @@
                     </div>
                 </div>
 
-                <!-- Action Button -->
+                  
                 <button id="btnScan" class="btn-primary" disabled>
                     <span class="btn-text">Scan Fabric</span>
                     <span class="btn-glow"></span>
                 </button>
 
-                <!-- Loading State -->
+                  
                 <div class="loading-container hidden" id="loadingState">
                     <div class="spinner-wrapper">
                         <div class="spinner"></div>
@@ -96,7 +96,7 @@
                     <p class="loading-subtext" id="loadingStep">Extracting weave patterns and fiber geometry...</p>
                 </div>
 
-                <!-- Error Display -->
+                  
                 <div class="error-banner hidden" id="errorBanner">
                     <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -108,20 +108,20 @@
             </div>
         </section>
 
-        <!-- Dynamic AI Results Section -->
+          
         <section class="results-section hidden" id="resultsSection">
             <div class="results-header">
                 <h2>Analysis Report</h2>
                 <div class="status-pill"><span class="pulse-dot"></span> AI Verified</div>
             </div>
 
-            <!-- Overview Summary Card -->
+              
             <div class="glass-card summary-card">
                 <h3>Executive Summary</h3>
                 <p id="resExplanation" class="summary-text">Analyzing...</p>
             </div>
 
-            <!-- Grid of Attribute Cards -->
+              
             <div class="results-grid">
                 <div class="glass-card metric-card">
                     <div class="metric-icon">🧵</div>
@@ -188,7 +188,7 @@
                 </div>
             </div>
 
-            <!-- Care Instructions Card -->
+              
             <div class="glass-card care-card">
                 <h3>Care Instructions</h3>
                 <ul id="resCareInstructions" class="care-list"></ul>
